@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Reset Password</title>
+<title>Profile Overview</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" href="../css/home-user.css">
+<link rel="stylesheet" href="../../css/user/home-user.css">
+
 </head>
 <body>
 
@@ -20,9 +21,9 @@
 
     <div class="navbar-right">
         <nav>
-            <a href="#">BROWSE</a>
-            <a href="#">MY ORDERS</a>
-            <a href="account.html" class="active">PROFILE</a>
+            <a href="../html/customer-homepage.html">BROWSE</a>
+            <a href="../html/myorders.html">MY ORDERS</a>
+            <a href="../html/account.html" class="active">PROFILE</a>
         </nav>
         <div class="cart">
             <i class="fas fa-shopping-cart"></i>
@@ -34,32 +35,42 @@
 <div class="container">
 
     <div class="top-row">
-        <h1>Reset Password</h1>
+        <h1>Overview</h1>
+
         <div class="buttons">
-            <button id="save-changes">Save Changes</button>
+            <a href="edit-account.html">
+                <button>Edit Profile</button>
+            </a>
+            <a href="reset-password.html">
+                <button>Change Password</button>
+            </a>
         </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="profile-card edit-profile">
-        <div class="profile-picture-wrapper">
-            <div class="profile-icon" id="profile-icon">
-                <i class="fas fa-user"></i>
-            </div>
-        </div>
-
-        <div class="info">
-            <label for="new-password">NEW PASSWORD</label>
-            <input type="password" id="new-password" placeholder="Enter new password">
-
-            <label for="confirm-password">CONFIRM PASSWORD</label>
-            <input type="password" id="confirm-password" placeholder="Re-enter new password">
-        </div>
+    <div class="profile-card">
+    <div class="profile-icon">
+        <i class="fas fa-user"></i> 
     </div>
+
+    <div class="info">
+        <label>NAME</label> 
+        <p>Mama Mo</p>
+
+        <label>EMAIL</label> 
+        <p>mamamo@gmail.com</p>
+
+        <label>MOBILE NUMBER</label> 
+        <p>09123456789</p>
+    </div>
+</div>
 
 </div>
 
-<script src="../js/script.js"></script>
+</div>
+
+<script src="../../js/user/script.js"></script>
+
 </body>
 </html>
