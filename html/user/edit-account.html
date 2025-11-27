@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Reset Password</title>
+<title>Edit Profile</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" href="../css/home-user.css">
+<link rel="stylesheet" href="../../css/user/home-user.css">
 </head>
 <body>
 
@@ -32,9 +32,8 @@
 </div>
 
 <div class="container">
-
     <div class="top-row">
-        <h1>Reset Password</h1>
+        <h1>Edit Profile</h1>
         <div class="buttons">
             <button id="save-changes">Save Changes</button>
         </div>
@@ -43,23 +42,33 @@
     <div class="divider"></div>
 
     <div class="profile-card edit-profile">
-        <div class="profile-picture-wrapper">
-            <div class="profile-icon" id="profile-icon">
-                <i class="fas fa-user"></i>
-            </div>
-        </div>
-
-        <div class="info">
-            <label for="new-password">NEW PASSWORD</label>
-            <input type="password" id="new-password" placeholder="Enter new password">
-
-            <label for="confirm-password">CONFIRM PASSWORD</label>
-            <input type="password" id="confirm-password" placeholder="Re-enter new password">
-        </div>
+    <div class="profile-picture-wrapper">
+    <div class="profile-icon" id="profile-icon">
+        <i class="fas fa-user"></i>
     </div>
+
+    <button class="upload-btn" id="upload-btn">
+        <i class="fas fa-upload"></i> Upload
+    </button>
+
+    <input type="file" id="upload-input" style="display: none;" accept="image/*">
+</div>
+
+
+    <div class="info">
+        <label for="name">NAME</label>
+        <input type="text" id="name" value="Mama Mo">
+
+        <label for="email">EMAIL</label>
+        <input type="email" id="email" value="mamamo@gmail.com">
+
+        <label for="phone">MOBILE NUMBER</label>
+        <input type="text" id="phone" value="09123456789">
+    </div>
+</div>
 
 </div>
 
-<script src="../js/script.js"></script>
+<script src="../../js/user/script.js"></script>
 </body>
 </html>
