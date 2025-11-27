@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Customer Home</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/customer-homepage.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="logo">
+      <img src="../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav aria-label="Main navigation">
+        <a href="customer-homepage.html" class="active">BROWSE</a>
+        <a href="../html/myorders.html">MY ORDERS</a>
+        <a href="../html/account.html">PROFILE</a>
+      </nav>
+
+      <div class="cart" title="Cart" role="button" aria-label="View cart">
+        <img src="../assets/pictures/cart.png" alt="Cart" class="cart-icon">
+        <span class="cart-count" aria-live="polite">2</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <div class="top-row">
+      <div class="search-and-filters">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search restaurants, cuisines, and dishes" aria-label="Search">
+        </div>
+
+        <aside class="sidebar" aria-label="Filters">
+          <div class="filters">
+            <h4>FILTERS</h4>
+            <div class="filters-subtitle">Sort by:</div>
+            <div class="filters-options">
+              <label><input type="radio" name="sort" checked> Relevance</label>
+              <label><input type="radio" name="sort"> Top Rated</label>
+              <label><input type="radio" name="sort"> Distance</label>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="page-header">
+        <h1>All Restaurants</h1>
+      </div>
+    </div>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <div class="content">
+      <section class="results" aria-label="Restaurant results">
+        <div class="results-grid">
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=Emerson+Canteen" alt="Emerson Canteen">
+            </div>
+            <div class="card-info">
+              <h3>Emerson Canteen</h3>
+              <div class="meta">10 mins • 3rd Floor, Right Wing</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=Mayo%27s+Cup" alt="Mayo's Cup">
+            </div>
+            <div class="card-info">
+              <h3>Mayo's Cup</h3>
+              <div class="meta">10 mins • 3rd Floor, Right Wing</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=On+The+Go+Cafe" alt="On The Go Cafe">
+            </div>
+            <div class="card-info">
+              <h3>On The Go Cafe</h3>
+              <div class="meta">8 - 15 mins • 1st Floor, Left Wing</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=Oval+Canteen" alt="Oval Canteen">
+            </div>
+            <div class="card-info">
+              <h3>Oval Canteen</h3>
+              <div class="meta">10 - 15 mins • Desmedt Oval</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=Aroma+%26+Bliss" alt="Aroma & Bliss">
+            </div>
+            <div class="card-info">
+              <h3>Aroma & Blossom</h3>
+              <div class="meta">10 - 15 mins • Devesse Lobby</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-image">
+              <img src="https://via.placeholder.com/420x200?text=Chickaboo" alt="Chickaboo">
+            </div>
+            <div class="card-info">
+              <h3>Chickaboo</h3>
+              <div class="meta">10 - 15 mins • Devesse Lobby</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html> 
