@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Orders</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../../css/user/customer-homepage.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="logo">
+      <img src="../../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav aria-label="Main navigation">
+        <a href="customer-homepage.html">BROWSE</a>
+        <a href="myorders.html" class="active">MY ORDERS</a>
+        <a href="account.html">PROFILE</a>
+      </nav>
+
+      <div class="cart" title="Cart" role="button" aria-label="View cart">
+        <img src="../../assets/pictures/cart.png" alt="Cart" class="cart-icon">
+        <span class="cart-count" aria-live="polite">2</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Search row -->
+    <div class="top-row">
+      <div class="search-and-filters">
+        <div class="search-wrapper">
+          <input class="search-input" type="search" placeholder="Search restaurant or order ID" aria-label="Search orders">
+        </div>
+      </div>
+
+      <div class="page-header">
+        <h1>Active Orders</h1>
+      </div>
+    </div>
+
+    <!-- Active Orders -->
+    <section class="orders active-orders">
+      <div class="orders-list">
+        <article class="order-card" data-total="₱ 1,028.00">
+          <div class="order-image">
+            <img src="https://via.placeholder.com/110x110.png?text=J" alt="Jollibee logo">
+          </div>
+          <div class="order-info">
+            <h3>Jollibee - Legarda</h3>
+            <div class="order-meta">Ordered on Tue, Nov 25, 10:30 AM<br><strong>Order # 12345</strong></div>
+
+            <ul class="order-items">
+              <li data-price="164">1× 1 - pc. Chickenjoy w/ Jolly Spaghetti Solo</li>
+              <li data-price="447">3 × 2 - pc. Burger Steak Solo</li>
+              <li data-price="141">1x Palabok Solo</li>
+            </ul>
+          </div>
+
+          <div class="order-actions">
+            <button class="btn btn-status">VIEW STATUS</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Past Orders -->
+    <div class="page-header" style="margin-top:36px;">
+      <h1>Past Orders</h1>
+    </div>
+
+    <section class="orders past-orders">
+      <div class="orders-list past-grid">
+        <article class="order-card small">
+          <div class="order-image">
+            <img src="https://via.placeholder.com/110x110.png?text=G" alt="On The Go Cafe logo">
+          </div>
+          <div class="order-info">
+            <h3>On The Go Cafe</h3>
+            <div class="order-meta">Delivered on Fri, Nov 21, 1:00 PM<br><strong>Order # 54321</strong></div>
+
+            <ul class="order-items">
+              <li>1x Tonkatsu Meal</li>
+              <li>1x Burger Steak</li>
+              <li>1x Nachos</li>
+            </ul>
+          </div>
+
+          <div class="order-actions">
+            <button class="btn btn-reorder">REORDER</button>
+          </div>
+        </article>
+
+        <article class="order-card small">
+          <div class="order-image">
+            <img src="https://via.placeholder.com/110x110.png?text=C" alt="Grind Cup logo">
+          </div>
+          <div class="order-info">
+            <h3>Grind Cup</h3>
+            <div class="order-meta">Delivered on Thu, Oct 14, 1:07 PM<br><strong>Order # 04284</strong></div>
+
+            <ul class="order-items">
+              <li>1x Horchata</li>
+              <li>1x Strawberry Matcha</li>
+            </ul>
+          </div>
+
+          <div class="order-actions">
+            <button class="btn btn-reorder">REORDER</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Order modal -->
+  <div id="order-modal-overlay" class="order-modal-overlay" hidden role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="order-modal" role="document" aria-labelledby="modal-title">
+      <button class="order-modal-close" aria-label="Close order details">&times;</button>
+
+      <div class="order-modal-body">
+        <div class="order-modal-left">
+          <h2 id="modal-title">Your Order</h2>
+          <h3 class="modal-title" id="modal-restaurant">Restaurant</h3>
+          <div class="modal-meta" id="modal-meta"></div>
+
+          <div class="modal-items" id="modal-items">
+          </div>
+
+          <div class="modal-total-row">
+            <div class="modal-total-label">TOTAL <span class="modal-total-note">(including delivery)</span></div>
+            <div class="modal-total-amount" id="modal-total">—</div>
+          </div>
+        </div>
+
+        <div class="order-modal-right">
+          <div class="status-card">
+            <div class="status-title">STATUS</div>
+            <div class="status-icon" id="status-icon">🍲</div>
+            <div class="status-text" id="status-text">Preparing your order...</div>
+            <div class="status-eta" id="status-eta">~ 15 - 35 minutes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template for an item row -->
+  <template id="order-item-template">
+    <div class="modal-item">
+      <div class="modal-item-text"></div>
+      <div class="modal-item-price"></div>
+    </div>
+  </template>
+
+  <!-- Script -->
+  <script src="../../js/user/script.js"></script>
+</body>
+</html>
