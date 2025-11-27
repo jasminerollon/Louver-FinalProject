@@ -91,3 +91,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+const uploadBtn = document.getElementById("upload-btn");
+const uploadInput = document.getElementById("upload-input");
+const profileIcon = document.getElementById("profile-icon");
+
+uploadBtn.addEventListener("click", () => {
+    uploadInput.click();
+});
+
+uploadInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+
+        profileIcon.innerHTML = "";
+        profileIcon.appendChild(img);
+    }
+});
