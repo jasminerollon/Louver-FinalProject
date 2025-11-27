@@ -3,7 +3,6 @@
     - Database server, username, password, and database name.
     - A MySQLi connection object `$conn`.
     - Error handling: if the connection fails, the script terminates with an error message.
-    Purpose: Provides a ready-to-use database connection for other scripts in the "Detourist" project.
 */
 ?>
 
