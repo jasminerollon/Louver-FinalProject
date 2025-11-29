@@ -1,108 +1,60 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Event listeners for form submissions
-    const signupForm = document.querySelector('.form-box');
-
     //for edit customer info 
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const saveBtn = document.getElementById('save-changes');
 
-    /* to add once log out is working
-    fetch('/Louver-FinalProject/database/checkSession.php')
-        .then(res => res.json())
-        .then(data => {
-      if (data.logged_in) {
-        window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
-      }
-  });
-  */
+    //sign up fill form
+    const signupForm = document.getElementById('signup-form');
+    const signupBtn = document.getElementById('go-to-signup');
 
-    if (signupForm) {
-        const signupBtn = signupForm.querySelector('.signup-btn');
-        if (signupBtn && signupForm.querySelector('h3').textContent.includes('CREATE')) {
-            signupBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                // signup logic
-                alert('Sign up functionality would be implemented here');
-            });
-        }
+    if (signupBtn) {
+        signupBtn.addEventListener('click', () => {
+            window.location.href = '/Louver-FinalProject/index.html';
+        });
     }
 
-    // Login form functionality
-    const loginForm = document.querySelector('.form-box');
-    if (loginForm && loginForm.querySelector('h3').textContent.includes('LOGIN')) {
-        const loginBtn = loginForm.querySelector('.signup-btn');
-        if (loginBtn) {
-            loginBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const email = loginForm.querySelector('#email').value.trim();
-                const password = loginForm.querySelector('#password').value.trim();
+    const loginForm = document.querySelector('.form-box h3')?.textContent.includes('LOGIN') ? 
+                      document.querySelector('.form-box') : null;
 
-                if (!email || !password) {
-                    alert('Please fill all fields');
+    if (loginForm) {
+        const loginBtn = document.getElementById('login-btn');
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const email = loginForm.querySelector('#email').value.trim();
+            const password = loginForm.querySelector('#password').value.trim();
+
+            if (!email || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Louver-FinalProject/database/login.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                let response;
+                try {
+                    response = JSON.parse(this.responseText);
+                } catch (error) {
+                    console.error("Invalid JSON response:", this.responseText);
+                    alert("Server error. Check console.");
                     return;
                 }
 
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://localhost/Louver-FinalProject/database/login.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                xhr.onload = function() {
-                    let response;
-
-                    try {
-                        response = JSON.parse(this.responseText);
-                    } catch (error) {
-                        console.error("Invalid JSON response:", this.responseText);
-                        alert("Server error. Check console.");
-                        return;
-                    }
-
-                    if (response.status === 'success') {
-                        alert(response.message);
-                        window.location.href = 'http://localhost/Louver-FinalProject/html/user/customer-homepage.html';
-                    } else {
-                        alert(response.message);
-                    }
-                };
-                xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
-            });
-        }
-    }
-
-    // Reset password form functionality
-    const resetForm = document.querySelector('.form-box');
-    if (resetForm && resetForm.querySelector('h3').textContent.includes('RESET')) {
-        const resetBtn = resetForm.querySelector('.signup-btn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const email = resetForm.querySelector('input[type="email"]').value;
-                const newPassword = resetForm.querySelectorAll('input[type="password"]')[0].value;
-                const confirmPassword = resetForm.querySelectorAll('input[type="password"]')[1].value;
-                
-                if (!email || !newPassword || !confirmPassword) {
-                    alert('Please fill in all fields');
-                    return;
+                if (response.status === 'success') {
+                    alert(response.message);
+                    window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
+                } else {
+                    alert(response.message);
                 }
-                
-                if (newPassword !== confirmPassword) {
-                    alert('Passwords do not match');
-                    return;
-                }
-                
-                if (newPassword.length < 6) {
-                    alert('Password must be at least 6 characters long');
-                    return;
-                }
-                
-                alert('Password reset functionality would be implemented here');
-                window.location.href = 'login.html';
-            });
-        }
+            };
+
+            xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+        });
     }
 
     // Navigation between pages
@@ -110,21 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loginButtons.forEach(button => {
         button.addEventListener('click', function() {
             const currentPage = window.location.pathname;
-            
-            if (currentPage.includes('index.html') || currentPage === '/') {
-                // From index.html
-                if (this.textContent.includes('LOG IN')) {
-                    window.location.href = 'html/login.html';
-                } else if (this.textContent.includes('SIGN UP') || this.textContent.includes('GET STARTED')) {
-                    window.location.href = 'html/signup.html';
-                }
-            } else if (currentPage.includes('html/')) {
-                // From html folder files
-                if (this.textContent.includes('LOG IN') || this.textContent.includes('BACK TO LOGIN')) {
-                    window.location.href = 'login.html';
-                } else if (this.textContent.includes('SIGN UP')) {
-                    window.location.href = 'signup.html';
-                }
+            if (this.id === 'go-to-signup' || this.textContent.includes('SIGN UP')) {
+                window.location.href = '/Louver-FinalProject/html/user/signup.html';
+            } else if (this.textContent.includes('LOG IN')) {
+                window.location.href = '/Louver-FinalProject/html/user/login.html';
             }
         });
     });
@@ -364,32 +305,104 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // save updated info
-    saveBtn.addEventListener('click', e => {
-        e.preventDefault();
+    if (saveBtn) {
+        saveBtn.addEventListener('click', e => {
+            e.preventDefault();
 
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const phone = phoneInput.value.trim();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
 
-        if (!name || !email || !phone) {
-            alert('Please fill all fields');
-            return;
-        }
+            if (!name || !email || !phone) {
+                alert('Please fill all fields');
+                return;
+            }
 
-        const formData = new URLSearchParams();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('phone', phone);
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', phone);
 
-        fetch('/Louver-FinalProject/database/updateCustomerInfo.php', {
-            method: 'POST',
+            fetch('/Louver-FinalProject/database/updateCustomerInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(err => console.error('Error updating account:', err));
+        });
+    }
+
+    //for reset password in customer profile tab
+    form.addEventListener("submit", function(e) {
+        e.preventDefault(); // prevent default form submit
+
+        const formData = new FormData(form);
+
+        fetch("../../database/updateCustomerPassword.php", {
+            method: "POST",
             body: formData
         })
-        .then(res => res.json())
+        .then(response => response.text())
         .then(data => {
-            alert(data.message);
+            alert(data);
+            if (data.includes("successfully")) {
+                window.location.href = "../user/customer-homepage.html";
+            }
         })
-        .catch(err => console.error('Error updating account:', err));
+        .catch(error => console.error("Error:", error));
     });
-    
+
+        signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const first_name = signupForm.elements['first_name'].value.trim();
+        const last_name = signupForm.elements['last_name'].value.trim();
+        const contact_number = signupForm.elements['contact_number'].value.trim();
+        const email = signupForm.elements['email'].value.trim();
+        const password = signupForm.elements['password'].value;
+        const nameRegex = /^[A-Za-z\s]+$/;
+        const contactRegex = /^\d{10,15}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!first_name || !nameRegex.test(first_name)) {
+            alert("Please enter a valid first name (letters only).");
+            return;
+        }
+        if (!last_name || !nameRegex.test(last_name)) {
+            alert("Please enter a valid last name (letters only).");
+            return;
+        }
+        if (!contact_number || !contactRegex.test(contact_number)) {
+            alert("Please enter a valid contact number (10-15 digits).");
+            return;
+        }
+        if (!email || !emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+        if (!password || password.length < 6) {
+            alert("Password must be at least 6 characters.");
+            return;
+        }
+        const formData = new FormData(signupForm);
+        try {
+            const response = await fetch(signupForm.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            alert(result.message);
+
+            if (result.status === 'success') {
+                window.location.href = '/Louver-FinalProject/html/user/login.html';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+        }
+    });
+
 });
