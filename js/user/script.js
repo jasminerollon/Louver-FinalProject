@@ -1,6 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Event listeners for form submissions
     const signupForm = document.querySelector('.form-box');
+
+    /* to add once log out is working
+    fetch('/Louver-FinalProject/database/checkSession.php')
+        .then(res => res.json())
+        .then(data => {
+      if (data.logged_in) {
+          window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
+      }
+  });
+  */
+
     if (signupForm) {
         const signupBtn = signupForm.querySelector('.signup-btn');
         if (signupBtn && signupForm.querySelector('h3').textContent.includes('CREATE')) {
@@ -19,8 +30,38 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loginBtn) {
             loginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                // login logic
-                alert('Login functionality would be implemented here');
+                
+                const email = loginForm.querySelector('#email').value.trim();
+                const password = loginForm.querySelector('#password').value.trim();
+
+                if (!email || !password) {
+                    alert('Please fill all fields');
+                    return;
+                }
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost/Louver-FinalProject/database/login.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                xhr.onload = function() {
+                    let response;
+
+                    try {
+                        response = JSON.parse(this.responseText);
+                    } catch (error) {
+                        console.error("Invalid JSON response:", this.responseText);
+                        alert("Server error. Check console.");
+                        return;
+                    }
+
+                    if (response.status === 'success') {
+                        alert(response.message);
+                        window.location.href = 'http://localhost/Louver-FinalProject/html/user/customer-homepage.html';
+                    } else {
+                        alert(response.message);
+                    }
+                };
+                xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
             });
         }
     }
