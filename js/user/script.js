@@ -2,12 +2,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners for form submissions
     const signupForm = document.querySelector('.form-box');
 
+    //for edit customer info 
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const saveBtn = document.getElementById('save-changes');
+
     /* to add once log out is working
     fetch('/Louver-FinalProject/database/checkSession.php')
         .then(res => res.json())
         .then(data => {
       if (data.logged_in) {
-          window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
+        window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
       }
   });
   */
@@ -326,4 +332,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    //fetch the user info in the account.html 
+    fetch('/Louver-FinalProject/database/getCustomerInfo.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Populate profile info
+                const info = document.querySelector('.profile-card .info');
+                info.querySelectorAll('p')[0].textContent = data.customer_name;
+                info.querySelectorAll('p')[1].textContent = data.customer_email;
+                info.querySelectorAll('p')[2].textContent = data.customer_contact;
+            } else {
+                // Not logged in, redirect to login
+                window.location.href = '/Louver-FinalProject/html/user/login.html';
+            }
+        })
+        .catch(err => console.error('Error fetching user data:', err));
+
+
+    //fetch logged-in customer info (edit-account.html)
+    fetch('/Louver-FinalProject/database/getCustomerInfo.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                nameInput.value = data.customer_name;
+                emailInput.value = data.customer_email;
+                phoneInput.value = data.customer_contact;
+            } else {
+                window.location.href = '/Louver-FinalProject/html/user/login.html';
+            }
+        });
+
+    // save updated info
+    saveBtn.addEventListener('click', e => {
+        e.preventDefault();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const phone = phoneInput.value.trim();
+
+        if (!name || !email || !phone) {
+            alert('Please fill all fields');
+            return;
+        }
+
+        const formData = new URLSearchParams();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', phone);
+
+        fetch('/Louver-FinalProject/database/updateCustomerInfo.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(err => console.error('Error updating account:', err));
+    });
+    
 });
