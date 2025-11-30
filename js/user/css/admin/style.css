@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.left-section {
+  background: #a40000 url("../../../../assets/pictures/logo.png") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.login-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-card h2 {
+  color: #a40000;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 25px;
+  border: 2px solid #a40000;
+  outline: none;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #a40000;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.forgot {
+  font-size: 12px;
+  margin-top: 10px;
+  display: block;
+  color: #666;
+}
+
+.right-section {
+  background: #faece8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.partner-box {
+  text-align: center;
+}
+
+.partner-box h3 {
+  color: #a40000;
+  font-size: 18px;
+}
+
+.louver {
+  color: #a40000;
+  font-size: 55px;
+  font-weight: 900;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.partner-box p {
+  margin-bottom: 25px;
+  color: #4a4a4a;
+}
+
+.register-btn {
+  padding: 12px 40px;
+  background: #a40000;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
