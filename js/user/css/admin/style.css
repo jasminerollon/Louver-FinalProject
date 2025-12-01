@@ -1,8 +1,18 @@
+.louver {
+  font-family: 'Inter', sans-serif;
+  font-size: 128px;
+  font-weight: 900; 
+  font-style: italic;
+  color: #8B0909;
+  margin: 10px 0;
+  line-height: 1;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
@@ -38,7 +48,7 @@ body {
 }
 
 .login-card h2 {
-  color: #a40000;
+  color: #B20808;
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -84,26 +94,18 @@ body {
 }
 
 .partner-box h3 {
-  color: #a40000;
+  color: #8B0909;
   font-size: 18px;
-}
-
-.louver {
-  color: #a40000;
-  font-size: 55px;
-  font-weight: 900;
-  font-style: italic;
-  margin: 10px 0;
 }
 
 .partner-box p {
   margin-bottom: 25px;
-  color: #4a4a4a;
+  color: #8B0909;
 }
 
 .register-btn {
   padding: 12px 40px;
-  background: #a40000;
+  background: #8B0909;
   color: white;
   border: none;
   border-radius: 25px;
