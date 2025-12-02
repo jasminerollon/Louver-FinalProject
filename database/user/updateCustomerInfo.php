@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-require 'connectDB.php';
+require '../connectDB.php';
 
 $customer_id = $_SESSION['customer_id'];
 $name = $_POST['name'] ?? '';

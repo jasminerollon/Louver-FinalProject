@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-require 'connectDB.php';
+require '../connectDB.php';
 
 // use session customer_id (like your other functions)
 $customer_id = $_SESSION['customer_id'];
@@ -32,7 +32,7 @@ $stmt->bind_param("si", $password_to_save, $customer_id);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
-        header("Location: ../html/user/customer-homepage.html");
+        header("Location: ../../../html/user/customer-homepage.html");
         exit;
     } else {
         echo json_encode(['status' => 'error', 'message' => 'No changes made. Please check your account.']);

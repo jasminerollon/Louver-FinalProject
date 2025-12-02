@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-require 'connectDB.php';
+require '../connectDB.php';
 
 // Fetch customer info from DB
 $customer_id = $_SESSION['customer_id'];

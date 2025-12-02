@@ -12,7 +12,7 @@ session_start();
 
 header('Content-Type: application/json');
 
-require 'connectDB.php';
+require '../connectDB.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';

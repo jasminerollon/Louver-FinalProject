@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const saveBtn = document.getElementById('save-changes');
-
-    //sign up fill form
     const signupForm = document.getElementById('signup-form');
     const signupBtn = document.getElementById('go-to-signup');
+    const loginBtn = document.getElementById('login-btn');
+    const passwordForm = document.getElementById('passwordForm');
 
     if (signupBtn) {
         signupBtn.addEventListener('click', () => {
-            window.location.href = '/Louver-FinalProject/index.html';
+            window.location.href = 'signup.html';
         });
     }
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/Louver-FinalProject/database/login.php', true);
+            xhr.open('POST', '../../database/user/login.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhr.onload = function() {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.status === 'success') {
                     alert(response.message);
-                    window.location.href = '/Louver-FinalProject/html/user/customer-homepage.html';
+                    window.location.href = 'customer-homepage.html';
                 } else {
                     alert(response.message);
                 }
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //fetch the user info in the account.html 
-    fetch('/Louver-FinalProject/database/getCustomerInfo.php')
+    fetch('../../database/user/getCustomerInfo.php')
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
@@ -285,22 +285,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 info.querySelectorAll('p')[2].textContent = data.customer_contact;
             } else {
                 // Not logged in, redirect to login
-                window.location.href = '/Louver-FinalProject/html/user/login.html';
+                window.location.href = 'login.html';
             }
         })
         .catch(err => console.error('Error fetching user data:', err));
 
 
     //fetch logged-in customer info (edit-account.html)
-    fetch('/Louver-FinalProject/database/getCustomerInfo.php')
+    fetch('../../database/user/getCustomerInfo.php')
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                nameInput.value = data.customer_name;
-                emailInput.value = data.customer_email;
-                phoneInput.value = data.customer_contact;
+            // Only set values if inputs exist
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const phoneInput = document.getElementById('phone');
+                
+                if (nameInput) nameInput.value = data.customer_name;
+                if (emailInput) emailInput.value = data.customer_email;
+                if (phoneInput) phoneInput.value = data.customer_contact;
             } else {
-                window.location.href = '/Louver-FinalProject/html/user/login.html';
+                window.location.href = 'login.html';
             }
         });
 
@@ -323,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('email', email);
             formData.append('phone', phone);
 
-            fetch('/Louver-FinalProject/database/updateCustomerInfo.php', {
+            fetch('../../database/user/updateCustomerInfo.php', {
                 method: 'POST',
                 body: formData
             })
@@ -341,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const formData = new FormData(form);
 
-        fetch("../../database/updateCustomerPassword.php", {
+        fetch("../../database/user/updateCustomerPassword.php", {
             method: "POST",
             body: formData
         })
@@ -349,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             alert(data);
             if (data.includes("successfully")) {
-                window.location.href = "../user/customer-homepage.html";
+                window.location.href = "customer-homepage.html";
             }
         })
         .catch(error => console.error("Error:", error));
