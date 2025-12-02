@@ -1,0 +1,259 @@
+/* Global Reset & Fonts*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #f9eaea;
+    color: #111;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* NAVBAR*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 36px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    gap: 12px;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    font-style: italic;
+    color: #b20808;
+}
+
+.navbar .logo img {
+    height: 28px;
+    width: auto;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.logout-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-btn {
+    text-decoration: none;
+    font-weight: 700;
+    color: #b20808;
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
+}
+
+.login-btn:hover {
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(178, 8, 8, 0.09);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b20808;
+    font-size: 18px;
+}
+
+/*STATUS PAGE*/
+.status-wrapper {
+    text-align: center;
+    margin-top: 70px;
+    font-style: normal;
+}
+
+/* Application Status Label */
+.top-label {
+    font-size: 22px;
+    font-weight: 600;
+    color: #7a0a0a;
+    margin-bottom: 8px;
+}
+
+/* Pending / Approved / Rejected */
+.status-text {
+    font-size: 75px;
+    font-weight: 900;
+    margin-bottom: 45px;
+    font-style: italic;
+}
+
+.status-text.pending {
+    color: #b20808;
+}
+
+.status-text.approved {
+    color: #1a7a1a;
+}
+
+.status-text.rejected {
+    color: #b20808;
+}
+
+/* White Card Box */
+.status-box {
+    background: #f7e7e6;
+    width: 600px;
+    max-width: 90%;
+    margin: auto;
+    padding: 45px 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* Header inside status-box */
+.status-box h3 {
+    font-size: 22px;
+    color: #b20808;
+    margin-bottom: 16px;
+    font-weight: 800;
+}
+
+/* Paragraph */
+.status-box p {
+    font-size: 16px;
+    color: #b20808;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+/* Bullet list */
+.status-box ul {
+    list-style-type: disc;
+    text-align: left;
+    color: #b20808;
+    margin: 0 auto 20px auto;
+    width: fit-content;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* Button */
+.apply-btn {
+    margin-top: 10px;
+    padding: 12px 34px;
+    background: #b20808;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.apply-btn:hover {
+    transform: scale(1.04);
+}
+
+/* CREDENTIALS PAGE*/
+.credentials-wrapper {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.credentials-wrapper h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #b20808;
+    margin-bottom: 35px;
+}
+
+.credentials-box {
+    width: 430px;
+    max-width: 95%;
+    margin: auto;
+    padding: 40px 34px;
+    background: #f9eaea;
+    border-radius: 25px;
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
+    transition: none;
+}
+
+.credentials-box h3 {
+    color: #b20808;
+    font-size: 18px;
+    margin-bottom: 28px;
+    font-weight: 700;
+}
+
+.cred-field {
+    width: 100%;
+    padding: 14px 0;
+    border: 2px solid #b20808;
+    border-radius: 40px;
+    color: #b20808;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 18px;
+    transition: 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cred-field:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.note {
+    margin-top: 10px;
+    color: #b20808;
+    font-size: 13px;
+}
+
+/* RESPONSIVE*/
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .navbar-right {
+        gap: 20px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .status-text {
+        font-size: 55px;
+    }
+
+    .status-box {
+        padding: 30px 22px;
+        width: 90%;
+    }
+
+    .credentials-box {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}
