@@ -9,70 +9,102 @@ body {
     background: #f9eaea;
 }
 
+/* =========================
+   NAVBAR
+========================= */
 .navbar {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
-    padding: 15px 40px;
-    background: #f9eaea;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 18px 36px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    gap: 12px;
+}
+
+.navbar .logo {
+    font-weight: 700;
+    color: #b20808;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
 }
 
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 34px;
 }
 
 .navbar-right nav {
     display: flex;
-    gap: 20px;
-}
-
-.navbar .logo {
-    font-weight: 700;
-    color: #c93131;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Playfair Display', serif;
+    gap: 36px;
 }
 
 .navbar nav a {
-    margin: 0 20px;
     text-decoration: none;
-    color: black;
-    font-weight: 600;
-    font-size: 15px;
-    transition: 0.2s ease-in-out;
+    color: #b20808;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 6px 10px;
+    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
 }
 
-.navbar nav a:hover {
-    color: #a51f1f;
+.navbar nav a:hover,
+.navbar nav a:focus {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
 }
 
 .navbar nav a.active {
-    color: #c93131;
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
 }
 
+/* Cart */
 .cart {
     position: relative;
-    font-size: 24px;
-    color: #333;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+}
+
+.cart-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+    object-fit: contain;
 }
 
 .cart-count {
     position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: red;
+    top: -6px;
+    right: -6px;
+    background-color: #b80e0e;
     color: #fff;
     font-size: 12px;
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 3px 7px;
     border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 
