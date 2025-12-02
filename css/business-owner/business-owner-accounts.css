@@ -1,0 +1,304 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f9eaea;
+}
+
+/*NAVBAR*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    color: #b20808;
+    font-size: 22px;
+    font-style: italic;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #b20808;
+    font-weight: 700;
+    font-size: 16px;
+    transition: 0.2s ease;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    font-weight: 900;
+    transform: scale(1.05);
+}
+
+/*MAIN CONTAINER*/
+.container {
+    padding: 50px 60px;
+}
+
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    color: #b20808;
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.buttons button {
+    background: #c61515;
+    border: none;
+    padding: 10px 24px;
+    color: white;
+    border-radius: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.buttons button:hover {
+    background: #a51313;
+}
+
+.divider {
+    width: 100%;
+    height: 3px;
+    background: #c93131;
+    margin: 25px 0 35px 0;
+}
+
+/*PROFILE CARD*/
+.profile-card {
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.profile-images {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img-left {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profile-img-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.profile-img-right {
+    width: 360px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-img-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* INFO GRID */
+.info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 60px;
+}
+
+.info-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #b20808;
+    font-weight: 700;
+    background: #fff;
+}
+
+.info-group p {
+    margin-top: 3px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #b20808;
+}
+
+.info-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #777;
+    letter-spacing: 1px;
+}
+
+.highlight {
+    font-size: 22px;
+    color: #b20808;
+}
+
+.highlight-input {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+/* BUSINESS PERMIT BUTTONS */
+.permit-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.permit-buttons button {
+    border: none;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.view-btn {
+    background: #00000010;
+    color: #333;
+}
+
+.update-btn {
+    background: #c61515;
+    color: white;
+}
+
+.update-btn:hover {
+    background: #a51313;
+}
+
+.permit-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/*RESET PASSWORD FORM*/
+.reset-password {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.reset-password .password-icon-wrapper {
+    flex-shrink: 0;
+}
+
+.password-icon {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.password-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.reset-password-fields {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.reset-password-fields label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #777;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.reset-password-fields input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/*RESPONSIVE*/
+@media (max-width: 768px) {
+    .profile-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-img-right {
+        width: 100%;
+    }
+
+    .reset-password-fields {
+        width: 100%;
+    }
+
+    .password-icon {
+        margin-bottom: 20px;
+    }
+}
