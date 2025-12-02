@@ -9,6 +9,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginBtn = document.getElementById('login-btn');
     const passwordForm = document.getElementById('passwordForm');
 
+        //vendors/resto fetch in users 
+    fetch("../../database/user/getVendors.php")
+        .then(response => response.json())
+        .then(vendors => {
+        const container = document.getElementById("vendorsContainer");
+        container.innerHTML = "";
+        console.log(vendors); 
+
+        vendors.forEach(v => {
+            const card = `
+            <article class="card">
+                <div class="card-image">
+                <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
+                </div>
+                <div class="card-info">
+                <h3>${v.business_name}</h3>
+                <div class="meta">${v.address}</div>
+                </div>
+            </article>
+            `;
+            container.innerHTML += card;
+        });
+    })
+    .catch(err => console.error(err));
+
     if (signupBtn) {
         signupBtn.addEventListener('click', () => {
             window.location.href = 'signup.html';
@@ -409,5 +434,4 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Something went wrong. Please try again.');
         }
     });
-
 });

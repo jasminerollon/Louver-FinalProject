@@ -93,7 +93,8 @@ CREATE TABLE IF NOT EXISTS `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `NAME`, `contact_number`, `email`, `password_hash`, `created_at`) VALUES
-(1, 'Heart', '09123456789', 'heartconserva@gmail.com', '123', '2025-11-27 00:28:27');
+(1, 'Heart', '09123456789', 'heartconserva@gmail.com', '123', '2025-11-27 00:28:27'),
+(2, 'Nina Padua', '09911132114', 'baby@gmail.com', 'baby', '2025-12-02 22:22:25');
 
 -- --------------------------------------------------------
 
@@ -197,6 +198,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   `address` varchar(255) NOT NULL,
   `email` varchar(200) DEFAULT NULL,
   `business_permit` varchar(255) NOT NULL,
+  `profile_image` varchar(255) DEFAULT 'default.png',
   `STATUS` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `rejection_reason` varchar(255) DEFAULT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
@@ -209,10 +211,36 @@ CREATE TABLE IF NOT EXISTS `vendors` (
 -- Dumping data for table `vendors`
 --
 
-INSERT INTO `vendors` (`vendor_id`, `business_name`, `owner_name`, `contact_number`, `address`, `email`, `business_permit`, `STATUS`, `rejection_reason`, `password_hash`, `created_at`) VALUES
-(1, 'Giligans', 'Gili Gans', '09441234567', 'SLU Bakakeng MaryHeights Campus Food Hall', 'giligans@gmail.com', 'permit001.pdf', 'Approved', NULL, '123', '2025-11-27 00:28:27');
-COMMIT;
+INSERT INTO `vendors` (
+  `business_name`, `owner_name`, `contact_number`, `address`, `email`,
+  `business_permit`, `profile_image`, `STATUS`, `rejection_reason`, `password_hash`, `created_at`
+) VALUES
+('Oval Canteen', 'Marites Dela Cruz', '09171234567',
+ 'SLU Bakakeng MaryHeights Campus Canteen',
+ 'ovalcanteen.slu@gmail.com', 'permit_oval_001.pdf', 'oval_canteen.png',
+ 'Approved', NULL, 'hash001', '2025-10-15 09:30:00'),
+('Aroma & Blossom', 'Amanda Flores', '09381239812',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'aroma.blossom@gmail.com', 'permit_aroma_002.pdf', 'aroma_blossom.png',
+ 'Approved', NULL, 'hash002', '2025-11-02 14:20:00'),
+('On The Go Cafe', 'John Reyes', '09981234566',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'onthegocafe.slu@gmail.com', 'permit_otg_003.pdf', 'on_the_go.png',
+ 'Pending', NULL, 'hash003', '2025-11-18 11:45:00'),
+('Mayo''s Cup', 'Carlo Mendoza', '09192345678',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'mayoscup.ph@gmail.com', 'permit_mayos_004.pdf', 'mayos_cup.png',
+ 'Approved', NULL, 'hash004', '2025-12-01 08:10:00'),
+('Emerson Canteen', 'Emerson Lao', '09275678912',
+ 'SLU Bakakeng MaryHeights Campus Canteen',
+ 'emersoncanteen@gmail.com', 'permit_emerson_005.pdf', 'emerson_canteen.png',
+ 'Rejected', 'Incomplete business documents', 'hash005', '2025-11-25 16:00:00'),
+('Chickaboo', 'Rina Javier', '09451234789',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'chickaboo.ph@gmail.com', 'permit_chickaboo_006.pdf', 'chickaboo.png',
+ 'Approved', NULL, 'hash006', '2025-11-26 13:50:00');
 
+COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
