@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Cart</title>
+<link rel="stylesheet" href="../../css/user/customer-homepage.css">
+</head>
+<body>
+     <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="logo">
+      <img src="../../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav aria-label="Main navigation">
+        <a href="customer-homepage.html" class="active">BROWSE</a>
+        <a href="myorders.html">MY ORDERS</a>
+        <a href="account.html">PROFILE</a>
+      </nav>
+
+      <div class="cart" title="Cart" role="button" aria-label="View cart">
+        <img src="../../assets/pictures/cart.png" alt="Cart" class="cart-icon">
+        <span class="cart-count" aria-live="polite">2</span>
+      </div>
+    </div>
+  </header>
+<div class="container">
+
+  <!-- Top Row -->
+  <div class="top-row page-header">
+    <h1>My Cart</h1>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <!-- LEFT: Cart Items -->
+    <div class="cart-items">
+      
+      <!-- Cart Item 1 -->
+      <div class="cart-card">
+        <img src="../../assets/pictures/chickenjoy.png" alt="Chickenjoy" class="item-img">
+        <div class="info">
+          <h3>1 - pc. Chickenjoy w/ Jolly Spaghetti Solo</h3>
+          <span class="subtext">Jollibee</span>
+          <div class="quantity-box">
+            <button class="qty-btn">-</button>
+            <span class="qty-number">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="price">₱164</div>
+      </div>
+
+      <!-- Cart Item 2 -->
+      <div class="cart-card">
+        <img src="../../assets/pictures/burgersteak.png" alt="Burger Steak" class="item-img">
+        <div class="info">
+          <h3>2 - pc. Burger Steak Solo</h3>
+          <span class="subtext">Jollibee</span>
+          <div class="quantity-box">
+            <button class="qty-btn">-</button>
+            <span class="qty-number">3</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="price">₱447</div>
+      </div>
+
+      <!-- Cart Item 3 -->
+      <div class="cart-card">
+        <img src="../../assets/pictures/palabok.png" alt="Palabok" class="item-img">
+        <div class="info">
+          <h3>Palabok Solo</h3>
+          <span class="subtext">Jollibee</span>
+          <div class="quantity-box">
+            <button class="qty-btn">-</button>
+            <span class="qty-number">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="price">₱141</div>
+      </div>
+
+      <!-- Cart Item 4 -->
+      <div class="cart-card">
+        <img src="../../assets/pictures/chickennuggets.png" alt="Chicken Nuggets" class="item-img">
+        <div class="info">
+          <h3>6 - pc. Chicken Nuggets</h3>
+          <span class="subtext">Jollibee</span>
+          <div class="quantity-box">
+            <button class="qty-btn">-</button>
+            <span class="qty-number">2</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="price">₱256</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="order-summary-box">
+      <h2>ORDER SUMMARY</h2>
+
+      <div class="summary-row"><span>1x 1 - pc. Chickenjoy w/ Jolly Spaghetti Solo</span><span>₱164</span></div>
+      <div class="summary-row"><span>3x Palabok Solo</span><span>₱447</span></div>
+      <div class="summary-row"><span>1x 6 - pc. Chicken Nuggets</span><span>₱141</span></div>
+      <div class="summary-row"><span>1x 2 - pc. Burger Steak Solo</span><span>₱256</span></div>
+
+      <div class="summary-total"><span>Total (including ₱20 delivery fee)</span><span>₱1,028</span></div>
+
+      <div class="delivery-box">
+        <h3>DELIVERY ADDRESS</h3>
+        <div class="delivery-value">D521</div>
+      </div>
+
+      <div class="note-box">
+        <h3>ADD A NOTE</h3>
+        <textarea class="note-field">Please remove mushrooms from Burger Steak. Thank you!!!</textarea>
+      </div>
+
+      <button class="checkout-btn">CHECKOUT</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

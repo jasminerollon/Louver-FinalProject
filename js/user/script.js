@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordForm = document.getElementById('passwordForm');
     const activeContainer = document.querySelector('.orders.active-orders .orders-list');
     const pastContainer = document.querySelector('.orders.past-orders .orders-list');
+    const restoSearchInput = document.getElementById("restoSearchInput");
+
 
     //customer past and active users fetch
     fetch("../../database/user/getOrders.php")
@@ -79,10 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modal-items').innerHTML = '';
     }
 
-        //vendors/resto fetch in users 
+    let allVendors = [];
+
+    //vendors/resto fetch in users 
     fetch("../../database/user/getVendors.php")
         .then(response => response.json())
         .then(vendors => {
+        allVendors = vendors;
         const container = document.getElementById("vendorsContainer");
         container.innerHTML = "";
         console.log(vendors); 
@@ -103,6 +108,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })
     .catch(err => console.error(err));
+
+    //live search for resto 
+    if (restoSearchInput) {
+
+    restoSearchInput.addEventListener("keyup", () => {
+        const term = restoSearchInput.value.toLowerCase();
+
+        const filtered = allVendors.filter(v =>
+            v.business_name.toLowerCase().includes(term) ||
+            v.address.toLowerCase().includes(term)
+        );
+
+        const container = document.getElementById("vendorsContainer");
+        container.innerHTML = "";
+
+        filtered.forEach(v => {
+            const card = `
+            <article class="card">
+                <div class="card-image">
+                    <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
+                </div>
+                <div class="card-info">
+                    <h3>${v.business_name}</h3>
+                    <div class="meta">${v.address}</div>
+                </div>
+            </article>
+            `;
+            container.innerHTML += card;
+        });
+    });
+
+}
 
     if (signupBtn) {
         signupBtn.addEventListener('click', () => {
