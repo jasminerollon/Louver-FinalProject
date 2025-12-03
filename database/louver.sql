@@ -117,6 +117,17 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `vendor_id` (`vendor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Dummy data for orders
+INSERT INTO `orders` (
+  `customer_id`, `vendor_id`, `total_price`, `payment_method`, `order_status`, `rejection_reason`, `created_at`
+) VALUES
+(2, 1, 150.50, 'COD', 'Delivered', NULL, '2025-10-16 10:15:00'),  -- Order from Oval Canteen
+(2, 2, 220.00, 'COD', 'Ready', NULL, '2025-11-03 12:45:00'),       -- Order from Aroma & Blossom
+(2, 3, 120.75, 'COD', 'Preparing', NULL, '2025-11-18 12:00:00'),    -- Order from On The Go Cafe
+(2, 4, 95.25, 'COD', 'Delivered', NULL, '2025-12-01 09:00:00'),     -- Order from Mayo's Cup
+(2, 5, 180.00, 'COD', 'Rejected', 'Vendor documents incomplete', '2025-11-26 14:30:00'), -- Order from Emerson Canteen
+(2, 6, 200.50, 'COD', 'Delivered', NULL, '2025-11-27 11:20:00');     -- Order from Chickaboo
+
 -- --------------------------------------------------------
 
 --

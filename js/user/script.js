@@ -8,6 +8,76 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupBtn = document.getElementById('go-to-signup');
     const loginBtn = document.getElementById('login-btn');
     const passwordForm = document.getElementById('passwordForm');
+    const activeContainer = document.querySelector('.orders.active-orders .orders-list');
+    const pastContainer = document.querySelector('.orders.past-orders .orders-list');
+
+    //customer past and active users fetch
+    fetch("../../database/user/getOrders.php")
+    .then(res => res.json())
+    .then(orders => {
+        console.log('Orders fetched:', orders);
+
+        if (activeContainer) activeContainer.innerHTML = '';
+        if (pastContainer) pastContainer.innerHTML = '';
+
+        orders.forEach(order => {
+            const card = document.createElement('article');
+            card.classList.add('order-card');
+            card.setAttribute('data-total', `₱ ${order.total_price}`);
+            card.setAttribute('data-order-id', order.order_id);
+
+            card.innerHTML = `
+                <div class="order-image">
+                    <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name}">
+                </div>
+                <div class="order-info">
+                    <h3>${order.vendor_name}</h3>
+                    <div class="order-meta">
+                        ${formatDate(order.created_at)}<br>
+                        <strong>Order # ${order.order_id}</strong>
+                    </div>
+                    <ul class="order-items"></ul>
+                </div>
+                <div class="order-actions">
+                    <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
+                </div>
+            `;
+
+            // Append to correct container
+            if (order.status === 'Delivered' || order.status === 'Rejected') {
+                if (pastContainer) pastContainer.appendChild(card);
+            } else {
+                if (activeContainer) activeContainer.appendChild(card);
+            }
+        });
+
+        document.body.addEventListener('click', e => {
+            if (e.target.matches('.btn-status')) {
+                const orderId = e.target.dataset.orderId;
+                openOrderModal(orderId, orders);
+            }
+        });
+    })
+    .catch(err => console.error(err));
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return `Ordered on ${date.toDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    }
+
+    function openOrderModal(orderId, orders) {
+        const order = orders.find(o => o.order_id == orderId);
+        if (!order) return;
+
+        const modal = document.getElementById('order-modal-overlay');
+        if (!modal) return;
+
+        modal.hidden = false;
+        document.getElementById('modal-restaurant').textContent = order.vendor_name;
+        document.getElementById('modal-total').textContent = `₱ ${order.total_price}`;
+        document.getElementById('status-text').textContent = `Status: ${order.status}`;
+        document.getElementById('modal-items').innerHTML = '';
+    }
 
         //vendors/resto fetch in users 
     fetch("../../database/user/getVendors.php")
@@ -434,4 +504,71 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Something went wrong. Please try again.');
         }
     });
+
+    //customer orders fetch
+    if (activeContainer || pastContainer) { 
+        fetch('../../database/user/getOrders.php')
+            .then(res => res.json())
+            .then(orders => {
+                if (activeContainer) activeContainer.innerHTML = '';
+                if (pastContainer) pastContainer.innerHTML = '';
+
+                orders.forEach(order => {
+                    const card = document.createElement('article');
+                    card.classList.add('order-card');
+                    card.setAttribute('data-total', `₱ ${order.total_price}`);
+                    card.setAttribute('data-order-id', order.order_id);
+
+                    card.innerHTML = `
+                        <div class="order-image">
+                            <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name} logo">
+                        </div>
+                        <div class="order-info">
+                            <h3>${order.vendor_name}</h3>
+                            <div class="order-meta">
+                                ${formatDate(order.created_at)}<br>
+                                <strong>Order # ${order.order_id}</strong>
+                            </div>
+                            <ul class="order-items"></ul>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
+                        </div>
+                    `;
+
+                    if (order.status === 'Delivered' || order.status === 'Rejected') {
+                        if (pastContainer) pastContainer.appendChild(card);
+                    } else {
+                        if (activeContainer) activeContainer.appendChild(card);
+                    }
+                });
+
+                document.body.addEventListener('click', e => {
+                    if (e.target.matches('.btn-status')) {
+                        const orderId = e.target.dataset.orderId;
+                        openOrderModal(orderId, orders);
+                    }
+                });
+            })
+            .catch(err => console.error(err));
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return `Ordered on ${date.toDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    }
+
+    function openOrderModal(orderId, orders) {
+        const order = orders.find(o => o.order_id == orderId);
+        if (!order) return;
+
+        const modal = document.getElementById('order-modal-overlay');
+        if (!modal) return;
+
+        modal.hidden = false;
+        document.getElementById('modal-restaurant').textContent = order.vendor_name;
+        document.getElementById('modal-total').textContent = `₱ ${order.total_price}`;
+        document.getElementById('status-text').textContent = `Status: ${order.status}`;
+        document.getElementById('modal-items').innerHTML = '';
+    }
 });

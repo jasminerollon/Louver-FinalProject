@@ -47,78 +47,25 @@
       </div>
     </div>
 
-    <!-- Active Orders -->
-    <section class="orders active-orders">
-      <div class="orders-list">
-        <article class="order-card" data-total="₱ 1,028.00">
-          <div class="order-image">
-            <img src="https://via.placeholder.com/110x110.png?text=J" alt="Jollibee logo">
-          </div>
-          <div class="order-info">
-            <h3>Jollibee - Legarda</h3>
-            <div class="order-meta">Ordered on Tue, Nov 25, 10:30 AM<br><strong>Order # 12345</strong></div>
-
-            <ul class="order-items">
-              <li data-price="164">1× 1 - pc. Chickenjoy w/ Jolly Spaghetti Solo</li>
-              <li data-price="447">3 × 2 - pc. Burger Steak Solo</li>
-              <li data-price="141">1x Palabok Solo</li>
-            </ul>
-          </div>
-
-          <div class="order-actions">
-            <button class="btn btn-status">VIEW STATUS</button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Past Orders -->
-    <div class="page-header" style="margin-top:36px;">
-      <h1>Past Orders</h1>
+  <!-- Active Orders -->
+  <section class="orders active-orders">
+    <div class="orders-list">
+      <p class="no-orders-msg">You have no active orders.</p>
+      <!-- JS will inject active order cards here -->
     </div>
+  </section>
 
-    <section class="orders past-orders">
-      <div class="orders-list past-grid">
-        <article class="order-card small">
-          <div class="order-image">
-            <img src="https://via.placeholder.com/110x110.png?text=G" alt="On The Go Cafe logo">
-          </div>
-          <div class="order-info">
-            <h3>On The Go Cafe</h3>
-            <div class="order-meta">Delivered on Fri, Nov 21, 1:00 PM<br><strong>Order # 54321</strong></div>
+  <!-- Past Orders -->
+  <div class="page-header" style="margin-top:36px;">
+    <h1>Past Orders</h1>
+  </div>
 
-            <ul class="order-items">
-              <li>1x Tonkatsu Meal</li>
-              <li>1x Burger Steak</li>
-              <li>1x Nachos</li>
-            </ul>
-          </div>
-
-          <div class="order-actions">
-            <button class="btn btn-reorder">REORDER</button>
-          </div>
-        </article>
-
-        <article class="order-card small">
-          <div class="order-image">
-            <img src="https://via.placeholder.com/110x110.png?text=C" alt="Grind Cup logo">
-          </div>
-          <div class="order-info">
-            <h3>Grind Cup</h3>
-            <div class="order-meta">Delivered on Thu, Oct 14, 1:07 PM<br><strong>Order # 04284</strong></div>
-
-            <ul class="order-items">
-              <li>1x Horchata</li>
-              <li>1x Strawberry Matcha</li>
-            </ul>
-          </div>
-
-          <div class="order-actions">
-            <button class="btn btn-reorder">REORDER</button>
-          </div>
-        </article>
-      </div>
-    </section>
+  <section class="orders past-orders">
+    <div class="orders-list past-grid">
+      <p class="no-orders-msg">You have no past orders.</p>
+      <!-- JS will inject past order cards here -->
+    </div>
+  </section>
 
   </main>
 
