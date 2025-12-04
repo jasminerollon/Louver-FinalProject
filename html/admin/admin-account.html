@@ -8,14 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" href="../../css/user/home-user.css">
+<link rel="stylesheet" href="../../css/admin/admin-account.css">
 
 </head>
 <body>
 
 <div class="navbar">
     <div class="logo">
-        <img src="/assets/pictures/logo.png" alt="Louver Logo" style="height:35px; width:auto;" />
+        <img src="../../assets/pictures/logo.png" alt="Louver Logo" style="height:50px; width:auto;" />
         <span>LOUVER</span>
     </div>
 
@@ -35,6 +35,9 @@
         <h1>Profile</h1>
 
         <div class="buttons">
+            <a href="../../database/admin/logout.php">
+                <button>Log out</button>
+            </a>
             <a href="admin-edit-account.html">
                 <button>Edit Profile</button>
             </a>
@@ -47,30 +50,34 @@
     <div class="divider"></div>
 
     <div class="profile-card">
-    <div class="profile-icon">
-        <i class="fas fa-user"></i> 
+        <div class="profile-icon">
+            <i class="fas fa-user"></i>
+        </div>
+
+        <div class="info">
+            <div>
+                <label>ADMIN ID</label>
+                <p data-field="admin_id">Loading...</p>
+            </div>
+
+            <div>
+                <label>NAME</label>
+                <p data-field="name">Loading...</p>
+            </div>
+
+            <div>
+                <label>EMAIL</label>
+                <p data-field="email">Loading...</p>
+            </div>
+
+            <div>
+                <label>MOBILE NUMBER</label>
+                <p data-field="mobile_number">Loading...</p>
+            </div>
+        </div>
     </div>
 
-    <div class="info">
-        <label>ADMIN ID</label> 
-        <p>1100-234</p>
-
-        <label>NAME</label> 
-        <p>Mama Mo</p>
-
-        <label>EMAIL</label> 
-        <p>mamamo@gmail.com</p>
-
-        <label>MOBILE NUMBER</label> 
-        <p>09123456789</p>
-    </div>
-</div>
-
-</div>
-
-</div>
-
-<script src="../../js/user/script.js"></script>
+<script src="../../js/admin/admin-account.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f9eaea;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 36px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    gap: 12px;
+}
+
+.navbar .logo {
+    font-weight: 700;
+    color: #b20808;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.navbar-right nav {
+    display: flex;
+    gap: 36px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: #b20808;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 6px 10px;
+    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+}
+
+.navbar nav a:hover,
+.navbar nav a:focus {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+.navbar nav a.active {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+    padding: 40px;
+}
+
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    color: #a51f1f;
+    font-size: 40px;
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.buttons a {
+    text-decoration: none;
+}
+
+.buttons button {
+    background: #c61515;
+    border: none;
+    padding: 12px 24px;
+    color: white;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.buttons button:hover {
+    background: #a51313;
+}
+
+/* =========================
+   DIVIDER
+========================= */
+.divider {
+    width: 100%;
+    height: 3px;
+    background: #c93131;
+    margin: 20px 0 30px 0;
+}
+
+/* =========================
+   PROFILE CARD
+========================= */
+.profile-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-icon {
+    width: 200px;
+    height: 200px;
+    background: #c71f1f;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    color: white;
+    font-size: 100px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.profile-icon i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 40px;
+}
+
+.info label {
+    color: #7a7a7a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.info p {
+    margin: 5px 0 0 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #b20808;
+}
+
+/* =========================
+   LOADING & ERROR STATES
+========================= */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #b20808;
+    font-size: 18px;
+}
+
+.error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .top-row {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+
+    .profile-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .info {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .navbar-right nav {
+        gap: 15px;
+    }
+
+    .navbar nav a {
+        font-size: 14px;
+    }
+}
