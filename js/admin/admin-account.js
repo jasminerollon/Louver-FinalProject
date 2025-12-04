@@ -55,6 +55,24 @@ function populateAdminProfile(adminData) {
     if (mobileElement) {
         mobileElement.textContent = adminData.mobile_number || 'N/A';
     }
+
+    // Update profile image if available
+    const icon = document.querySelector('.profile-icon');
+    if (icon) {
+        icon.innerHTML = '';
+        if (adminData.profile_image) {
+            const img = document.createElement('img');
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.src = `../../${adminData.profile_image}`;
+            icon.appendChild(img);
+        } else {
+            const i = document.createElement('i');
+            i.className = 'fas fa-user';
+            icon.appendChild(i);
+        }
+    }
 }
 
 /**
