@@ -15,7 +15,7 @@
   <!-- Navbar -->
   <header class="navbar" role="banner">
     <div class="logo">
-      <img src="/assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <img src="../../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
       <span>LOUVER</span>
     </div>
 
@@ -42,12 +42,15 @@
 
         <aside class="sidebar" aria-label="Filters">
           <div class="filters">
-            <h4>FILTERS</h4>
-            <div class="filters-subtitle">Sort by:</div>
-            <div class="filters-options">
-              <label><input type="radio" name="sort" checked> Relevance</label>
-              <label><input type="radio" name="sort"> Top Rated</label>
-              <label><input type="radio" name="sort"> Distance</label>
+            <div class="dropdown-container">
+              <button type="button" class="dropdown-button" id="sortDropdown">
+                <span>Sort by</span>
+                <span class="dropdown-arrow">▼</span>
+              </button>
+              <div class="dropdown-menu" id="sortMenu">
+                <div class="dropdown-item" data-value="relevance">Relevance</div>
+                <div class="dropdown-item" data-value="distance">Distance</div>
+              </div>
             </div>
           </div>
         </aside>

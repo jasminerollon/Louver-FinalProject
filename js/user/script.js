@@ -115,15 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let allVendors = [];
 
-    //vendors/resto fetch in users 
-    fetch("../../database/user/getVendors.php")
-        .then(response => response.json())
-        .then(vendors => {
-        allVendors = vendors;
+    // Function to render vendors
+    function renderVendors(vendors) {
         const container = document.getElementById("vendorsContainer");
+        if (!container) return;
+        
         container.innerHTML = "";
-        console.log(vendors); 
-
         vendors.forEach(v => {
             const card = `
             <article class="card">
@@ -138,6 +135,15 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             container.innerHTML += card;
         });
+    }
+
+    //vendors/resto fetch in users 
+    fetch("../../database/user/getVendors.php")
+        .then(response => response.json())
+        .then(vendors => {
+        allVendors = vendors;
+        console.log(vendors); 
+        renderVendors(vendors);
     })
     .catch(err => console.error(err));
 
@@ -152,26 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
             v.address.toLowerCase().includes(term)
         );
 
-        const container = document.getElementById("vendorsContainer");
-        container.innerHTML = "";
-
-        filtered.forEach(v => {
-            const card = `
-            <article class="card">
-                <div class="card-image">
-                    <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
-                </div>
-                <div class="card-info">
-                    <h3>${v.business_name}</h3>
-                    <div class="meta">${v.address}</div>
-                </div>
-            </article>
-            `;
-            container.innerHTML += card;
-        });
+        renderVendors(filtered);
     });
-
-}
+    }
 
     if (signupBtn) {
         signupBtn.addEventListener('click', () => {
@@ -555,10 +544,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //for reset password in customer profile tab
-    form.addEventListener("submit", function(e) {
-        e.preventDefault(); // prevent default form submit
+    if (passwordForm) {
+        passwordForm.addEventListener("submit", function(e) {
+            e.preventDefault(); // prevent default form submit
 
-        const formData = new FormData(form);
+            const formData = new FormData(passwordForm);
 
         fetch("../../database/user/updateCustomerPassword.php", {
             method: "POST",
@@ -572,8 +562,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => console.error("Error:", error));
-    });
+        });
+    }
 
+    if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const first_name = signupForm.elements['first_name'].value.trim();
@@ -622,7 +614,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             alert('Something went wrong. Please try again.');
         }
-    });
+        });
+    }
 
     //customer orders fetch
     if (activeContainer || pastContainer) { 
@@ -727,4 +720,79 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'login.html';
         }
     });
+
+    // Custom dropdown functionality - moved to end to ensure DOM is loaded
+    setTimeout(() => {
+        console.log('Looking for dropdown elements...');
+        const dropdownButton = document.getElementById('sortDropdown');
+        const dropdownMenu = document.getElementById('sortMenu');
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+        console.log('Dropdown button:', dropdownButton);
+        console.log('Dropdown menu:', dropdownMenu);
+        console.log('Dropdown items count:', dropdownItems.length);
+
+        if (dropdownButton && dropdownMenu) {
+            console.log('Setting up dropdown event listener...');
+            
+            dropdownButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Dropdown button clicked!');
+                
+                const isShowing = dropdownMenu.classList.contains('show');
+                console.log('Menu currently showing:', isShowing);
+                
+                dropdownMenu.classList.toggle('show');
+                this.classList.toggle('active');
+                
+                console.log('Menu classes after toggle:', dropdownMenu.className);
+                console.log('Dropdown is now:', isShowing ? 'hidden' : 'visible');
+            });
+
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Dropdown item clicked:', this.textContent);
+                    
+                    // Remove selected class from all items
+                    dropdownItems.forEach(i => i.classList.remove('selected'));
+                    // Add selected class to clicked item
+                    this.classList.add('selected');
+                    
+                    // Close dropdown
+                    dropdownMenu.classList.remove('show');
+                    dropdownButton.classList.remove('active');
+                    
+                    // Handle sorting logic here
+                    const selectedValue = this.getAttribute('data-value');
+                    console.log('Selected sort option:', selectedValue);
+                    
+                    // Sort vendors based on selection
+                    let sortedVendors = [...allVendors];
+                    if (selectedValue === 'distance') {
+                        // Sort alphabetically by business name
+                        sortedVendors.sort((a, b) => a.business_name.localeCompare(b.business_name));
+                        console.log('Sorting vendors alphabetically');
+                    } else if (selectedValue === 'relevance') {
+                        // Keep original order for relevance
+                        console.log('Using original vendor order');
+                    }
+                    
+                    // Render sorted vendors
+                    renderVendors(sortedVendors);
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownButton.classList.remove('active');
+                }
+            });
+        } else {
+            console.error('Dropdown elements not found');
+        }
+    }, 100);
 });
