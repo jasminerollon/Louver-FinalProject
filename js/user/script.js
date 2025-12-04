@@ -7,6 +7,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         cartElement.style.cursor = 'pointer';
     }
+        // Logout button handler with confirmation modal
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutModal = document.getElementById('logout-modal');
+        const confirmLogout = document.getElementById('confirm-logout');
+        const cancelLogout = document.getElementById('cancel-logout');
+
+        if (logoutBtn && logoutModal && confirmLogout && cancelLogout) {
+            logoutBtn.addEventListener('click', function() {
+                logoutModal.style.display = 'flex';
+            });
+            cancelLogout.addEventListener('click', function() {
+                logoutModal.style.display = 'none';
+            });
+            confirmLogout.addEventListener('click', function() {
+                fetch('../../database/user/logout.php', { method: 'POST' })
+                    .then(() => {
+                        window.location.href = 'login.html';
+                    })
+                    .catch(() => {
+                        window.location.href = 'login.html';
+                    });
+            });
+        }
 
     //for edit customer info 
     const nameInput = document.getElementById('name');
@@ -210,6 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
 
     // Forgot password link navigation
     const forgotPasswordLinks = document.querySelectorAll('.forgot-password a');
