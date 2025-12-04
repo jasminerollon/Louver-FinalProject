@@ -93,7 +93,8 @@ h1 {
     color: #a51f1f;
     font-size: 40px;
     margin: 0;
-    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-family: 'Inter', sans-serif;
 }
 
 .buttons {

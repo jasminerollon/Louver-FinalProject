@@ -8,7 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" href="../../css/user/home-user.css">
+<link rel="stylesheet" href="../../css/admin/admin-styles.css">
+<link rel="stylesheet" href="../../css/admin/admin-edit-account.css">
 </head>
 <body>
 
@@ -32,7 +33,8 @@
     <div class="top-row">
         <h1>Edit Profile</h1>
         <div class="buttons">
-            <button id="save-changes">Save Changes</button>
+            <a href="admin-account.html"><button class="btn-cancel">Cancel</button></a>
+            <button id="save-changes" class="btn-confirm">Save Changes</button>
         </div>
     </div>
 
@@ -54,18 +56,18 @@
 
     <div class="info">
         <label for="name">NAME</label>
-        <input type="text" id="name" value="Mama Mo">
+        <input type="text" id="name" placeholder="Enter full name">
 
         <label for="email">EMAIL</label>
-        <input type="email" id="email" value="mamamo@gmail.com">
+        <input type="email" id="email" placeholder="name@example.com">
 
         <label for="phone">MOBILE NUMBER</label>
-        <input type="text" id="phone" value="09123456789">
+        <input type="text" id="phone" placeholder="09xxxxxxxxx">
     </div>
 </div>
 
 </div>
 
-<script src="../../js/user/script.js"></script>
+<script src="../../js/admin/admin-edit-account.js"></script>
 </body>
 </html>

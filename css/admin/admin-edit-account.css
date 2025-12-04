@@ -1,0 +1,164 @@
+/* Base */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Inter', sans-serif;
+}
+
+body {
+	background: #f9eaea;
+}
+
+/* Layout */
+.container {
+	padding: 40px;
+}
+
+.top-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+h1 {
+	color: #a51f1f;
+	font-size: 40px;
+	margin: 0;
+    font-weight: 900;
+	font-family: 'Inter', sans-serif;
+}
+
+.buttons {
+	display: flex;
+	gap: 15px;
+}
+
+.buttons button {
+	border: none;
+	padding: 12px 24px;
+	border-radius: 999px;
+	font-weight: 700;
+	cursor: pointer;
+	font-size: 15px;
+	transition: 0.2s;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-cancel {
+	background: #c61515;
+	color: #fff;
+}
+
+.btn-cancel:hover {
+	background: #a51313;
+}
+
+.btn-confirm {
+	background: #006405;
+	color: #fff;
+}
+
+.btn-confirm:hover {
+	background: #005704;
+}
+
+.divider {
+	width: 100%;
+	height: 3px;
+	background: #c93131;
+	margin: 20px 0 30px;
+}
+
+/* Card */
+.profile-card {
+	background: #fff;
+	border-radius: 15px;
+	padding: 30px;
+	display: flex;
+	align-items: center;
+	gap: 40px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 15px;
+}
+
+.profile-icon {
+	width: 200px;
+	height: 200px;
+	background: #c71f1f;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 100px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.upload-btn {
+	background: #c61515;
+	border: none;
+	padding: 10px 22px;
+	color: #fff;
+	border-radius: 999px;
+	font-weight: 700;
+	cursor: pointer;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: 0.2s;
+}
+
+.upload-btn:hover {
+	background: #a51313;
+}
+
+.edit-profile .info {
+	flex: 1;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 18px;
+}
+
+.edit-profile .info label {
+	color: #7a7a7a;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+}
+
+.edit-profile .info input {
+	width: 100%;
+	padding: 12px 14px;
+	border-radius: 12px;
+	border: 2px solid #c71f1f;
+	font-size: 16px;
+	background: #fff;
+	outline: none;
+}
+
+.edit-profile .info input:focus {
+	box-shadow: 0 0 0 3px rgba(199, 31, 31, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.top-row {
+		flex-direction: column;
+		gap: 15px;
+		align-items: flex-start;
+	}
+
+	.profile-card {
+		flex-direction: column;
+		text-align: center;
+	}
+}

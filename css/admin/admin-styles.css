@@ -10,6 +10,76 @@ body {
     background: #f9eaea;
 }
 
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    width: 420px;
+    max-width: 92vw;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+    padding: 22px 22px 18px;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #a51f1f;
+}
+
+.modal p {
+    margin: 0 0 18px;
+    color: #333;
+    font-size: 14px;
+}
+
+.modal .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal .btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.modal .btn-cancel {
+    background: #c61515;
+    color: #fff;
+}
+
+.modal .btn-cancel:hover { background: #a51313; }
+
+.modal .btn-confirm {
+    background: #006405;
+    color: #fff;
+}
+
+.modal .btn-confirm:hover { background: #005704; }
+
 /*NAVBAR*/
 .navbar {
     display: flex;
