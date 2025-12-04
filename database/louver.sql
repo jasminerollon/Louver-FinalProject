@@ -249,7 +249,31 @@ INSERT INTO `vendors` (
 ('Chickaboo', 'Rina Javier', '09451234789',
  'SLU Bakakeng MaryHeights Campus Food Hall',
  'chickaboo.ph@gmail.com', 'permit_chickaboo_006.pdf', 'chickaboo.png',
- 'Approved', NULL, 'hash006', '2025-11-26 13:50:00');
+ 'Approved', NULL, 'hash006', '2025-11-26 13:50:00'),
+('Lasa Brew Coffee', 'Miguel Santos', '09123987654',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'lasabrew@gmail.com', 'permit_lasa_007.pdf', 'lasa_brew.png',
+ 'Pending', NULL, 'hash007', '2025-11-28 10:15:00'),
+('The Spice Route', 'Priya Sharma', '09567123456',
+ 'SLU Bakakeng MaryHeights Campus Canteen',
+ 'spiceroute.slu@gmail.com', 'permit_spice_008.pdf', 'spice_route.png',
+ 'Approved', NULL, 'hash008', '2025-11-20 15:30:00'),
+('Bubble Bliss', 'Sarah Kim', '09876543210',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'bubblebliss.ph@gmail.com', 'permit_bubble_009.pdf', 'bubble_bliss.png',
+ 'Pending', NULL, 'hash009', '2025-12-02 09:00:00'),
+('The Grill House', 'Victor Reyes', '09234567890',
+ 'SLU Bakakeng MaryHeights Campus Canteen',
+ 'grillhouse.slu@gmail.com', 'permit_grill_010.pdf', 'grill_house.png',
+ 'Rejected', 'Business permit expired', 'hash010', '2025-11-27 13:45:00'),
+('Vegan Vibes', 'Elena Garcia', '09345678901',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'veganvibes@gmail.com', 'permit_vegan_011.pdf', 'vegan_vibes.png',
+ 'Approved', NULL, 'hash011', '2025-11-19 11:20:00'),
+('Sushi Supreme', 'Takeshi Yamamoto', '09456789012',
+ 'SLU Bakakeng MaryHeights Campus Food Hall',
+ 'sushi.supreme@gmail.com', 'permit_sushi_012.pdf', 'sushi_supreme.png',
+ 'Pending', NULL, 'hash012', '2025-12-03 14:10:00');
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

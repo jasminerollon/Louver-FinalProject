@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin - Applications</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../css/admin/admin-homepage.css" />
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="../../assets/pictures/logo.png" alt="Louver Logo" style="height:35px; width:auto;" />
+            <span>LOUVER</span>
+        </div>
+
+        <div class="navbar-right">
+            <nav>
+                <a href="admin-homepage.html" class="active">APPLICATIONS</a>
+                <a href="admin-businesses.html">BUSINESSES</a>
+                <a href="admin-myorders.html">ORDERS</a>
+                <a href="admin-account.html">PROFILE</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Top Section: Search + Sort -->
+        <div class="top-section">
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="appSearchInput" placeholder="Search application ID or name">
+            </div>
+
+            <div class="sort-dropdown">
+                <button class="sort-btn">
+                    Sort by: <span id="sortLabel">Relevance</span> <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="sort-menu" id="sortMenu">
+                    <p data-sort="relevance">Relevance</p>
+                    <p data-sort="newest">Newest</p>
+                    <p data-sort="oldest">Oldest</p>
+                    <p data-sort="status">By Status</p>
+                </div>
+            </div>
+
+            <span class="date-label" id="currentDate">December 25, 2025 | 12:42 PM</span>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="table-wrapper">
+            <table class="applications-table" id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll" aria-label="Select all applications"></th>
+                        <th>APPLICATION ID</th>
+                        <th>DATE SUBMITTED</th>
+                        <th>BUSINESS NAME</th>
+                        <th>OWNER</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsTableBody">
+                    <!-- Applications will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="../../js/admin/admin-homepage.js"></script>
+</body>
+</html>
