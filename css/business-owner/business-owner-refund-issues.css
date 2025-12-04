@@ -1,0 +1,259 @@
+/*General*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f9eaea;
+}
+
+/*NAVBAR*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 36px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    gap: 12px;
+}
+
+.navbar .logo {
+    font-weight: 700;
+    color: #b20808;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.navbar-right nav {
+    display: flex;
+    gap: 36px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: #b20808;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 6px 10px;
+    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+}
+
+.navbar nav a:hover,
+.navbar nav a:focus {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+.navbar nav a.active {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+/* Container*/
+.orders-container {
+    padding: 30px 40px;
+}
+
+/*Search + Sort Row */
+.orders-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-wrapper input {
+    width: 260px;
+    padding: 12px 16px 12px 40px;
+    border-radius: 15px;
+    border: 1px solid #8B0909;
+    outline: none;
+}
+
+.search-wrapper i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/*Date + Sort*/
+.date-sort {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.date-label {
+    font-weight: 600;
+    color: #b20808;
+}
+
+/*Sort Dropdown*/
+.sort-dropdown {
+    position: relative;
+}
+
+.sort-btn {
+    background: #b20808;
+    border: none;
+    padding: 10px 18px;
+    color: white;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sort-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    width: 140px;
+    padding: 10px;
+    display: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.sort-menu p {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.sort-menu p:hover {
+    background: #f4d7d7;
+}
+
+/* ===== Tabs ===== */
+.orders-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.orders-tabs .tab {
+    padding: 10px 18px;
+    border: none;
+    background: #e9baba;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.orders-tabs .active {
+    background: #b20808;
+    color: white;
+}
+
+/*Orders Table*/
+.orders-table-wrapper {
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    background: #EBEBEB;
+    border-radius: 12px;
+    padding: 20px;
+    border-collapse: collapse;
+}
+
+.orders-table thead {
+    background: #EBEBEB;
+}
+
+.orders-table th {
+    padding: 15px;
+    font-size: 14px;
+    color: #8B0909;
+    text-align: left;
+}
+
+.orders-table td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+/*Status Badges */
+.status {
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: white;
+}
+
+.preparing { background: #d3a33c; }
+.pending   { background: #666; }
+.delivered { background: #59c16d; }
+.failed    { background: #bf1c1c; }
+
+/* View Button */
+.view-btn {
+    background: #b20808;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.view-btn i {
+    margin-right: 6px;
+}
+
+/* OVERLAY */
+.refund-photo-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.status.ongoing {
+    background: #fff568; /* Yellow */
+    color: #000;
+}
+
+.status.resolved {
+    background: #c7ffbf; /* Light green */
+    color: #000;
+}
