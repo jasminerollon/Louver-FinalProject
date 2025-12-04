@@ -28,7 +28,7 @@ if ($conn->connect_error) {
 $admin_id = $_SESSION['admin_id'];
 
 // Query admin information
-$query = "SELECT admin_id, username, name, email, mobile_number FROM admins WHERE admin_id = ?";
+$query = "SELECT admin_id, username, name, email, mobile_number, profile_image FROM admins WHERE admin_id = ?";
 $stmt = $conn->prepare($query);
 
 if (!$stmt) {
@@ -67,7 +67,8 @@ echo json_encode([
         'name' => ($admin['name'] ?? null) ? $admin['name'] : $admin['username'],
         'email' => $admin['email'] ?? 'N/A',
         'mobile_number' => $admin['mobile_number'] ?? 'N/A',
-        'username' => $admin['username']
+        'username' => $admin['username'],
+        'profile_image' => $admin['profile_image'] ?? null
     ]
 ]);
 

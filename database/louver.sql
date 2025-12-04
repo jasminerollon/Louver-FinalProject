@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `name` varchar(150) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `mobile_number` varchar(20) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
   `password_hash` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`admin_id`),
@@ -44,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `admins` (
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`admin_id`, `username`, `name`, `email`, `mobile_number`, `password_hash`, `created_at`) VALUES
-(1, 'admin1', 'John Lloyd Cruz', 'jlloydcruz@slu.edu.ph', '09123456789', '123', '2025-11-27 00:28:27'),
-(2, 'admin2', 'Amanda Flores', 'amanda.flores@slu.edu.ph', '09381239812', '456', '2025-11-27 00:28:27');
+INSERT INTO `admins` (`admin_id`, `username`, `name`, `email`, `mobile_number`, `profile_image`, `password_hash`, `created_at`) VALUES
+(1, 'admin1', 'John Lloyd Cruz', 'jlloydcruz@slu.edu.ph', '09123456789', NULL, '123', '2025-11-27 00:28:27'),
+(2, 'admin2', 'Amanda Flores', 'amanda.flores@slu.edu.ph', '09381239812', NULL, '456', '2025-11-27 00:28:27');
 
 -- --------------------------------------------------------
 
