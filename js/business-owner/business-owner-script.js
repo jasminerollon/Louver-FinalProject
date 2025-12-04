@@ -1,6 +1,4 @@
-/** ============================
- *  ORDERS ⇆ REFUNDS TAB FILTER
- * ============================ */
+//ORDERS ⇆ REFUNDS TAB FILTER
 const tabs = document.querySelectorAll(".tab");
 const rows = document.querySelectorAll("tbody tr");
 
