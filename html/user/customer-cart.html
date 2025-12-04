@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Cart</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../../css/user/customer-cart.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="logo">
+      <img src="../../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav aria-label="Main navigation">
+        <a href="customer-homepage.html">BROWSE</a>
+        <a href="myorders.html">MY ORDERS</a>
+        <a href="account.html">PROFILE</a>
+      </nav>
+
+      <div class="cart" title="Cart" role="button" aria-label="View cart">
+        <img src="../../assets/pictures/cart.png" alt="Cart" class="cart-icon">
+        <span class="cart-count" aria-live="polite">0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Page Title -->
+    <div class="page-header">
+      <h1>My Cart</h1>
+    </div>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Cart Content -->
+    <div class="content">
+      <!-- Left Side: Cart Items -->
+      <div class="cart-items" id="cartItemsContainer">
+        <!-- Cart items will be dynamically inserted here -->
+        <!-- Example cart card structure:
+        <div class="cart-card">
+          <img src="../../assets/pictures/item.png" alt="Item" class="item-img">
+          <div class="info">
+            <h3>Item Name</h3>
+            <p class="subtext">Restaurant Name</p>
+            <div class="quantity-box">
+              <button class="qty-btn">-</button>
+              <span class="qty-number">1</span>
+              <button class="qty-btn">+</button>
+            </div>
+          </div>
+          <span class="price">₱ 164</span>
+        </div>
+        -->
+      </div>
+
+      <!-- Right Side: Order Summary Modal -->
+      <div class="order-summary-modal">
+        <!-- Order Summary Box -->
+        <div class="order-summary-box">
+          <h2>ORDER SUMMARY</h2>
+          
+          <div class="summary-items" id="summaryItemsContainer">
+            <!-- Summary rows will be dynamically inserted here -->
+            <!-- Example summary row structure:
+            <div class="summary-row">
+              <span>1x Item Name</span>
+              <span>₱ 164</span>
+            </div>
+            -->
+          </div>
+
+          <div class="summary-total">
+            <span>Total <span class="delivery-note">(including ₱0 delivery fee)</span></span>
+            <span id="totalPrice">₱ 0</span>
+          </div>
+        </div>
+
+        <!-- Delivery Address Box -->
+        <div class="delivery-box">
+          <h3>DELIVERY ADDRESS</h3>
+          <input type="text" class="delivery-input" id="deliveryAddress" placeholder="Enter your delivery address" required>
+        </div>
+
+        <!-- Special Notes Box -->
+        <div class="note-box">
+          <h3>ADD A NOTE</h3>
+          <textarea class="note-field" id="orderNote" placeholder="Any special requests for your order?"></textarea>
+        </div>
+
+        <!-- Checkout Button -->
+        <button class="checkout-btn" id="checkoutBtn">CHECKOUT</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Script -->
+  <script src="../../js/user/script.js"></script>
+</body>
+</html>
