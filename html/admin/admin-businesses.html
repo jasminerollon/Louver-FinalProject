@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Businesses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../css/admin/admin-styles.css">
+  <link rel="stylesheet" href="../../css/admin/admin-businesses.css">
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">
+      <img src="../../assets/pictures/logo.png" alt="Louver Logo" style="height:50px; width:auto;" />
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav>
+        <a href="admin-homepage.html">APPLICATIONS</a>
+        <a href="admin-businesses.html" class="active">BUSINESSES</a>
+        <a href="admin-myorders.html">ORDERS</a>
+        <a href="admin-account.html">PROFILE</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="businesses-container">
+    <!-- Top controls row -->
+    <div class="businesses-top">
+      <div class="search-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search business name or owner name" />
+      </div>
+
+      <div class="top-right">
+        <div class="sort-dropdown">
+          <button class="sort-btn">
+            Sort by: <span class="sort-label">Relevance</span>
+            <i class="fas fa-caret-down"></i>
+          </button>
+        </div>
+        <div class="date-time">
+          <span>December 25, 2025 | 12:42 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="cards-grid">
+      <div class="business-card">
+        <div class="card-left">
+          <div class="avatar">
+            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
+          </div>
+        </div>
+        <div class="card-middle">
+          <h2 class="business-name">Lomimama</h2>
+          <p class="owner-name">Denise Julia</p>
+        </div>
+        <div class="card-right">
+          <span class="status active">Active</span>
+        </div>
+      </div>
+
+      <div class="business-card">
+        <div class="card-left">
+          <div class="avatar">
+            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
+          </div>
+        </div>
+        <div class="card-middle">
+          <h2 class="business-name">Wingyard</h2>
+          <p class="owner-name">Kendrick Lamar</p>
+        </div>
+        <div class="card-right">
+          <span class="status active">Active</span>
+        </div>
+      </div>
+
+      <div class="business-card">
+        <div class="card-left">
+          <div class="avatar">
+            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
+          </div>
+        </div>
+        <div class="card-middle">
+          <h2 class="business-name">The Drumset</h2>
+          <p class="owner-name">Gericko Abad</p>
+        </div>
+        <div class="card-right">
+          <span class="status active">Active</span>
+        </div>
+      </div>
+
+      <div class="business-card">
+        <div class="card-left">
+          <div class="avatar">
+            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
+          </div>
+        </div>
+        <div class="card-middle">
+          <h2 class="business-name">Mang Larry</h2>
+          <p class="owner-name">Larry Martin</p>
+        </div>
+        <div class="card-right">
+          <span class="status active">Active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

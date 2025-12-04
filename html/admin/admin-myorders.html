@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <link rel="stylesheet" href="../../css/admin/admin-styles.css">
+<link rel="stylesheet" href="../../css/admin/admin-myorders.css">
 </head>
 
 <body>
@@ -22,9 +23,10 @@
 
     <div class="navbar-right">
         <nav>
-            <a href="admin-homepage.html">PRODUCTS</a>
-            <a href="admin-myorders.html" class="active">ORDERS</a>
-            <a href="admin-account.html">PROFILE</a>
+          <a href="admin-homepage.html">APPLICATIONS</a>
+          <a href="admin-businesses.html">BUSINESSES</a>
+          <a href="admin-myorders.html" class="active">ORDERS</a>
+          <a href="admin-account.html">PROFILE</a>
         </nav>
     </div>
 </div>
@@ -33,23 +35,17 @@
 
     <!-- Top Bar -->
     <div class="orders-top">
-        <div class="search-wrapper">
-            <i class="fa fa-search"></i>
-            <input type="text" placeholder="Search order ID">
-        </div>
+      <div class="search-wrapper">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Search order ID">
+      </div>
 
-        <div class="date-sort">
-            <p class="date-label">December 25, 2025 | 12:42 PM</p>
-
-            <div class="sort-dropdown">
-                <button class="sort-btn">Sort by: <span id="sort-value">Recent</span> <i class="fa fa-chevron-down"></i></button>
-                <div class="sort-menu">
-                    <p data-sort="Recent">Recent</p>
-                    <p data-sort="Oldest">Oldest</p>
-                    <p data-sort="Status">Status</p>
-                </div>
-            </div>
+      <div class="date-sort">
+        <div class="sort-dropdown">
+          <button class="sort-btn">Sort by: <span id="sort-value">Relevance</span> <i class="fa fa-caret-down"></i></button>
         </div>
+        <p class="date-label">December 25, 2025 | 12:42 PM</p>
+      </div>
     </div>
 
     <!-- Tabs -->
@@ -60,35 +56,66 @@
 
     <!-- Orders Table -->
     <div class="orders-table-wrapper">
-        <table class="orders-table">
-
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>ORDER ID</th>
-                    <th>DATE</th>
-                    <th>CUSTOMER</th>
-                    <th>STATUS</th>
-                    <th>TOTAL</th>
-                    <th>ACTIONS</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>105</td>
-                    <td>Dec 1, 2025 | 1:34 PM</td>
-                    <td>Sierra Madre</td>
-                    <td><span class="status pending">Pending</span></td>
-                    <td>₱ 653</td>
-                    <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
-                </tr>
-
-            </tbody>
-
-        </table>
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>ORDER ID</th>
+            <th>DATE</th>
+            <th>CUSTOMER</th>
+            <th>BUSINESS</th>
+            <th>TOTAL</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>104</td>
+            <td>Dec 13, 2025 | 12:51 PM</td>
+            <td>Juan Dela Cruz</td>
+            <td>Jollibee</td>
+            <td>₱ 1,028</td>
+            <td><span class="status preparing">Preparing</span></td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+          </tr>
+          <tr>
+            <td>105</td>
+            <td>Dec 1, 2025 | 1:34 PM</td>
+            <td>Sierra Madre</td>
+            <td>Jollibee</td>
+            <td>₱ 653</td>
+            <td><span class="status pending">Pending</span></td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+          </tr>
+          <tr>
+            <td>106</td>
+            <td>Dec 4, 2025 | 5:30 PM</td>
+            <td>Miguel Magno</td>
+            <td>Jollibee</td>
+            <td>₱ 1,243</td>
+            <td><span class="status delivered">Delivered</span></td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+          </tr>
+          <tr>
+            <td>107</td>
+            <td>Dec 5, 2025 | 3:21 PM</td>
+            <td>Zeus Marc Erese</td>
+            <td>Jollibee</td>
+            <td>₱ 496</td>
+            <td><span class="status pending">Pending</span></td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+          </tr>
+          <tr>
+            <td>108</td>
+            <td>Dec 4, 2025 | 6:50 AM</td>
+            <td>John Doe</td>
+            <td>Jollibee</td>
+            <td>₱ 1,504</td>
+            <td><span class="status failed">Failed</span></td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
 </div>
@@ -219,7 +246,5 @@
   </div>
 </div>
 
-
-<script src="../../js/admin/admin-script.js"></script>
 </body>
 </html>
