@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Cart click handler - redirect to customer-cart.html
+    const cartElement = document.querySelector('.cart');
+    if (cartElement) {
+        cartElement.addEventListener('click', function() {
+            window.location.href = 'customer-cart.html';
+        });
+        cartElement.style.cursor = 'pointer';
+    }
+
     //for edit customer info 
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
