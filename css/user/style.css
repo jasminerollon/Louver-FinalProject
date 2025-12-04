@@ -1,5 +1,3 @@
-
-
 *{
   margin:0;
   padding:0;
@@ -21,80 +19,100 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:center;
+  align-items:center;
 }
 .left h2{
-  font-size:24px;
+  font-size:32px;
   font-weight:700;
+  text-align: center;
+  margin-bottom: -15px;
+  margin-top: -10px;
+  margin-left: 0px;
+}
+body[data-page="login"] .left h2{
+  margin-left: 0px;
 }
 .left h1{
-  font-size:80px;
+  font-size:100px;
   font-weight:800;
   letter-spacing:2px;
-  margin-top:10px;
+  margin-top:0px;
+  margin-bottom: 15px;
+  font-style: italic;
+  text-align: center;
 }
 .left .tagline{
-  font-size:14px;
-  margin-top:5px;
-  margin-bottom:70px;
+  font-size:18px;
+  margin-top:-10px;
+  margin-bottom:60px;
+  text-align: center;
 }
 .left .small{
   font-size:16px;
-  margin-bottom:10px;
+  margin-bottom:15px;
+  text-align: center;
 }
 .login-btn{
   background:#7A0000;
-  padding:15px 50px;
+  padding:8px 24px;
   border-radius:30px;
   border:none;
   color:white;
   font-weight:600;
   cursor:pointer;
-  font-size:16px;
+  font-size:14px;
+  width:220px;
   transition: background 0.3s ease;
 }
 .login-btn:hover{
   background:#5a0000;
+  padding:8px 24px;
+  font-size:14px;
+  width:220px;
+}
+.login-btn:active, .login-btn:focus {
+  background:#5a0000;
+  padding:8px 24px;
+  font-size:14px;
+  width:220px;
 }
 /* RIGHT */
 .right{
   width:50%;
-  background:#F7E8E6;
+  background: #F7E8E6 url('../assets/pictures/logo.png') no-repeat center center;
+  background-size: 300px 300px;
+  background-blend-mode: lighten;
   position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 .shape1{
-  position:absolute;
-  top:-60px;
-  right:-40px;
-  width:450px;
-  height:450px;
-  background:#D18180;
-  border-radius:50% 50% 30% 30%;
+  display: none;
 }
 .shape2{
-  position:absolute;
-  bottom:-20px;
-  right:40px;
-  width:320px;
-  height:320px;
-  background:#D18180;
-  border-radius:40% 40% 60% 60%;
+  display: none;
 }
 .form-box{
-  width:450px;
+  width:370px;
   background:white;
   border-radius:25px;
-  padding:40px;
+  padding:24px 32px;
   box-shadow:0 5px 20px rgba(0,0,0,0.15);
-  z-index:10;
+  z-index:20;
+  position: fixed;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  text-align: left;
 }
 .form-box h3{
   text-align:center;
   color:#B40000;
   font-weight:700;
   margin-bottom:30px;
+  font-size:28px;
 }
 .form-box input{
   width:100%;
@@ -104,21 +122,33 @@ body{
   margin-bottom:20px;
   outline:none;
   font-size:14px;
+  text-align:left;
 }
 .signup-btn{
-  width:100%;
+  width:220px;
   background:#B40000;
   border:none;
-  padding:15px 0;
+  padding:8px 24px;
   color:white;
   border-radius:30px;
-  font-size:18px;
+  font-size:14px;
   font-weight:600;
   cursor:pointer;
   transition: background 0.3s ease;
+  display: block;
+  margin: 16px auto 0 auto;
 }
 .signup-btn:hover{
   background:#7A0000;
+  padding:8px 24px;
+  font-size:14px;
+  width:220px;
+}
+.signup-btn:active, .signup-btn:focus {
+  background:#7A0000;
+  padding:8px 24px;
+  font-size:14px;
+  width:220px;
 }
 .forgot-password{
   text-align:center;
@@ -131,4 +161,15 @@ body{
 }
 .forgot-password a:hover{
   text-decoration:underline;
+}
+.background-logo {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  opacity: 0.3;
+  z-index: 1;
+  pointer-events: none;
 }

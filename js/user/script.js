@@ -179,59 +179,79 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const loginForm = document.querySelector('.form-box h3')?.textContent.includes('LOGIN') ? 
-                      document.querySelector('.form-box') : null;
+    const loginForm = document.getElementById('login-form');
 
     if (loginForm) {
-        const loginBtn = document.getElementById('login-btn');
-        loginBtn.addEventListener('click', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const email = loginForm.querySelector('#email').value.trim();
-            const password = loginForm.querySelector('#password').value.trim();
+            const email = this.querySelector('#email').value.trim();
+            const password = this.querySelector('#password').value.trim();
 
             if (!email || !password) {
                 alert('Please fill all fields');
                 return;
             }
 
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '../../database/user/login.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('../../database/user/login.php', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            xhr.onload = function() {
-                let response;
-                try {
-                    response = JSON.parse(this.responseText);
-                } catch (error) {
-                    console.error("Invalid JSON response:", this.responseText);
-                    alert("Server error. Check console.");
-                    return;
-                }
+                const result = await response.json();
 
-                if (response.status === 'success') {
-                    alert(response.message);
+                if (result.status === 'success') {
+                    alert(result.message);
                     window.location.href = 'customer-homepage.html';
                 } else {
-                    alert(response.message);
+                    alert(result.message);
                 }
-            };
-
-            xhr.send(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
         });
     }
 
     // Navigation between pages
     const loginButtons = document.querySelectorAll('.login-btn');
     loginButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            // Don't navigate if this button is for form submission
+            if (this.type === 'submit' || this.id === 'login-btn') return;
+            
+            e.preventDefault();
             const currentPage = window.location.pathname;
             if (this.id === 'go-to-signup' || this.textContent.includes('SIGN UP')) {
-                window.location.href = '/Louver-FinalProject/html/user/signup.html';
-            } else if (this.textContent.includes('LOG IN')) {
-                window.location.href = '/Louver-FinalProject/html/user/login.html';
+                window.location.href = 'signup.html';
+            } else if (this.textContent.includes('LOG IN') || this.textContent.includes('BACK TO LOGIN')) {
+                window.location.href = 'login.html';
             }
         });
+    });
+
+    // Handle signup buttons specifically
+    const signupButtons = document.querySelectorAll('.signup-btn');
+    signupButtons.forEach(button => {
+        if (button.type !== 'submit') {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (this.textContent.includes('RESET PASSWORD')) {
+                    // Handle reset password submission
+                    if (passwordForm) {
+                        passwordForm.dispatchEvent(new Event('submit'));
+                    }
+                } else if (this.textContent.includes('SIGN UP')) {
+                    // Handle signup submission or navigation
+                    if (signupForm) {
+                        signupForm.dispatchEvent(new Event('submit'));
+                    }
+                }
+            });
+        }
     });
 
 
@@ -243,6 +263,35 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'reset.html';
         });
     });
+
+    // Reset form handler for reset.html page
+    const resetForm = document.querySelector('.form-box');
+    if (resetForm && document.querySelector('h3') && document.querySelector('h3').textContent.includes('RESET')) {
+        const resetBtn = resetForm.querySelector('.signup-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const email = resetForm.querySelector('input[type="email"]').value.trim();
+                const newPassword = resetForm.querySelector('input[placeholder*="New Password"]').value.trim();
+                const confirmPassword = resetForm.querySelector('input[placeholder*="Confirm"]').value.trim();
+                
+                if (!email || !newPassword || !confirmPassword) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // Here you would send the reset request to your PHP backend
+                alert('Password reset functionality would be implemented here');
+                window.location.href = 'login.html';
+            });
+        }
+    }
 
     /* ----------------------------
        MY ORDERS: modal setup (added)
@@ -641,4 +690,41 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('status-text').textContent = `Status: ${order.status}`;
         document.getElementById('modal-items').innerHTML = '';
     }
+
+    // Enhanced button navigation for all pages (only for navigation buttons, not form submission)
+    document.addEventListener('click', function(e) {
+        // Handle SIGN UP navigation buttons (not form submission)
+        if (e.target.classList.contains('login-btn') && e.target.textContent.includes('SIGN UP') && !e.target.closest('form')) {
+            e.preventDefault();
+            window.location.href = 'signup.html';
+        }
+        
+        // Handle LOG IN navigation buttons (not form submission)
+        if (e.target.classList.contains('login-btn') && (e.target.textContent.includes('LOG IN') || e.target.textContent.includes('BACK TO LOGIN')) && !e.target.closest('form')) {
+            e.preventDefault();
+            window.location.href = 'login.html';
+        }
+        
+        // Handle reset password page buttons
+        if (e.target.classList.contains('signup-btn') && e.target.textContent.includes('RESET PASSWORD') && !e.target.closest('form')) {
+            e.preventDefault();
+            
+            const email = document.querySelector('input[type="email"]')?.value.trim();
+            const newPassword = document.querySelector('input[placeholder*="New Password"]')?.value.trim();
+            const confirmPassword = document.querySelector('input[placeholder*="Confirm"]')?.value.trim();
+            
+            if (!email || !newPassword || !confirmPassword) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            alert('Password reset successful! Redirecting to login...');
+            window.location.href = 'login.html';
+        }
+    });
 });

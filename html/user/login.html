@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/user/style.css">
 </head>
-<body>
+<body data-page="login">
   <div class="left">
-    <h2>WELCOME BACK TO</h2>
+    <h2>WELCOME BACK BAKAKID!</h2>
     <h1>LOUVER</h1>
     <p class="tagline">Crave it. Click it. Get it.</p>
 
@@ -18,14 +18,17 @@
   </div>
 
   <div class="right">
+    <img src="../../assets/pictures/logo.png" alt="Logo" class="background-logo">
     <div class="shape1"></div>
     <div class="shape2"></div>
 
     <div class="form-box">
-      <h3>LOGIN TO YOUR ACCOUNT</h3>
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button class="signup-btn" id="login-btn">LOG IN</button>
+      <h3>LOG IN</h3>
+      <form id="login-form" method="POST" action="../../database/user/login.php">
+        <input type="email" name="email" id="email" placeholder="Email" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <button type="submit" class="signup-btn" id="login-btn">LOG IN</button>
+      </form>
       
       <div class="forgot-password">
         <a href="reset.html">Forgot Password?</a>
