@@ -3,7 +3,8 @@ header("Content-Type: application/json");
 require_once __DIR__ . "/../connectDB.php";
 
 try {
-    $query = "SELECT vendor_id, business_name, address, profile_image 
+    $query = "SELECT vendor_id, business_name, address, profile_image, 
+                     description, estimated_time, location_detail, contact_number 
             FROM vendors 
             WHERE STATUS = 'Approved'
             ORDER BY business_name ASC";

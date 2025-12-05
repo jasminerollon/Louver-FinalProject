@@ -117,18 +117,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         container.innerHTML = "";
         vendors.forEach(v => {
-            const card = `
-            <article class="card">
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.style.cursor = 'pointer';
+            card.onclick = () => {
+                window.location.href = `restaurant-menu.html?vendor_id=${v.vendor_id}`;
+            };
+            
+            card.innerHTML = `
                 <div class="card-image">
-                <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
+                    <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
                 </div>
                 <div class="card-info">
-                <h3>${v.business_name}</h3>
-                <div class="meta">${v.address}</div>
+                    <h3>${v.business_name}</h3>
+                    <div class="meta">${v.address}</div>
                 </div>
-            </article>
             `;
-            container.innerHTML += card;
+            container.appendChild(card);
         });
     }
 
