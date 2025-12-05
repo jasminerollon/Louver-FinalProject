@@ -32,40 +32,41 @@
 </div>
 
 <div class="container">
-    <div class="top-row">
-        <h1>Edit Profile</h1>
-        <div class="buttons">
-            <button id="save-changes">Save Changes</button>
+    <form id="editForm" enctype="multipart/form-data">
+        <div class="top-row">
+            <h1>Edit Profile</h1>
+            <div class="buttons">
+                <button id="save-changes" type="submit">Save Changes</button>
+            </div>
         </div>
+
+        <div class="divider"></div>
+
+        <div class="profile-card edit-profile">
+
+        <div class="profile-picture-wrapper">
+            <div class="profile-icon" id="profile-icon">
+                <img id="profileImage" src="../../assets/pictures/default.png">
+            </div>
+            <input type="file" id="upload-input" name="profile_image" style="display: none;" accept="image/*">
+            <button class="upload-btn" id="upload-btn">
+                <i class="fas fa-upload"></i> Upload
+            </button>
     </div>
 
-    <div class="divider"></div>
 
-    <div class="profile-card edit-profile">
-    <div class="profile-picture-wrapper">
-    <div class="profile-icon" id="profile-icon">
-        <i class="fas fa-user"></i>
-    </div>
+        <div class="info">
+            <label for="name">NAME</label>
+            <input type="text" id="name" name="name">
 
-    <button class="upload-btn" id="upload-btn">
-        <i class="fas fa-upload"></i> Upload
-    </button>
+            <label for="email">EMAIL</label>
+            <input type="email" id="email" name="email">
 
-    <input type="file" id="upload-input" style="display: none;" accept="image/*">
-</div>
-
-
-    <div class="info">
-        <label for="name">NAME</label>
-        <input type="text" id="name" value="Mama Mo">
-
-        <label for="email">EMAIL</label>
-        <input type="email" id="email" value="mamamo@gmail.com">
-
-        <label for="phone">MOBILE NUMBER</label>
-        <input type="text" id="phone" value="09123456789">
-    </div>
-</div>
+            <label for="phone">MOBILE NUMBER</label>
+            <input type="text" id="phone" name="phone">
+        </div>
+    </div> 
+</form>
 
 </div>
 

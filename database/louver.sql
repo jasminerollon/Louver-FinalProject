@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `contact_number` varchar(20) NOT NULL,
   `email` varchar(150) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
+  `profile_image` varchar(255) DEFAULT 'default.png',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `email` (`email`)

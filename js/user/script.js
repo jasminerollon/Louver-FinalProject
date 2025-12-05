@@ -32,13 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
     //for edit customer info 
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('phone');
     const saveBtn = document.getElementById('save-changes');
     const signupForm = document.getElementById('signup-form');
     const signupBtn = document.getElementById('go-to-signup');
-    const loginBtn = document.getElementById('login-btn');
     const passwordForm = document.getElementById('passwordForm');
     const activeContainer = document.querySelector('.orders.active-orders .orders-list');
     const pastContainer = document.querySelector('.orders.past-orders .orders-list');
@@ -114,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let allVendors = [];
-
     // Function to render vendors
     function renderVendors(vendors) {
         const container = document.getElementById("vendorsContainer");
@@ -149,15 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //live search for resto 
     if (restoSearchInput) {
-
     restoSearchInput.addEventListener("keyup", () => {
         const term = restoSearchInput.value.toLowerCase();
-
         const filtered = allVendors.filter(v =>
             v.business_name.toLowerCase().includes(term) ||
             v.address.toLowerCase().includes(term)
         );
-
         renderVendors(filtered);
     });
     }
@@ -370,28 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })();
 
-    // Profile image upload
-    const uploadBtn = document.getElementById("upload-btn");
-    const uploadInput = document.getElementById("upload-input");
-    const profileIcon = document.getElementById("profile-icon");
-
-    if (uploadBtn && uploadInput && profileIcon) {
-        uploadBtn.addEventListener("click", () => {
-            uploadInput.click();
-        });
-
-        uploadInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const img = document.createElement("img");
-                img.src = URL.createObjectURL(file);
-
-                profileIcon.innerHTML = "";
-                profileIcon.appendChild(img);
-            }
-        });
-    }
-
     // Navigation between pages
     const loginButtons2 = document.querySelectorAll('.login-btn');
     loginButtons2.forEach(button => {
@@ -481,38 +451,77 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-                // Populate profile info
                 const info = document.querySelector('.profile-card .info');
                 info.querySelectorAll('p')[0].textContent = data.customer_name;
                 info.querySelectorAll('p')[1].textContent = data.customer_email;
                 info.querySelectorAll('p')[2].textContent = data.customer_contact;
-            } else {
-                // Not logged in, redirect to login
-                window.location.href = 'login.html';
+
+                // set profile images
+                const img = document.getElementById('profileImage');
+                img.src= data.profile_image;
             }
         })
         .catch(err => console.error('Error fetching user data:', err));
 
+    // Profile image upload
+    const uploadBtn = document.getElementById("upload-btn");
+    const uploadInput = document.getElementById("upload-input");
+    const profileImg = document.getElementById('profileImage');
 
-    //fetch logged-in customer info (edit-account.html)
     fetch('../../database/user/getCustomerInfo.php')
         .then(res => res.json())
         .then(data => {
             if (data.status === 'success') {
-            // Only set values if inputs exist
-                const nameInput = document.getElementById('name');
-                const emailInput = document.getElementById('email');
-                const phoneInput = document.getElementById('phone');
-                
-                if (nameInput) nameInput.value = data.customer_name;
-                if (emailInput) emailInput.value = data.customer_email;
-                if (phoneInput) phoneInput.value = data.customer_contact;
+                document.getElementById('name').value = data.customer_name || '';
+                document.getElementById('email').value = data.customer_email || '';
+                document.getElementById('phone').value = data.customer_contact || '';
+
+                const imgSrc = (!data.profile_image || data.profile_image.endsWith('default.png'))
+                    ? "../../assets/pictures/default.png"
+                    : "../../assets/uploads/profile_images/" + data.profile_image;
+
+                const tempImg = new Image();
+                tempImg.onload = () => profileImg.src = imgSrc;
+                tempImg.src = imgSrc;
             } else {
                 window.location.href = 'login.html';
             }
+        })
+        .catch(err => console.error(err));
+
+    // Upload image preview
+    if (uploadBtn && uploadInput && profileImg) {
+        uploadBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // prevent form submission
+            uploadInput.click();
         });
 
-    // save updated info
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('profile_image', file);
+
+            fetch('../../database/user/uploadProfileImage.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // update preview
+                    profileImg.src = '../../assets/uploads/profile_images/' + data.profile_image;
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Error uploading image:', err));
+        });
+    }
+
+    // Save changes
     if (saveBtn) {
         saveBtn.addEventListener('click', e => {
             e.preventDefault();
@@ -526,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const formData = new URLSearchParams();
+            const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email);
             formData.append('phone', phone);
@@ -536,10 +545,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             })
             .then(res => res.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(err => console.error('Error updating account:', err));
+            .then(data => alert(data.message))
+            .catch(err => console.error('Error updating account info:', err));
         });
     }
 
