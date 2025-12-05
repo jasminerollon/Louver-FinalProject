@@ -15,27 +15,33 @@
 
     <!-- LEFT SIDE -->
     <div class="left">
-        <div class="register-card">
-            <h2>REGISTER BUSINESS</h2>
+    <form class="register-card" action="../../database/business-owner/businessRegistration.php" method="POST" enctype="multipart/form-data">
+        <h2>REGISTER BUSINESS</h2>
 
-            <input type="text" placeholder="Business Name">
-            <input type="text" placeholder="Business Registration Number">
-            <input type="text" placeholder="Location">
+        <input type="text" name="business_name" placeholder="Business Name" required>
+        <input type="text" name="business_number" placeholder="Business Registration Number" required>
+        <input type="text" name="location" placeholder="Location" required>
 
-            <div class="upload-field">
-                <span>📂 Upload Business Permit</span>
-            </div>
+     <div class="upload-field">
+    <img src="../../assets/pictures/upload-icon.png" class="upload-icon">
 
-            <hr>
+    <span class="upload-text" id="file-label">Upload Business Permit</span>
 
-            <input type="text" placeholder="First Name">
-            <input type="text" placeholder="Last Name">
-            <input type="text" placeholder="Contact Number">
-            <input type="email" placeholder="Email">
-
-            <button class="signup-btn">SIGN UP</button>
-        </div>
+    <input type="file" name="business_permit" id="business_permit" class="upload-input">
     </div>
+
+
+        <hr>
+
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+        <input type="text" name="contact_number" placeholder="Contact Number" required>
+        <input type="email" name="email" placeholder="Email" required>
+
+        <button type="submit" class="signup-btn">SIGN UP</button>
+    </form>
+</div>
+
 
     <!-- RIGHT SIDE -->
     <div class="right">
@@ -50,6 +56,6 @@
     </div>
 
 </div>
-
+<script src="../../js/business-owner/business-owner-registration.js"></script>
 </body>
 </html>
