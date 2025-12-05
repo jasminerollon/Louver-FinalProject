@@ -106,3 +106,113 @@
   .orders-top { flex-direction: column; gap: 12px; align-items: flex-start; }
   .date-sort { width: 100%; justify-content: space-between; }
 }
+
+
+
+/* CANCEL ORDER MODAL */
+.cancel-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.40);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.cancel-modal-overlay.active {
+    display: flex;
+}
+
+.cancel-modal {
+    width: 350px;
+    background: #faeeee;
+    padding: 28px 25px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    animation: fadeIn .2s ease-in-out;
+}
+
+.cancel-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #a41515;
+    margin-bottom: 8px;
+}
+
+.cancel-subtitle {
+    color: #8a2424;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.cancel-label {
+    font-weight: 700;
+    color: #a41515;
+    display: block;
+    text-align: left;
+    margin: 0 0 8px 2px;
+}
+
+.cancel-textarea-wrapper {
+    position: relative;
+}
+
+.cancel-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 3px solid white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.cancel-textarea {
+    width: 100%;
+    height: 130px;
+    background: #f3e9e9;
+    border: 1px solid #d4cccc;
+    border-radius: 14px;
+    padding: 20px 14px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+.cancel-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.cancel-confirm-btn,
+.cancel-cancel-btn {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    width: 120px;
+}
+
+.cancel-confirm-btn {
+    background: #0c7a11;
+}
+
+.cancel-cancel-btn {
+    background: #b20808;
+}
+
+.cancel-confirm-btn:hover { background: #07680c; }
+.cancel-cancel-btn:hover { background: #970707; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(.95); }
+    to   { opacity: 1; transform: scale(1); }
+}

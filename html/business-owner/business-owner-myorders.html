@@ -8,8 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<link rel="stylesheet" href="../../css/admin/admin-styles.css">
-<link rel="stylesheet" href="../../css/admin/admin-myorders.css">
+<link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
+<link rel="stylesheet" href="../../css/business-owner/business-owner-myorders.css">
 </head>
 
 <body>
@@ -23,10 +23,9 @@
 
     <div class="navbar-right">
         <nav>
-          <a href="admin-homepage.html">APPLICATIONS</a>
-          <a href="admin-businesses.html">BUSINESSES</a>
-          <a href="admin-myorders.html" class="active">ORDERS</a>
-          <a href="admin-account.html">PROFILE</a>
+            <a href="business-owner-products.html">PRODUCTS</a>
+            <a href="business-owner-myorders.html" class="active">ORDERS</a>
+            <a href="business-owner-account.html">PROFILE</a>
         </nav>
     </div>
 </div>
@@ -245,6 +244,29 @@
 
   </div>
 </div>
+
+<!-- CANCEL ORDER MODAL -->
+<div class="cancel-modal-overlay" id="cancelOrderModal">
+    <div class="cancel-modal">
+
+        <h2 class="cancel-title">Cancel Order</h2>
+        <p class="cancel-subtitle">Are you sure you want to<br><strong>cancel Order 105?</strong></p>
+
+        <label class="cancel-label">Reason of cancellation</label>
+
+        <div class="cancel-textarea-wrapper">
+            <textarea class="cancel-textarea" placeholder="Type reason here"></textarea>
+        </div>
+
+        <div class="cancel-buttons">
+            <button class="cancel-confirm-btn">CONFIRM</button>
+            <button class="cancel-cancel-btn" id="closeCancelModal">CANCEL</button>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../js/business-owner/business-owner-script.js"></script>
 
 </body>
 </html>
