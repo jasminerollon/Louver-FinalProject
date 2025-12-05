@@ -3,29 +3,32 @@ session_start();
 
 // DB connection
 $conn = new mysqli("localhost", "root", "", "louver");
+
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Get POST data from login form
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// Prepared statement
-$stmt = $conn->prepare("SELECT admin_id, username, name, password_hash FROM admins WHERE email = ?");
+// Prepare statement to prevent SQL injection
+$stmt = $conn->prepare("SELECT vendor_id, business_name, password_hash FROM vendors WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
-    $admin = $result->fetch_assoc();
+    $vendor = $result->fetch_assoc();
 
-    if ($password === $admin['password_hash']) {
-        // Login success
-        $_SESSION['admin_id'] = $admin['admin_id'];
-        $_SESSION['admin_name'] = $admin['name'];
-        $_SESSION['username'] = $admin['username'];
+    // Compare password (plaintext now, change to password_verify if hashed)
+    if ($password === $vendor['password_hash']) {
+        // Login successful — store session variables
+        $_SESSION['vendor_id'] = $vendor['vendor_id'];
+        $_SESSION['vendor_name'] = $vendor['business_name'];
 
-        // Redirect to products page
+        // Redirect to vendor products page
         header("Location: ../../html/business-owner/business-owner-products.html");
         exit;
     } else {
