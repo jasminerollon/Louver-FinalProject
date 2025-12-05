@@ -22,7 +22,7 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-background: #B20808 url("../../../../assets/pictures/logo.png") no-repeat center center;
+background: #B20808 url("../../assets/pictures/logo.png") no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -146,3 +146,43 @@ hr {
     background: #8B0909;
 }
 
+.upload-field {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #B20808;
+    border-radius: 30px;
+    background: white;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #B20808;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Hide original file input */
+.upload-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Folder Icon */
+.upload-icon {
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+}
+
+/* Text / file name */
+.upload-text {
+    color: #B20808;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
