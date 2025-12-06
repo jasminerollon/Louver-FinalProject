@@ -1,0 +1,605 @@
+/*General*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f9eaea;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    width: 420px;
+    max-width: 92vw;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+    padding: 22px 22px 18px;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #a51f1f;
+}
+
+.modal p {
+    margin: 0 0 18px;
+    color: #333;
+    font-size: 14px;
+}
+
+.modal .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal .btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.modal .btn-cancel {
+    background: #c61515;
+    color: #fff;
+}
+
+.modal .btn-cancel:hover { background: #a51313; }
+
+.modal .btn-confirm {
+    background: #006405;
+    color: #fff;
+}
+
+.modal .btn-confirm:hover { background: #005704; }
+
+/*NAVBAR*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 36px;
+    background: #f7e7e6;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    gap: 12px;
+}
+
+.navbar .logo {
+    font-weight: 700;
+    color: #b20808;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+}
+
+.navbar-right nav {
+    display: flex;
+    gap: 36px;
+}
+
+.navbar nav a {
+    text-decoration: none;
+    color: #b20808;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 6px 10px;
+    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+}
+
+.navbar nav a:hover,
+.navbar nav a:focus {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+.navbar nav a.active {
+    color: #b20808;
+    font-weight: 800;
+    transform: scale(1.02);
+}
+
+/* Container*/
+.orders-container {
+    padding: 30px 40px;
+}
+
+/*Search + Sort Row */
+.orders-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-wrapper input {
+    width: 260px;
+    padding: 12px 16px 12px 40px;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.search-wrapper i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/*Date + Sort*/
+.date-sort {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.date-label {
+    font-weight: 600;
+    color: #b20808;
+}
+
+/*Sort Dropdown*/
+.sort-dropdown {
+    position: relative;
+}
+
+.sort-btn {
+    background: #b20808;
+    border: none;
+    padding: 10px 18px;
+    color: white;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sort-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    width: 140px;
+    padding: 10px;
+    display: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.sort-menu p {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.sort-menu p:hover {
+    background: #f4d7d7;
+}
+
+/* ===== Tabs ===== */
+.orders-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.orders-tabs .tab {
+    padding: 10px 18px;
+    border: none;
+    background: #e9baba;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.orders-tabs .active {
+    background: #b20808;
+    color: white;
+}
+
+/*Orders Table*/
+.orders-table-wrapper {
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    background: rgb(239, 239, 239);
+    border-radius: 12px;
+    padding: 20px;
+    border-collapse: collapse;
+}
+
+.orders-table thead {
+    background: #f5dcdc;
+}
+
+.orders-table th {
+    padding: 15px;
+    font-size: 14px;
+    color: #444;
+    text-align: left;
+}
+
+.orders-table td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+/*Status Badges */
+.status {
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: white;
+}
+
+.preparing { background: #d3a33c; }
+.pending   { background: #666; }
+.delivered { background: #59c16d; }
+.failed    { background: #bf1c1c; }
+
+/* View Button */
+.view-btn {
+    background: #b20808;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.view-btn i {
+    margin-right: 6px;
+}
+
+
+/*MODAL*/
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal {
+  background: #f9eaea;
+  width: 900px;
+  max-width: 100%;
+  padding: 25px;
+  border-radius: 15px;
+  position: relative;
+  animation: fadeIn .2s ease-in-out;
+  color: #760101; 
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(.97);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* Layout */
+.modal-content {
+  display: flex;
+  gap: 25px;
+  margin-top: 15px;
+}
+
+/* LEFT SECTION */
+.left-section {
+  width: 30%;
+  background: #f9eaea;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  color: #760101;
+}
+
+.profile {
+  text-align: center;
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  background: #b30000;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+}
+
+/* Buttons */
+.contact-user-btn {
+  width: 100%;
+  background: #b30000;
+  color: white;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* RIGHT SECTION */
+.right-section {
+  width: 70%;
+  color: #760101;
+}
+
+/* ITEM BOXES*/
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #d8b3b3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+}
+
+.section h3 {
+  margin-bottom: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  padding: 0;
+}
+
+/* DELIVERY INFO box */
+.delivery-box {
+  background: #a51414;
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 0;
+  flex: 1;
+}
+
+/*ALIGN DELIVERY INFO*/
+
+.delivery-actions-row {
+  display: flex;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 180px;
+}
+
+.report-btn,
+.cancel-btn {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.report-btn {
+  background: #e5e5e5;
+  color: #760101;
+}
+
+.cancel-btn {
+  background: #b30000;
+  color: white;
+}
+
+
+/* REPORT MODAL OVERLAY*/
+.report-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/*REPORT MODAL BOX*/
+.report-modal {
+    width: 380px;
+    background: #f9eaea;
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.18);
+    position: relative;
+    animation: fadeIn .25s ease;
+    color: #760101;
+}
+
+/* Close Button (Top Right) */
+.report-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #760101;
+}
+
+.report-title {
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Sections */
+.report-section {
+    margin-bottom: 18px;
+}
+
+.report-section label {
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 15px;
+    color: #760101;
+}
+
+/* Dropdown Style */
+.custom-select {
+    position: relative;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d0cdcd;
+    background: #eceaea;
+    appearance: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.custom-select i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #760101;
+}
+
+/* Upload Box */
+.upload-box {
+    background: #ede9e9;
+    border: 1px solid #d7cdcd;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-box i {
+    font-size: 26px;
+    margin-bottom: 6px;
+    color: #760101;
+}
+
+.upload-box p {
+    font-size: 13px;
+    color: #760101;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    height: 120px;
+    border-radius: 12px;
+    border: 1px solid #d0cdcd;
+    background: #f3eeee;
+    padding: 12px;
+    outline: none;
+    resize: none;
+}
+
+/* Buttons */
+.report-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.confirm-report {
+    width: 48%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #1fa144;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancel-report {
+    width: 48%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #b30000;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
