@@ -92,6 +92,8 @@ body {
     border: none;
     cursor: pointer;
     font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
 }
 
 /* TABS */

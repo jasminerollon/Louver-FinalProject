@@ -1,67 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <link rel="stylesheet" href="../../css/business-owner/business-owner-product.css">
-    <link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
-
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product</title>
+<link rel="stylesheet" href="../../css/business-owner/business-owner-product.css">
+<link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- TOP NAV -->
-    <header class="navbar">
-        <div class="logo-section">
-            <img src="/assets/pictures/logo.png" class="logo">
-            <span class="brand">LOUVER</span>
-        </div>
+<header class="navbar">
+    <div class="logo-section">
+        <img src="/assets/pictures/logo.png" class="logo">
+        <span class="brand">LOUVER</span>
+    </div>
+    <nav>
+        <a href="products.html" class="active">PRODUCTS</a>
+        <a href="myorders.html">ORDERS</a>
+        <a href="account.html">PROFILE</a>
+    </nav>
+</header>
 
-        <nav>
-            <a href="business-owner-products.html" class="active">PRODUCTS</a>
-            <a href="business-owner-myorders.html">ORDERS</a>
-            <a href="business-owner-account.html">PROFILE</a>
-        </nav>
-    </header>
-
-<!-- PAGE WRAPPER -->
 <div class="page-wrapper">
-
     <div class="title-header">
         <h1 class="title">Add Product</h1>
-
-        <div class="top-buttons">
-            <button class="cancel-btn">Cancel</button>
-            <button class="save-btn">Save Product</button>
+        <div class="top-buttons" style="margin-top:20px;">
+            <a href="../business-owner/business-owner-products.html" class="cancel-btn">Cancel</a>
+            <button type="submit" class="save-btn" form="addProductForm">Save Product</button>
         </div>
     </div>
 
-    <!-- FORM BOX -->
-    <div class="form-card">
+   <form id="addProductForm"
+      action="../../database/business-owner/businessAddProducts.php"
+      method="POST"
+      enctype="multipart/form-data">
+        <div class="form-card">
 
-        <div class="left-upload">
-            <div class="upload-box">
-                <img src="upload-icon.png" class="upload-icon">
+            <div class="left-upload">
+                <div class="upload-box">
+                    <img src="upload-icon.png" class="upload-icon" id="preview-image">
+                </div>
+                <input type="file" name="product_image" id="product_image" style="display:none;">
+                <button type="button" class="upload-btn">Upload Image</button>
             </div>
-            <button class="upload-btn">Upload Image</button>
+
+            <div class="form-fields">
+                <label>NAME</label>
+                <input type="text" name="name" required>
+
+                <label>DESCRIPTION</label>
+                <input type="text" name="description" required>
+
+                <label>PRICE</label>
+                <input type="text" name="price" required>
+            </div>
+
         </div>
-
-        <div class="form-fields">
-            <label>NAME</label>
-            <input type="text">
-
-            <label>DESCRIPTION</label>
-            <input type="text">
-
-            <label>PRICE</label>
-            <input type="text">
-        </div>
-
-    </div>
-
+    </form>
 </div>
+
+<script src="../../js/business-owner/business-owner-products.js"></script>
 </body>
 </html>
