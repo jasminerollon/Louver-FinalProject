@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Business Profile | Louver</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="../../css/business-owner/business-owner-accounts.css">
     <link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
 </head>
@@ -30,7 +25,6 @@
     </nav>
 </div>
 
-<!-- MAIN CONTAINER -->
 <div class="container">
 
     <div class="top-row">
@@ -52,57 +46,57 @@
     <!-- PROFILE CARD -->
     <div class="profile-card">
 
-        <!-- IMAGES ROW -->
+        <!-- IMAGES -->
         <div class="profile-images">
             <div class="profile-img-left">
-                <img src="../../assets/pictures/sample-brand-logo.png">
+                <img id="profileImage" src="../../assets/pictures/default.png">
             </div>
 
             <div class="profile-img-right">
-                <img src="../../assets/pictures/sample-banner.png">
+                <img id="bannerImage" src="../../assets/pictures/banner_default.jpg">
             </div>
         </div>
 
-        <!-- INFO GRID -->
+        <!-- INFO -->
         <div class="info">
 
             <div class="info-group">
                 <label>BUSINESS NAME</label>
-                <p>Jollibee</p>
+                <p id="businessName"></p>
             </div>
 
             <div class="info-group">
                 <label>BUSINESS REGISTRATION NUMBER</label>
-                <p class="highlight">870-000-143</p>
+                <p class="highlight" id="businessID"></p>
             </div>
 
             <div class="info-group">
                 <label>EMAIL</label>
-                <p>jollibeeSAMCIS@slu.edu.ph</p>
+                <p id="email"></p>
             </div>
 
             <div class="info-group">
                 <label>LOCATION</label>
-                <p>Devesse Lobby</p>
+                <p id="location"></p>
             </div>
 
             <div class="info-group">
                 <label>MOBILE NUMBER</label>
-                <p>09123456789</p>
+                <p id="contact"></p>
             </div>
 
             <div class="info-group">
                 <label>BUSINESS PERMIT</label>
-
                 <div class="permit-buttons">
-                    <button class="view-btn">View</button>
-                    <button class="update-btn">Update</button>
+                    <a id="viewPermit" target="_blank">
+                        <button class="view-btn">View</button>
+                    </a>
                 </div>
             </div>
 
             <div class="info-group">
                 <label>OWNER NAME</label>
-                <p>John Pork</p>
+                <p id="ownerName"></p>
             </div>
 
         </div>
@@ -110,6 +104,9 @@
     </div>
 
 </div>
+
+<!-- JS -->
+<script src="../../js/business-owner/business-owner-account.js"></script>
 
 </body>
 </html>
