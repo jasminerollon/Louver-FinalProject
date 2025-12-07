@@ -63,10 +63,20 @@
   <section class="orders past-orders">
     <div class="orders-list past-grid">
       <p class="no-orders-msg">You have no past orders.</p>
-      <!-- JS will inject past order cards here -->
     </div>
   </section>
 
+  <!-- Reported Orders -->
+<div class="page-header" style="margin-top:36px;">
+  <h1>Reported Orders</h1>
+</div>
+
+<section class="orders reported-orders">
+  <div class="orders-list reported-grid">
+    <p class="no-orders-msg">You have no reported orders.</p>
+    <!-- JS will inject reported order cards here -->
+  </div>
+</section>
   </main>
 
   <!-- Order modal -->
@@ -87,14 +97,17 @@
             <div class="modal-total-label">TOTAL <span class="modal-total-note">(including delivery)</span></div>
             <div class="modal-total-amount" id="modal-total">—</div>
           </div>
+          <button class="report-btn">Report an Issue</button>
         </div>
+        
 
         <div class="order-modal-right">
           <div class="status-card">
             <div class="status-title">STATUS</div>
-            <div class="status-icon" id="status-icon">🍲</div>
+            <div class="status-icon">
+              <img src="../../assets/pictures/orderModalCup.png" alt="Order Icon">
+            </div>
             <div class="status-text" id="status-text">Preparing your order...</div>
-            <div class="status-eta" id="status-eta">~ 15 - 35 minutes</div>
           </div>
         </div>
       </div>
