@@ -97,7 +97,7 @@
             <div class="modal-total-label">TOTAL <span class="modal-total-note">(including delivery)</span></div>
             <div class="modal-total-amount" id="modal-total">—</div>
           </div>
-          <button class="report-btn">Report an Issue</button>
+          <button class="report-btn" id="reportBtn">Report an Issue</button>
         </div>
         
 
@@ -110,6 +110,34 @@
             <div class="status-text" id="status-text">Preparing your order...</div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Order modal -->
+  <div id="report-modal-overlay" class="report-modal-overlay" hidden role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <h2>Report Order</h2>
+
+      <label>Category</label>
+      <select>
+        <option>Did not receive products</option>
+        <option>Wrong item delivered</option>
+        <option>Damaged product</option>
+      </select>
+
+      <label>Proof</label>
+      <div class="upload-proof" onclick="this.querySelector('input').click()">
+        <span>Upload screenshots, photos, or videos</span>
+        <input type="file" multiple hidden>
+      </div>
+
+      <label>Additional Information</label>
+      <textarea placeholder="Type here"></textarea>
+
+      <div class="modal-actions">
+        <button id="confirmReport">CONFIRM</button>
+        <button id="cancelReport">CANCEL</button>
       </div>
     </div>
   </div>

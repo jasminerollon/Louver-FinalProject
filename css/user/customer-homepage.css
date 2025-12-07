@@ -1021,3 +1021,130 @@ body.modal-open {
 .checkout-btn:hover {
     background: #A30000;
 }
+
+.report-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* darker overlay for better focus */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1300;
+  transition: opacity 0.3s ease;
+}
+
+.report-modal-overlay[hidden] {
+  display: none !important;
+}
+
+.report-modal {
+  background: #fff; /* clean white for readability */
+  padding: 25px 30px;
+  border-radius: 15px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', sans-serif;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.report-modal h2 {
+  margin-top: 0;
+  font-size: 1.6em;
+  color: #8b0000;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.report-modal label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #8b0000;
+  font-size: 0.95em;
+}
+
+.report-modal select,
+.report-modal textarea,
+.report-modal .upload-proof input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.report-modal select:focus,
+.report-modal textarea:focus,
+.report-modal .upload-proof input:focus {
+  border-color: #8b0000;
+  box-shadow: 0 0 5px rgba(139, 0, 0, 0.3);
+  outline: none;
+}
+
+.report-modal .upload-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 6px;
+  cursor: pointer;
+  border: 1px dashed #ccc;
+  color: #555;
+  font-size: 0.9em;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.report-modal .upload-proof:hover {
+  background: #f0e0e0;
+  border-color: #8b0000;
+  color: #8b0000;
+}
+
+.report-modal textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  flex: 1;
+  margin: 0 5px;
+  background: #8b0000;
+  color: #fff;
+  border: none;
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.modal-actions button:hover {
+  background: #a10000;
+  transform: translateY(-1px);
+}
+
+.modal-actions button#cancelReport {
+  background: #ccc;
+  color: #333;
+}
+
+.modal-actions button#cancelReport:hover {
+  background: #bbb;
+}
