@@ -95,28 +95,23 @@ document.getElementById("cancelOrderModal").addEventListener("click", (e) => {
 
 
 
-//ORDERS ⇆ REFUNDS TAB FILTER
+// ORDERS ⇆ REFUNDS TAB FILTER
 const tabs = document.querySelectorAll(".tab");
 const rows = document.querySelectorAll("tbody tr");
 
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
 
+        // Switch active tab
         tabs.forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
 
-        const selected = tab.textContent.trim().toLowerCase();
+        const selected = tab.dataset.tab;
 
+        // Filter rows
         rows.forEach(row => {
-            const type = row.dataset.tab;
-
-            if (selected === "orders" && type !== "refunds") {
-                row.style.display = "";
-            } else if (selected === "refunds" && type === "refunds") {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+            row.style.display =
+                row.dataset.tab === selected ? "" : "none";
         });
     });
 });

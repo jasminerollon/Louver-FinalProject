@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orders | Louver</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | Louver</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../../css/business-owner/business-owner-refund-issues.css">
-<link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../css/business-owner/business-owner-refund-issues.css">
+    <link rel="stylesheet" href="../../css/business-owner/business-owner-style.css">
 </head>
+
+<body>
+
 <!-- NAVBAR -->
 <div class="navbar">
     <div class="logo">
-        <img src="../../assets/pictures/logo.png" alt="Louver Logo" style="height:60px; width:auto;">
+        <img src="../../assets/pictures/logo.png" alt="Louver Logo" class="logo-img">
         <span>LOUVER</span>
     </div>
 
@@ -29,8 +36,10 @@
 
 <div class="orders-container">
 
-    <!-- Top Bar -->
+    <!-- Top Section -->
     <div class="orders-top">
+
+        <!-- Search -->
         <div class="search-wrapper">
             <i class="fa fa-search"></i>
             <input type="text" placeholder="Search order ID">
@@ -39,8 +48,13 @@
         <div class="date-sort">
             <p class="date-label">December 25, 2025 | 12:42 PM</p>
 
+            <!-- Sort Dropdown -->
             <div class="sort-dropdown">
-                <button class="sort-btn">Sort by: <span id="sort-value">Relevance</span> <i class="fa fa-chevron-down"></i></button>
+                <button class="sort-btn">
+                    Sort by: <span id="sort-value">Relevance</span>
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+
                 <div class="sort-menu">
                     <p data-sort="Relevance">Relevance</p>
                     <p data-sort="Oldest">Oldest</p>
@@ -51,60 +65,153 @@
     </div>
 
     <!-- Tabs -->
-    <div class="orders-tabs">
-        <button class="tab active">ORDERS</button>
-        <button class="tab">REFUNDS</button>
-    </div>
-
-    <!-- Orders Table -->
-   <table class="orders-table">
-
-    <thead>
-        <tr>
-            <th>ORDER ID</th>
-            <th>DATE</th>
-            <th>CUSTOMER</th>
-            <th>STATUS</th>
-            <th>TOTAL</th>
-            <th>ACTIONS</th>
-        </tr>
-    </thead>
-
-    <tbody id="orders-tbody">
-
-        <!-- REFUND 102 -->
-        <tr data-tab="refunds">
-            <td>102</td>
-            <td>Nov 25, 2025 | 5:51 PM</td>
-            <td>Jason De Rullo</td>
-            <td><span class="status ongoing">On-going</span></td>
-            <td>₱ 417</td>
-            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
-        </tr>
-
-        <!-- REFUND 97 -->
-        <tr data-tab="refunds">
-            <td>97</td>
-            <td>Nov 10, 2025 | 1:34 PM</td>
-            <td>Tailor Swiff</td>
-            <td><span class="status resolved">Resolved</span></td>
-            <td>₱ 653</td>
-            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
-        </tr>
-
-        <!-- REFUND 94 -->
-        <tr data-tab="refunds">
-            <td>94</td>
-            <td>Nov 3, 2025 | 5:30 PM</td>
-            <td>Sabrina Karpintero</td>
-            <td><span class="status resolved">Resolved</span></td>
-            <td>₱ 1,243</td>
-            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
-        </tr>
-
-    </tbody>
-</table>
+ <div class="orders-tabs">
+    <button class="tab active" data-tab="orders">ORDERS</button>
+    <button class="tab" data-tab="refunds">REFUNDS</button>
 </div>
+
+
+    <!-- Table -->
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>ORDER ID</th>
+                <th>DATE</th>
+                <th>CUSTOMER</th>
+                <th>STATUS</th>
+                <th>TOTAL</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+
+        <tbody id="orders-tbody">
+
+            <!-- REFUND 102 -->
+            <tr data-tab="refunds">
+                <td>102</td>
+                <td>Nov 25, 2025 | 5:51 PM</td>
+                <td>Jason De Rullo</td>
+                <td><span class="status ongoing">On-going</span></td>
+                <td>₱ 417</td>
+                <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+            </tr>
+
+            <!-- REFUND 97 -->
+            <tr data-tab="refunds">
+                <td>97</td>
+                <td>Nov 10, 2025 | 1:34 PM</td>
+                <td>Tailor Swiff</td>
+                <td><span class="status resolved">Resolved</span></td>
+                <td>₱ 653</td>
+                <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+            </tr>
+
+            <!-- REFUND 94 -->
+            <tr data-tab="refunds">
+                <td>94</td>
+                <td>Nov 3, 2025 | 5:30 PM</td>
+                <td>Sabrina Karpintero</td>
+                <td><span class="status resolved">Resolved</span></td>
+                <td>₱ 1,243</td>
+                <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<!-- REFUND MODAL -->
+<div id="refundModal" class="refund-modal-overlay">
+
+    <div class="refund-modal">
+        <button id="closeRefundModal" class="modal-close">&times;</button>
+
+        <h1 class="modal-title">
+            Order 102 
+            <span class="modal-status ongoing">On-going</span>
+        </h1>
+
+        <p class="modal-date">Ordered on: November 25, 2025 | 1:34 PM</p>
+
+        <div class="modal-content">
+
+            <!-- LEFT: Customer Info -->
+            <div class="modal-left">
+
+                <div class="profile-icon"></div>
+
+                <h2 class="customer-name">Jason De Rullo</h2>
+
+                <h3>Contact Info</h3>
+                <p><i class="fa fa-phone"></i> 0912 345 6789</p>
+                <p><i class="fa fa-envelope"></i> jderullo@slu.edu.ph</p>
+
+                <h3>Order Note</h3>
+                <p>No message attached.</p>
+
+                <button class="contact-user-btn">CONTACT USER</button>
+            </div>
+
+            <!-- RIGHT: Order Details -->
+            <div class="modal-right">
+
+                <!-- Order Details -->
+                <div class="order-box">
+                    <h2>Order Details</h2>
+
+                    <div class="item-row">
+                        <span>1x <strong>6-pc Chicken Nuggets</strong></span>
+                        <span>₱ 141</span>
+                    </div>
+
+                    <div class="item-row">
+                        <span>1x <strong>2-pc Burger Steak Solo</strong></span>
+                        <span>₱ 256</span>
+                    </div>
+
+                    <div class="total-row">
+                        <strong>TOTAL</strong>
+                        <strong>₱ 653</strong>
+                    </div>
+
+                    <h3>Delivery Information</h3>
+
+                    <div class="delivery-row"><span>Location:</span><span>D502</span></div>
+                    <div class="delivery-row"><span>Date:</span><span>November 25, 2025</span></div>
+                    <div class="delivery-row"><span>Time:</span><span>2:00 PM</span></div>
+                </div>
+
+                <!-- Refund Area -->
+                <div class="refund-box">
+
+                    <h2><i class="fa fa-rotate-left"></i> Refund Reason</h2>
+
+                    <div class="refund-header">
+                        <p>Incorrect Order Dispatched</p>
+                        <button class="view-photos-btn"><i class="fa fa-eye"></i> View</button>
+                    </div>
+
+                    <hr>
+
+                    <h3>Decision</h3>
+                    <p class="decision-text">
+                        The order was on-time and complete upon double-checking.
+                    </p>
+
+                    <div class="upload-area">
+                        <p><i class="fa fa-upload"></i> Upload screenshots, photos, or videos</p>
+                    </div>
+
+                    <button class="confirm-decision-btn">CONFIRM DECISION</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
 <script src="../../js/business-owner/business-owner-script.js"></script>
 </body>
 </html>

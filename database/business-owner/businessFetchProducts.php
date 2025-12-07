@@ -9,24 +9,37 @@ $dbname = "louver";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
-    echo json_encode(['success'=>false,'products'=>[]]);
+    echo json_encode(['success' => false, 'orders' => [], 'refunds' => []]);
     exit;
 }
 
 // Replace with the logged-in vendor ID
 $vendor_id = 1;
 
-$sql = "SELECT * FROM products WHERE vendor_id = '$vendor_id' ORDER BY product_id DESC";
-$result = $conn->query($sql);
+// Fetch orders (non-refund)
+$sqlOrders = "SELECT * FROM orders WHERE vendor_id = '$vendor_id' AND is_refund = 0 ORDER BY order_id DESC";
+$resultOrders = $conn->query($sqlOrders);
 
-$products = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
+$orders = [];
+if ($resultOrders->num_rows > 0) {
+    while ($row = $resultOrders->fetch_assoc()) {
+        $orders[] = $row;
     }
 }
 
-// Return success and products
-echo json_encode(['success'=>true, 'products'=>$products]);
+// Fetch refunds
+$sqlRefunds = "SELECT * FROM orders WHERE vendor_id = '$vendor_id' AND is_refund = 1 ORDER BY order_id DESC";
+$resultRefunds = $conn->query($sqlRefunds);
+
+$refunds = [];
+if ($resultRefunds->num_rows > 0) {
+    while ($row = $resultRefunds->fetch_assoc()) {
+        $refunds[] = $row;
+    }
+}
+
+// Return data
+echo json_encode(['success' => true, 'orders' => $orders, 'refunds' => $refunds]);
+
 $conn->close();
 ?>

@@ -1,4 +1,6 @@
-/*General*/
+/* =======================================================
+   GLOBAL STYLES
+======================================================= */
 * {
     margin: 0;
     padding: 0;
@@ -10,34 +12,28 @@ body {
     background: #f9eaea;
 }
 
-/*NAVBAR*/
+/* =======================================================
+   NAVBAR
+======================================================= */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 36px;
     background: #f7e7e6;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+    padding: 12px 36px;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-    gap: 12px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
 }
 
 .navbar .logo {
-    font-weight: 700;
-    color: #b20808;
-    font-size: 22px;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
     font-style: italic;
-}
-
-.logo-img {
-    height: 28px;
-    width: auto;
-    display: block;
+    color: #b20808;
 }
 
 .navbar-right {
@@ -52,35 +48,29 @@ body {
 }
 
 .navbar nav a {
-    text-decoration: none;
     color: #b20808;
     font-weight: 700;
-    font-size: 16px;
+    text-decoration: none;
     padding: 6px 10px;
-    transition: color 0.18s ease-in-out, font-weight 0.12s ease, transform 0.12s ease;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
+    transition: .15s ease-in-out;
 }
 
 .navbar nav a:hover,
-.navbar nav a:focus {
-    color: #b20808;
-    font-weight: 800;
-    transform: scale(1.02);
-}
-
 .navbar nav a.active {
-    color: #b20808;
     font-weight: 800;
     transform: scale(1.02);
 }
 
-/* Container*/
+/* =======================================================
+   MAIN CONTAINER
+======================================================= */
 .orders-container {
     padding: 30px 40px;
 }
 
-/*Search + Sort Row */
+/* =======================================================
+   SEARCH + SORT ROW
+======================================================= */
 .orders-top {
     display: flex;
     justify-content: space-between;
@@ -95,8 +85,8 @@ body {
 .search-wrapper input {
     width: 260px;
     padding: 12px 16px 12px 40px;
-    border-radius: 15px;
     border: 1px solid #8B0909;
+    border-radius: 15px;
     outline: none;
 }
 
@@ -108,7 +98,6 @@ body {
     color: #666;
 }
 
-/*Date + Sort*/
 .date-sort {
     display: flex;
     align-items: center;
@@ -120,29 +109,31 @@ body {
     color: #b20808;
 }
 
-/*Sort Dropdown*/
+/* =======================================================
+   SORT DROPDOWN
+======================================================= */
 .sort-dropdown {
     position: relative;
 }
 
 .sort-btn {
     background: #b20808;
+    color: white;
     border: none;
     padding: 10px 18px;
-    color: white;
     border-radius: 25px;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .sort-menu {
     position: absolute;
     top: 45px;
     right: 0;
-    background: white;
-    border-radius: 10px;
     width: 140px;
     padding: 10px;
+    background: white;
+    border-radius: 10px;
     display: none;
     box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
@@ -157,7 +148,9 @@ body {
     background: #f4d7d7;
 }
 
-/* ===== Tabs ===== */
+/* =======================================================
+   TABS
+======================================================= */
 .orders-tabs {
     display: flex;
     gap: 10px;
@@ -166,40 +159,33 @@ body {
 
 .orders-tabs .tab {
     padding: 10px 18px;
-    border: none;
     background: #e9baba;
     border-radius: 12px;
-    cursor: pointer;
+    border: none;
     font-weight: 600;
+    cursor: pointer;
 }
 
-.orders-tabs .active {
+.orders-tabs .tab.active {
     background: #b20808;
     color: white;
 }
 
-/*Orders Table*/
-.orders-table-wrapper {
-    overflow-x: auto;
-}
-
+/* =======================================================
+   TABLE
+======================================================= */
 .orders-table {
     width: 100%;
     background: #EBEBEB;
     border-radius: 12px;
-    padding: 20px;
     border-collapse: collapse;
-}
-
-.orders-table thead {
-    background: #EBEBEB;
 }
 
 .orders-table th {
     padding: 15px;
+    text-align: left;
     font-size: 14px;
     color: #8B0909;
-    text-align: left;
 }
 
 .orders-table td {
@@ -208,12 +194,14 @@ body {
     font-size: 15px;
 }
 
-/*Status Badges */
+/* =======================================================
+   STATUS BADGES
+======================================================= */
 .status {
     padding: 6px 14px;
     border-radius: 10px;
-    font-weight: 600;
     font-size: 13px;
+    font-weight: 600;
     color: white;
 }
 
@@ -222,13 +210,25 @@ body {
 .delivered { background: #59c16d; }
 .failed    { background: #bf1c1c; }
 
-/* View Button */
+.status.ongoing {
+    background: #fff568;
+    color: #000;
+}
+
+.status.resolved {
+    background: #c7ffbf;
+    color: #000;
+}
+
+/* =======================================================
+   VIEW BUTTON
+======================================================= */
 .view-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
     background: #b20808;
     color: white;
-    padding: 8px 16px;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
 }
@@ -237,23 +237,176 @@ body {
     margin-right: 6px;
 }
 
-/* OVERLAY */
-.refund-photo-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
+/* =======================================================
+   MODAL OVERLAY
+======================================================= */
+.refund-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 4000;
 }
 
-.status.ongoing {
-    background: #fff568; /* Yellow */
-    color: #000;
+/* =======================================================
+   REFUND MODAL
+======================================================= */
+.refund-modal {
+    width: 95%;
+    max-width: 1100px;
+    background: #fff5f5;
+    border-radius: 20px;
+    padding: 20px 30px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
-.status.resolved {
-    background: #c7ffbf; /* Light green */
-    color: #000;
+.modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: #b20808;
+    margin-bottom: 5px;
+}
+
+.modal-status {
+    padding: 5px 14px;
+    border-radius: 8px;
+    background: #fff568;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.modal-date {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* =======================================================
+   MODAL CONTENT LAYOUT
+======================================================= */
+.modal-content {
+    display: flex;
+    gap: 25px;
+}
+
+/* LEFT CARD */
+.modal-left {
+    width: 27%;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.profile-icon {
+    width: 120px;
+    height: 120px;
+    margin: 12px auto;
+    border-radius: 50%;
+    background: #b20808;
+}
+
+.customer-name {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.contact-user-btn {
+    width: 100%;
+    padding: 12px 18px;
+    background: #b20808;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* RIGHT PANEL */
+.modal-right {
+    width: 73%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =======================================================
+   ORDER DETAILS BOX
+======================================================= */
+.order-box {
+    background: #b20808;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.item-row,
+.total-row,
+.delivery-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.total-row {
+    font-size: 17px;
+    margin-top: 12px;
+}
+
+/* =======================================================
+   REFUND BOX
+======================================================= */
+.refund-box {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.refund-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-photos-btn {
+    background: #b20808;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.upload-area {
+    padding: 12px;
+    border: 2px dashed #b20808;
+    border-radius: 12px;
+    text-align: center;
+    color: #8B0909;
+    margin: 20px 0;
+}
+
+.confirm-decision-btn {
+    background: #006c2b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
 }

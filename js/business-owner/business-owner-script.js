@@ -1,122 +1,114 @@
-// ORDER MODAL
+/* ============================================================
+   DOM ELEMENTS
+============================================================ */
+const tableBody = document.querySelector(".orders-table tbody");
+const searchInputEl = document.querySelector(".search-wrapper input");
+const tabs = document.querySelectorAll(".orders-tabs .tab");
 
-// Select modal elements
-const modal = document.getElementById("orderModal");
-const closeBtn = document.getElementById("closeModalBtn");
+let ordersData = [];
+let refundsData = [];
 
-// ALL view buttons in table
-document.querySelectorAll(".view-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        modal.style.display = "flex";
+/* ============================================================
+   FETCH ORDERS & REFUNDS FROM PHP
+============================================================ */
+fetch("../../php/business-owner/fetch-business-orders.php")
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            ordersData = data.orders || [];
+            refundsData = data.refunds || [];
+            renderTable("orders"); // default tab
+        }
+    });
+
+/* ============================================================
+   RENDER TABLE
+============================================================ */
+function renderTable(tab) {
+    tableBody.innerHTML = "";
+    const data = tab === "refunds" ? refundsData : ordersData;
+
+    data.forEach(order => {
+        const row = document.createElement("tr");
+        row.dataset.tab = tab;
+        row.innerHTML = `
+            <td>${order.order_id}</td>
+            <td>${order.date_ordered}</td>
+            <td>${order.customer_name}</td>
+            <td><span class="status ${order.status.toLowerCase()}">${order.status}</span></td>
+            <td>₱ ${order.total}</td>
+            <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
+        `;
+        tableBody.appendChild(row);
+
+        // Attach view button
+        row.querySelector(".view-btn").addEventListener("click", () => {
+            if (tab === "refunds") openModal("refundModal");
+            else openModal("orderModal");
+        });
+    });
+}
+
+/* ============================================================
+   SEARCH BY ORDER ID
+============================================================ */
+searchInputEl.addEventListener("input", () => {
+    const query = searchInputEl.value.trim().toLowerCase();
+    Array.from(tableBody.querySelectorAll("tr")).forEach(row => {
+        const orderId = row.querySelector("td").textContent.trim().toLowerCase();
+        row.style.display = orderId.includes(query) ? "" : "none";
     });
 });
 
-// Close modal with X button
-closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-});
-
-// Close modal when clicking outside of modal box
-window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-        modal.style.display = "none";
-    }
-});
-
-// Close modal with CANCEL ORDER button
-document.querySelector(".cancel-btn").addEventListener("click", () => {
-    modal.style.display = "none";
-});
-
-
-// REPORT MODAL
-
-const reportModal = document.getElementById("reportModal");
-
-// Open Report Modal
-document.querySelector(".report-btn").addEventListener("click", () => {
-    reportModal.style.display = "flex";
-});
-
-// Open file picker when upload box is clicked
-const uploadBox = document.getElementById("uploadBox");
-const fileInput = document.getElementById("fileInput");
-
-uploadBox.addEventListener("click", () => {
-    fileInput.click();
-});
-
-// show file name after selection
-fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-        uploadBox.querySelector("p").textContent = fileInput.files[0].name;
-    }
-});
-
-// Close report modal with X button
-document.getElementById("closeReportModal").addEventListener("click", () => {
-    reportModal.style.display = "none";
-});
-
-// Close report modal when clicking outside
-reportModal.addEventListener("click", (e) => {
-    if (e.target.id === "reportModal") {
-        reportModal.style.display = "none";
-    }
-});
-
-// Close report modal with CANCEL REPORT button
-document.querySelector(".cancel-report").addEventListener("click", () => {
-    reportModal.style.display = "none";
-});
-
-// Close report modal with CONFIRM REPORT button
-document.querySelector(".confirm-report").addEventListener("click", () => {
-    reportModal.style.display = "none";
-});
-
-
-// OPEN CANCEL ORDER MODAL
-document.querySelector(".cancel-btn").addEventListener("click", () => {
-    document.getElementById("cancelOrderModal").classList.add("active");
-});
-
-// CLOSE WITH CANCEL BUTTON
-document.getElementById("closeCancelModal").addEventListener("click", () => {
-    document.getElementById("cancelOrderModal").classList.remove("active");
-});
-
-// CLOSE WHEN CLICKING OUTSIDE MODAL
-document.getElementById("cancelOrderModal").addEventListener("click", (e) => {
-    if (e.target.id === "cancelOrderModal") {
-        document.getElementById("cancelOrderModal").classList.remove("active");
-    }
-});
-
-
-
-//ORDERS ⇆ REFUNDS TAB FILTER
-const tabs = document.querySelectorAll(".tab");
-const rows = document.querySelectorAll("tbody tr");
-
+/* ============================================================
+   TAB SWITCHING
+============================================================ */
 tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-
         tabs.forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
 
-        const selected = tab.textContent.trim().toLowerCase();
-
-        rows.forEach(row => {
-            const type = row.dataset.tab;
-
-            if (selected === "orders" && type !== "refunds") {
-                row.style.display = "";
-            } else if (selected === "refunds" && type === "refunds") {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
+        const tabName = tab.innerText.toLowerCase().includes("refund") ? "refunds" : "orders";
+        renderTable(tabName);
+        searchInputEl.value = "";
     });
+});
+
+/* ============================================================
+   MODAL HANDLER
+============================================================ */
+function openModal(id) {
+    document.getElementById(id).style.display = "flex";
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
+
+function attachModalEvents(modalId, closeBtnId) {
+    const modal = document.getElementById(modalId);
+    const closeBtn = document.getElementById(closeBtnId);
+    if (!modal) return;
+
+    closeBtn?.addEventListener("click", () => closeModal(modalId));
+    modal.addEventListener("click", e => {
+        if (e.target.id === modalId) closeModal(modalId);
+    });
+}
+
+// Attach modals
+attachModalEvents("orderModal", "closeModalBtn");
+attachModalEvents("refundModal", "closeRefundModal");
+attachModalEvents("cancelOrderModal", "closeCancelModal");
+attachModalEvents("reportModal", "closeReportModal");
+
+// Cancel & Report buttons inside modal
+document.querySelectorAll(".cancel-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        closeModal("orderModal");
+        openModal("cancelOrderModal");
+    });
+});
+document.querySelectorAll(".report-btn").forEach(btn => {
+    btn.addEventListener("click", () => openModal("reportModal"));
 });
