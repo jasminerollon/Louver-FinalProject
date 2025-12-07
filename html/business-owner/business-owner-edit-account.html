@@ -32,8 +32,8 @@
     <div class="top-row">
         <h1>Edit Profile</h1>
         <div class="buttons">
-            <button class="cancel-btn">Cancel</button>
-            <button class="save-btn">Save Changes</button>
+            <button class="cancel-btn" id="cancel-btn">Cancel</button>
+            <button class="save-btn" id="save-btn">Save Changes</button>
         </div>
     </div>
 
@@ -41,62 +41,72 @@
 
     <div class="profile-card">
 
-        <!-- PROFILE IMAGES -->
         <div class="profile-images">
-
-            <div class="profile-img-left">
-                <img src="../../assets/pictures/default-profile.png" alt="Profile Picture">
+            <div class="profile-img-wrapper">
+                <div class="profile-img-left">
+                    <img src="../../assets/pictures/default-profile.png" alt="Profile Picture" id="profile-img-preview">
+                    <input type="file" id="profile-img" accept="image/*" style="display:none;">
+                </div>
+                <button type="button" id="change-profile-btn">Change Profile</button>
             </div>
 
-            <div class="profile-img-right">
-                <img src="../../assets/pictures/default-banner.png" alt="Banner Picture">
+            <div class="profile-img-wrapper">
+                <div class="profile-img-right">
+                    <img src="../../assets/pictures/default-banner.png" alt="Banner Picture" id="banner-img-preview">
+                    <input type="file" id="banner-img" accept="image/*" style="display:none;">
+                </div>
+                <button type="button" id="change-banner-btn">Change Banner</button>
             </div>
-
         </div>
 
-        <!-- FORM GRID -->
-        <div class="info">
 
+        <div class="info">
             <div class="info-group">
                 <label>BUSINESS NAME</label>
-                <input type="text" value="Jollibee">
+                <input type="text" id="business_name">
             </div>
 
             <div class="info-group">
                 <label>OWNER NAME</label>
-                <input type="text" value="John Pork">
+                <input type="text" id="owner_name">
             </div>
 
             <div class="info-group">
                 <label>EMAIL</label>
-                <input type="text" value="jollibeeSAMCIS@slu.edu.ph">
-            </div>
-
-            <div class="info-group">
-                <label>LAST NAME</label>
-                <input type="text" value="John Pork">
+                <input type="email" id="email">
             </div>
 
             <div class="info-group">
                 <label>MOBILE NUMBER</label>
-                <input type="text" value="09123456789">
+                <input type="text" id="contact_number">
             </div>
 
             <div class="info-group">
                 <label>BUSINESS REGISTRATION NUMBER</label>
-                <input type="text" value="870-000-143">
+                <input type="text" id="business_number">
             </div>
 
             <div class="info-group">
                 <label>LOCATION</label>
-                <input type="text" value="Devesse Lobby">
+                <input type="text" id="location">
             </div>
-
         </div>
 
     </div>
 
+    <!-- Notification Modal -->
+    <div id="notification-modal" class="modal-overlay">
+        <div class="report-modal">
+            <p id="notification-message"></p>
+            <div class="report-buttons">
+                <button class="confirm-report" id="notification-ok-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
+<script src="../../js/business-owner/business-owner-edit-account.js"></script>
 </body>
 </html>

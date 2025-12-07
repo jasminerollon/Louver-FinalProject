@@ -603,3 +603,22 @@ textarea {
     font-weight: 700;
     cursor: pointer;
 }
+
+
+.notification {
+    display: none;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.notification.success {
+    background-color: #4CAF50;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+

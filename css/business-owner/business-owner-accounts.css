@@ -111,34 +111,38 @@ h1 {
     display: flex;
     gap: 30px;
     justify-content: center;
+    align-items: flex-start; /* align buttons at bottom of images */
+}
+
+.profile-img-wrapper {
+    display: flex;
+    flex-direction: column; /* stack button below image */
+    gap: 10px;
     align-items: center;
 }
 
-.profile-img-left {
-    width: 180px;
-    height: 180px;
-    border-radius: 12px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.profile-img-left img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.profile-img-right {
-    width: 360px;
+.profile-img-left, .profile-img-right {
+    width: 180px; /* or 360px for banner */
     height: 180px;
     border-radius: 12px;
     overflow: hidden;
 }
 
-.profile-img-right img {
+.profile-img-left img, .profile-img-right img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+#change-profile-btn,
+#change-banner-btn {
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: none;
+    background: #c61515;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 
