@@ -1,28 +1,29 @@
 <?php
-// database/business-owner/businessSession.php
 session_start();
 
-// Check if vendor is logged in
+// Check if logged in
 if (!isset($_SESSION['vendor_id'])) {
     header("Location: ../../html/business-owner/business-owner-login.html");
     exit();
 }
 
-// Include database connection
-include_once '../../connectDB.php';
+// DB connection
+$conn = new mysqli("localhost", "root", "", "louver");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-// Fetch vendor info
+// Fetch vendor data
 $vendor_id = $_SESSION['vendor_id'];
-$sql = "SELECT * FROM vendors WHERE vendor_id = ?";
-$stmt = $conn->prepare($sql);
+$stmt = $conn->prepare("SELECT * FROM vendors WHERE vendor_id = ?");
 $stmt->bind_param("i", $vendor_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $vendor = $result->fetch_assoc();
 
-// Variables for the HTML page
+// Assign variables for status page
 $status = $vendor['STATUS']; // Pending / Approved / Rejected
 $rejection_reason = $vendor['rejection_reason'];
 $email = $vendor['email'];
-$password = $vendor['password_hash'];
+$password = $vendor['password_hash']; // hashed password
 ?>

@@ -1,20 +1,38 @@
 <?php
-include_once '../../database/business-owner/businessSession.php';
+session_start();
+
+if (!isset($_SESSION['vendor_id'])) {
+    header("Location: ../../html/business-owner/business-owner-login.html");
+    exit();
+}
+
+$conn = new mysqli("localhost", "root", "", "louver");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$vendor_id = $_SESSION['vendor_id'];
+$stmt = $conn->prepare("SELECT email, password_hash, STATUS, rejection_reason FROM vendors WHERE vendor_id = ?");
+$stmt->bind_param("i", $vendor_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$vendor = $result->fetch_assoc();
+
+$status = $vendor['STATUS'];
+$email = $vendor['email'];
+$password = $vendor['password_hash'];
+$rejection_reason = $vendor['rejection_reason'];
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Status | Louver</title>
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Styles -->
     <link rel="stylesheet" href="../../css/business-owner/business-homepage.css">
 </head>
 <body>
@@ -28,7 +46,7 @@ include_once '../../database/business-owner/businessSession.php';
 
     <div class="navbar-right">
         <div class="logout-group">
-            <a href="logout.php" class="login-btn">Log Out</a>
+            <a href="../../database/business-owner/logout.php" class="login-btn">Log Out</a>
             <div class="user-icon">
                 <i class="fas fa-user"></i>
             </div>
@@ -38,7 +56,6 @@ include_once '../../database/business-owner/businessSession.php';
 
 <!-- PAGE CONTENT -->
 <div class="status-wrapper">
-
     <h2 class="top-label">Application Status</h2>
     <h1 class="pending-text <?php echo strtolower($status); ?>">
         <?php echo $status; ?>
@@ -71,7 +88,6 @@ include_once '../../database/business-owner/businessSession.php';
             <button class="apply-btn">Apply again</button>
         <?php endif; ?>
     </div>
-
 </div>
 </body>
 </html>
