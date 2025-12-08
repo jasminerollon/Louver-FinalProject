@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // 🚀 Handle Add Product Form Submit via AJAX
+        // Handle Add Product Form Submit via AJAX
         addProductForm.addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -70,12 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("div");
             row.className = "product-row";
 
+            const primarySrc = product.image
+                ? `../../assets/pictures/businessphotos/${product.image}`
+                : `../../assets/pictures/logo.png`;
+
             row.innerHTML = `
-                <img src="../../database/business-owner/AddProductImage/${product.image || 'default.png'}" class="prod-img">
+                <img src="${primarySrc}" class="prod-img">
 
-                <div class="prod-name">${index + 1} - ${product.NAME}</div>
+                <div class="prod-name">${product.NAME}</div>
 
-                <div class="prod-desc">${product.description}</div>
+                <div class="prod-desc">${product.description || ''}</div>
 
                 <div class="prod-price">₱ ${parseFloat(product.price).toFixed(2)}</div>
 
@@ -86,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const divider = document.createElement("div");
             divider.className = "divider";
+            try { console.debug('Product image src:', primarySrc); } catch(e) {}
 
             tableCard.appendChild(row);
             tableCard.appendChild(divider);
@@ -97,11 +102,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // FETCH PRODUCTS FROM PHP
     function fetchProducts() {
-        fetch("../../database/business-owner/fetch-products.php")
+        // Call the correct PHP endpoint that uses session vendor_id
+        fetch("../../database/business-owner/businessFetchProducts.php")
             .then(res => res.json())
             .then(data => {
                 if (data.success && Array.isArray(data.products)) {
-                    renderProducts(data.products);
+                    if (data.products.length === 0) {
+                        // Render empty state
+                        tableCard.querySelectorAll(".product-row, .divider").forEach(e => e.remove());
+                        const empty = document.createElement("div");
+                        empty.className = "product-row";
+                        empty.style.justifyContent = "center";
+                        empty.style.textAlign = "center";
+                        empty.innerHTML = `<div style="flex:1; padding:16px; font-weight:500;">No products yet. Click \"Add Product\" to create your first item.</div>`;
+                        tableCard.appendChild(empty);
+                    } else {
+                        renderProducts(data.products);
+                    }
                 } else {
                     console.error("Fetch failed", data);
                 }

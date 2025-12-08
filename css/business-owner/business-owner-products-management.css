@@ -96,26 +96,7 @@ body {
     text-decoration: none;
 }
 
-/* TABS */
-.tabs {
-    margin-top: 25px;
-}
-
-.tab {
-    padding: 10px 25px;
-    background: #EFECEC;
-    border-radius: 20px;
-    font-size: 16px;
-    border: none;
-    margin-right: 10px;
-    cursor: pointer;
-    color: #B20808;
-}
-
-.tab.active {
-    background: #B20808;
-    color: #EBEBEB;
-}
+/* Tabs removed */
 /* PRODUCT TABLE CARD */
 .table-card {
     width: 100%;

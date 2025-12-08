@@ -13,17 +13,19 @@ header('Content-Type: application/json');
 require_once '../../database/connectDB.php';
 
 try {
-    // Fetch all vendors (business applications)
-    $query = "SELECT 
-                vendor_id,
-                business_name,
-                owner_name,
-                contact_number,
-                email,
-                STATUS,
-                created_at
-              FROM vendors
-              ORDER BY created_at DESC";
+        // Fetch all business applications from applications table
+        $query = "SELECT 
+                                application_id,
+                                registration_no,
+                                vendor_id,
+                                business_name,
+                                owner_name,
+                                contact_number,
+                                email,
+                                status,
+                                submitted_at
+                            FROM applications
+                            ORDER BY submitted_at DESC";
     
     $result = $conn->query($query);
     
@@ -35,14 +37,15 @@ try {
     
     while ($row = $result->fetch_assoc()) {
         $applications[] = [
+            'application_id' => $row['application_id'],
+            'registration_no' => $row['registration_no'],
             'vendor_id' => $row['vendor_id'],
-            'application_id' => 'A' . str_pad($row['vendor_id'], 3, '0', STR_PAD_LEFT),
             'business_name' => $row['business_name'],
             'owner_name' => $row['owner_name'],
             'contact_number' => $row['contact_number'],
             'email' => $row['email'],
-            'status' => ucfirst(strtolower($row['STATUS'])),
-            'date_submitted' => date('M d, Y', strtotime($row['created_at']))
+            'status' => ucfirst(strtolower($row['status'])),
+            'date_submitted' => date('M d, Y', strtotime($row['submitted_at']))
         ];
     }
     

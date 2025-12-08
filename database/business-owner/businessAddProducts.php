@@ -24,15 +24,22 @@ $name = $_POST['name'] ?? '';
 $description = $_POST['description'] ?? '';
 $price = $_POST['price'] ?? '';
 
-$imageName = "";
+$imagePath = "";
 if (isset($_FILES['product_image']) && $_FILES['product_image']['name'] != "") {
-    $imageName = time() . '_' . basename($_FILES['product_image']['name']);
+    $original = basename($_FILES['product_image']['name']);
+    $safeBase = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
+    $imageName = time() . '_' . $safeBase;
     $tmpName = $_FILES['product_image']['tmp_name'];
 
-    $uploadDir = __DIR__ . "/AddProductImage";
+    // New public directory under assets/pictures/businessphotos/{vendor_id}
+    $projectRoot = realpath(__DIR__ . '/../../');
+    $uploadDir = $projectRoot . "/assets/pictures/businessphotos/" . $vendor_id;
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-    move_uploaded_file($tmpName, $uploadDir . "/" . $imageName);
+    if (move_uploaded_file($tmpName, $uploadDir . "/" . $imageName)) {
+        // Store relative path like "{vendor_id}/{filename}"
+        $imagePath = $vendor_id . "/" . $imageName;
+    }
 }
 
 // Insert product into database
@@ -40,7 +47,7 @@ $stmt = $conn->prepare("
     INSERT INTO products (vendor_id, NAME, description, price, image)
     VALUES (?, ?, ?, ?, ?)
 ");
-$stmt->bind_param("issds", $vendor_id, $name, $description, $price, $imageName);
+$stmt->bind_param("issds", $vendor_id, $name, $description, $price, $imagePath);
 
 if ($stmt->execute()) {
     echo json_encode([
@@ -51,7 +58,7 @@ if ($stmt->execute()) {
             "NAME" => $name,
             "description" => $description,
             "price" => $price,
-            "image" => $imageName
+            "image" => $imagePath
         ]
     ]);
 } else {

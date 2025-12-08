@@ -15,7 +15,7 @@ try {
                     address, email, description, estimated_time, location_detail, 
                     profile_image 
                     FROM vendors 
-                    WHERE vendor_id = ? AND STATUS = 'Approved'";
+                    WHERE vendor_id = ?";
     
     $stmt = $conn->prepare($vendorQuery);
     $stmt->bind_param("i", $vendor_id);

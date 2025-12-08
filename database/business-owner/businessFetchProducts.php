@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+session_start();
 
 // DB connection
 $host = "localhost";
@@ -10,28 +11,35 @@ $dbname = "louver";
 $conn = new mysqli($host, $user, $pass, $dbname);
 
 if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'products' => []]);
+    echo json_encode(["success" => false, "message" => "DB connection failed", "products" => []]);
     exit;
 }
 
-$vendor_id = 1; // Logged-in vendor ID
+// Require logged-in vendor
+if (!isset($_SESSION['vendor_id'])) {
+    echo json_encode(["success" => false, "message" => "Vendor not logged in", "products" => []]);
+    $conn->close();
+    exit;
+}
 
-// Fetch products
-$query = "SELECT * FROM products WHERE vendor_id = '$vendor_id' ORDER BY product_id DESC";
-$result = $conn->query($query);
+$vendor_id = (int) $_SESSION['vendor_id'];
+
+// Fetch products for this vendor
+$stmt = $conn->prepare("SELECT product_id, vendor_id, NAME, image, description, price FROM products WHERE vendor_id = ? ORDER BY product_id DESC");
+$stmt->bind_param("i", $vendor_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $products = [];
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
-    }
+while ($row = $result->fetch_assoc()) {
+    $products[] = $row;
 }
 
 echo json_encode([
-    'success' => true,
-    'products' => $products
+    "success" => true,
+    "products" => $products
 ]);
 
+$stmt->close();
 $conn->close();
 ?>
