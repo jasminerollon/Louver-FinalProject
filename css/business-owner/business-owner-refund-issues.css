@@ -375,6 +375,7 @@ body {
     background: white;
     padding: 20px;
     border-radius: 15px;
+    
 }
 
 .refund-header {
@@ -409,7 +410,10 @@ body {
     border: none;
     cursor: pointer;
     font-weight: 600;
+    display: block;
+    margin: 0 auto;
 }
+
 /* Dropdown container */
 .sort-dropdown {
     position: relative;
@@ -459,4 +463,32 @@ body {
 .sort-options li:hover:not(.label) {
     background: #f0f0f0;
     border-radius: 12px;
+}
+.upload-area {
+    border: 2px dashed #B20808;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.upload-area:hover {
+    background: #f8dede;
+    border-color: #8b0000;
+}
+
+.upload-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.upload-preview img,
+.upload-preview video {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 10px;
 }

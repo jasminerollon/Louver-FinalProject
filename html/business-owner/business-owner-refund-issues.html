@@ -202,10 +202,13 @@
                         The order was on-time and complete upon double-checking.
                     </p>
 
-                    <div class="upload-area">
-                        <p><i class="fa fa-upload"></i> Upload screenshots, photos, or videos</p>
-                    </div>
 
+                    <div class="upload-area" id="uploadArea">
+                    <p><i class="fa fa-upload"></i> Upload screenshots, photos, or videos</p>
+                    <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
+                    <div class="upload-preview" id="uploadPreview"></div>
+                    </div>
+                    
                     <button class="confirm-decision-btn">CONFIRM DECISION</button>
 
                 </div>
