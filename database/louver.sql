@@ -52,12 +52,11 @@ INSERT INTO `admins` (`admin_id`, `username`, `name`, `email`, `mobile_number`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `applications`
 --
 
 DROP TABLE IF EXISTS `applications`;
 CREATE TABLE IF NOT EXISTS `applications` (
-  `application_id` int NOT NULL AUTO_INCREMENT,
+  `application_id` varchar(10) NOT NULL,
   `registration_no` varchar(100) NOT NULL,
   `vendor_id` int DEFAULT NULL,
   `business_name` varchar(200) NOT NULL,
@@ -76,26 +75,25 @@ CREATE TABLE IF NOT EXISTS `applications` (
   UNIQUE KEY `registration_no` (`registration_no`),
   KEY `status` (`status`),
   KEY `vendor_id` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `applications`
 --
 
 INSERT INTO `applications` (`application_id`, `registration_no`, `vendor_id`, `business_name`, `owner_name`, `contact_number`, `address`, `email`, `location_detail`, `business_permit`, `description`, `status`, `rejection_reason`, `submitted_at`, `reviewed_at`) VALUES
-(1, 'permit_oval_001', 2, 'Oval Canteen', 'Marites Dela Cruz', '09171234567', 'SLU Bakakeng MaryHeights Campus Canteen', 'ovalcanteen.slu@gmail.com', '3rd Floor, Right Wing', 'permit_oval_001.pdf', 'Serving delicious Filipino-style fast food favorites. Home of crispy Chickenjoy and classic comfort meals.', 'Approved', NULL, '2025-10-15 09:30:00', '2025-10-15 09:30:00'),
-(2, 'permit_aroma_002', 3, 'Aroma & Blossom', 'Amanda Flores', '09381239812', 'SLU Bakakeng MaryHeights Campus Food Hall', 'aroma.blossom@gmail.com', '2nd Floor, Food Hall Section A', 'permit_aroma_002.pdf', 'Fresh flowers and aromatic coffee blends. Your perfect spot for specialty drinks and floral-inspired desserts.', 'Approved', NULL, '2025-11-02 14:20:00', '2025-11-02 14:20:00'),
-(3, 'permit_otg_003', NULL, 'On The Go Cafe', 'John Reyes', '09981234566', 'SLU Bakakeng MaryHeights Campus Food Hall', 'onthegocafe.slu@gmail.com', '1st Floor, Food Hall Near Entrance', 'permit_otg_003.pdf', 'Quick bites and energizing beverages for students on the move. Perfect for busy schedules.', 'Pending', NULL, '2025-11-18 11:45:00', NULL),
-(4, 'permit_mayos_004', 5, 'Mayo\'s Cup', 'Carlo Mendoza', '09192345678', 'SLU Bakakeng MaryHeights Campus Food Hall', 'mayoscup.ph@gmail.com', '2nd Floor, Food Hall Section B', 'permit_mayos_004.pdf', 'Premium coffee and refreshing beverages. Crafted with care for the perfect cup every time.', 'Approved', NULL, '2025-12-01 08:10:00', '2025-12-01 08:10:00'),
-(5, 'permit_emerson_005', NULL, 'Emerson Canteen', 'Emerson Lao', '09275678912', 'SLU Bakakeng MaryHeights Campus Canteen', 'emersoncanteen@gmail.com', '1st Floor, Main Canteen Area', 'permit_emerson_005.pdf', 'Traditional Filipino home-cooked meals. Affordable and delicious comfort food.', 'Rejected', 'Incomplete business documents', '2025-11-25 16:00:00', '2025-11-25 16:00:00'),
-(6, 'permit_chickaboo_006', 7, 'Chickaboo', 'Rina Javier', '09451234789', 'SLU Bakakeng MaryHeights Campus Food Hall', 'chickaboo.ph@gmail.com', '2nd Floor, Food Hall Section C', 'permit_chickaboo_006.pdf', 'Crispy fried chicken and Korean-inspired flavors. Satisfying meals that hit the spot.', 'Approved', NULL, '2025-11-26 13:50:00', '2025-11-26 13:50:00'),
-(7, 'permit_lasa_007', NULL, 'Lasa Brew Coffee', 'Miguel Santos', '09123987654', 'SLU Bakakeng MaryHeights Campus Food Hall', 'lasabrew@gmail.com', '1st Floor, Food Hall Corner', 'permit_lasa_007.pdf', 'Locally roasted coffee beans. Experience authentic Filipino coffee culture.', 'Pending', NULL, '2025-11-28 10:15:00', NULL),
-(8, 'permit_spice_008', 9, 'The Spice Route', 'Priya Sharma', '09567123456', 'SLU Bakakeng MaryHeights Campus Canteen', 'spiceroute.slu@gmail.com', '2nd Floor, Canteen Wing B', 'permit_spice_008.pdf', 'Authentic Indian cuisine with aromatic spices. From mild to spicy, we have it all.', 'Approved', NULL, '2025-11-20 15:30:00', '2025-11-20 15:30:00'),
-(9, 'permit_bubble_009', NULL, 'Bubble Bliss', 'Sarah Kim', '09876543210', 'SLU Bakakeng MaryHeights Campus Food Hall', 'bubblebliss.ph@gmail.com', '1st Floor, Food Hall Near Stairs', 'permit_bubble_009.pdf', 'Premium milk tea and fruit tea selections. Fresh ingredients, perfect pearls.', 'Pending', NULL, '2025-12-02 09:00:00', NULL),
-(10, 'permit_grill_010', NULL, 'The Grill House', 'Victor Reyes', '09234567890', 'SLU Bakakeng MaryHeights Campus Canteen', 'grillhouse.slu@gmail.com', '3rd Floor, Canteen Outdoor Area', 'permit_grill_010.pdf', 'Grilled meats and BBQ specialties. Smoky flavors and hearty portions.', 'Rejected', 'Business permit expired', '2025-11-27 13:45:00', '2025-11-27 13:45:00'),
-(11, 'permit_vegan_011', 12, 'Vegan Vibes', 'Elena Garcia', '09345678901', 'SLU Bakakeng MaryHeights Campus Food Hall', 'veganvibes@gmail.com', '2nd Floor, Food Hall Section D', 'permit_vegan_011.pdf', 'Plant-based meals that are both healthy and delicious. Sustainable dining options.', 'Approved', NULL, '2025-11-19 11:20:00', '2025-11-19 11:20:00'),
-(12, 'permit_sushi_012', NULL, 'Sushi Supreme', 'Takeshi Yamamoto', '09456789012', 'SLU Bakakeng MaryHeights Campus Food Hall', 'sushi.supreme@gmail.com', '2nd Floor, Food Hall Premium Section', 'permit_sushi_012.pdf', 'Fresh Japanese cuisine and sushi rolls. Authentic taste of Japan in every bite.', 'Pending', NULL, '2025-12-03 14:10:00', NULL),
-(13, 'permit_jollikod_001', 1, 'Jollikod', 'Jolli Dev', '09123450000', 'SLU Bakakeng MaryHeights Campus Food Hall', 'jollikod@slu.edu.ph', 'Ground Floor, Center Hall', 'permit_jollikod_001.pdf', 'Classic comfort meals and code-fueled bites.', 'Approved', NULL, '2025-10-10 10:00:00', '2025-10-10 10:00:00');
+('A001', 'permit_oval_001', 2, 'Oval Canteen', 'Marites Dela Cruz', '09171234567', 'SLU Bakakeng MaryHeights Campus Canteen', 'ovalcanteen.slu@gmail.com', '3rd Floor, Right Wing', 'permit_oval_001.pdf', 'Serving delicious Filipino-style fast food favorites. Home of crispy Chickenjoy and classic comfort meals.', 'Approved', NULL, '2025-10-15 09:30:00', '2025-10-15 09:30:00'),
+('A002', 'permit_aroma_002', 3, 'Aroma & Blossom', 'Amanda Flores', '09381239812', 'SLU Bakakeng MaryHeights Campus Food Hall', 'aroma.blossom@gmail.com', '2nd Floor, Food Hall Section A', 'permit_aroma_002.pdf', 'Fresh flowers and aromatic coffee blends. Your perfect spot for specialty drinks and floral-inspired desserts.', 'Approved', NULL, '2025-11-02 14:20:00', '2025-11-02 14:20:00'),
+('A003', 'permit_otg_003', NULL, 'On The Go Cafe', 'John Reyes', '09981234566', 'SLU Bakakeng MaryHeights Campus Food Hall', 'onthegocafe.slu@gmail.com', '1st Floor, Food Hall Near Entrance', 'permit_otg_003.pdf', 'Quick bites and energizing beverages for students on the move. Perfect for busy schedules.', 'Pending', NULL, '2025-11-18 11:45:00', NULL),
+('A004', 'permit_mayos_004', 5, 'Mayo\'s Cup', 'Carlo Mendoza', '09192345678', 'SLU Bakakeng MaryHeights Campus Food Hall', 'mayoscup.ph@gmail.com', '2nd Floor, Food Hall Section B', 'permit_mayos_004.pdf', 'Premium coffee and refreshing beverages. Crafted with care for the perfect cup every time.', 'Approved', NULL, '2025-12-01 08:10:00', '2025-12-01 08:10:00'),
+('A005', 'permit_emerson_005', NULL, 'Emerson Canteen', 'Emerson Lao', '09275678912', 'SLU Bakakeng MaryHeights Campus Canteen', 'emersoncanteen@gmail.com', '1st Floor, Main Canteen Area', 'permit_emerson_005.pdf', 'Traditional Filipino home-cooked meals. Affordable and delicious comfort food.', 'Rejected', 'Incomplete business documents', '2025-11-25 16:00:00', '2025-11-25 16:00:00'),
+('A006', 'permit_chickaboo_006', 7, 'Chickaboo', 'Rina Javier', '09451234789', 'SLU Bakakeng MaryHeights Campus Food Hall', 'chickaboo.ph@gmail.com', '2nd Floor, Food Hall Section C', 'permit_chickaboo_006.pdf', 'Crispy fried chicken and Korean-inspired flavors. Satisfying meals that hit the spot.', 'Approved', NULL, '2025-11-26 13:50:00', '2025-11-26 13:50:00'),
+('A007', 'permit_lasa_007', NULL, 'Lasa Brew Coffee', 'Miguel Santos', '09123987654', 'SLU Bakakeng MaryHeights Campus Food Hall', 'lasabrew@gmail.com', '1st Floor, Food Hall Corner', 'permit_lasa_007.pdf', 'Locally roasted coffee beans. Experience authentic Filipino coffee culture.', 'Pending', NULL, '2025-11-28 10:15:00', NULL),
+('A008', 'permit_spice_008', 9, 'The Spice Route', 'Priya Sharma', '09567123456', 'SLU Bakakeng MaryHeights Campus Canteen', 'spiceroute.slu@gmail.com', '2nd Floor, Canteen Wing B', 'permit_spice_008.pdf', 'Authentic Indian cuisine with aromatic spices. From mild to spicy, we have it all.', 'Approved', NULL, '2025-11-20 15:30:00', '2025-11-20 15:30:00'),
+('A009', 'permit_bubble_009', NULL, 'Bubble Bliss', 'Sarah Kim', '09876543210', 'SLU Bakakeng MaryHeights Campus Food Hall', 'bubblebliss.ph@gmail.com', '1st Floor, Food Hall Near Stairs', 'permit_bubble_009.pdf', 'Premium milk tea and fruit tea selections. Fresh ingredients, perfect pearls.', 'Pending', NULL, '2025-12-02 09:00:00', NULL),
+('A010', 'permit_grill_010', NULL, 'The Grill House', 'Victor Reyes', '09234567890', 'SLU Bakakeng MaryHeights Campus Canteen', 'grillhouse.slu@gmail.com', '3rd Floor, Canteen Outdoor Area', 'permit_grill_010.pdf', 'Grilled meats and BBQ specialties. Smoky flavors and hearty portions.', 'Rejected', 'Business permit expired', '2025-11-27 13:45:00', '2025-11-27 13:45:00'),
+('A011', 'permit_vegan_011', 12, 'Vegan Vibes', 'Elena Garcia', '09345678901', 'SLU Bakakeng MaryHeights Campus Food Hall', 'veganvibes@gmail.com', '2nd Floor, Food Hall Section D', 'permit_vegan_011.pdf', 'Plant-based meals that are both healthy and delicious. Sustainable dining options.', 'Approved', NULL, '2025-11-19 11:20:00', '2025-11-19 11:20:00'),
+('A012', 'permit_sushi_012', NULL, 'Sushi Supreme', 'Takeshi Yamamoto', '09456789012', 'SLU Bakakeng MaryHeights Campus Food Hall', 'sushi.supreme@gmail.com', '2nd Floor, Food Hall Premium Section', 'permit_sushi_012.pdf', 'Fresh Japanese cuisine and sushi rolls. Authentic taste of Japan in every bite.', 'Pending', NULL, '2025-12-03 14:10:00', NULL),
+('A013', 'permit_jollikod_001', 1, 'Jollikod', 'Jolli Dev', '09123450000', 'SLU Bakakeng MaryHeights Campus Food Hall', 'jollikod@slu.edu.ph', 'Ground Floor, Center Hall', 'permit_jollikod_001.pdf', 'Classic comfort meals and code-fueled bites.', 'Approved', NULL, '2025-10-10 10:00:00', '2025-10-10 10:00:00');
 
 -- --------------------------------------------------------
 

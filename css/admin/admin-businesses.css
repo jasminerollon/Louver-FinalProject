@@ -11,11 +11,18 @@
   margin-bottom: 25px;
 }
 
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
 .search-wrapper {
   position: relative;
 }
 
-.search-wrapper input {
+.businesses-container .search-wrapper input {
   width: 320px;
   padding: 12px 16px 12px 40px;
   border-radius: 15px;
@@ -38,18 +45,21 @@
   gap: 20px;
 }
 
-.sort-btn {
+.businesses-container .sort-btn {
   background: #b20808;
   border: none;
   padding: 10px 18px;
-  color: white;
-  border-radius: 25px;
+  color: #fff;
+  border-radius: 12px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  position: relative;
+  z-index: 2; /* ensure visible over card shadows */
 }
 
 .date-time {
@@ -68,7 +78,7 @@
   display: grid;
   grid-template-columns: 72px 1fr auto;
   align-items: center;
-  padding: 14px 16px;
+  padding: 18px 20px;
   background: #efefef;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -105,17 +115,58 @@
   color: #444;
 }
 
-.status {
-  padding: 6px 14px;
-  border-radius: 10px;
+.businesses-container .business-card .status {
+  padding: 0;
+  border-radius: 0;
   font-weight: 700;
-  font-size: 13px;
-  color: white;
+  font-size: 14px;
+  color: inherit;
 }
 
-.status.active { background: #59c16d; }
+.businesses-container .business-card .status.online {
+  background: transparent;
+  color: #1fa144; /* readable green text like screenshot */
+  padding: 0;
+}
+
+.businesses-container .business-card .status.offline {
+  background: transparent;
+  color: #9aa0a6; /* subtle gray like screenshot */
+  padding: 0;
+}
+
+/* Sort menu basic positioning if needed */
+.businesses-container .sort-dropdown { 
+  position: relative; 
+  display: inline-block; 
+  vertical-align: middle; 
+}
+
+.businesses-container .sort-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+  margin-top: 8px;
+  display: none;
+  overflow: hidden;
+  z-index: 1002; /* above navbar/card shadows */
+}
+
+.businesses-container .sort-menu.active { display: block; }
+.businesses-container .sort-menu p {
+  margin: 0;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.businesses-container .sort-menu p:hover { background: #f5f5f5; }
 
 @media (max-width: 768px) {
   .businesses-top { flex-direction: column; gap: 12px; align-items: flex-start; }
+  .controls-left { width: 100%; }
   .top-right { width: 100%; justify-content: space-between; }
 }
