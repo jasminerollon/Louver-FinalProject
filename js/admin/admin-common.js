@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // If you still have other <a href="logout.php"> elements in future, this will handle them
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a[href$="logout.php"]');
         if (!link) return;
