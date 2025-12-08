@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+session_start(); // Start session to access vendor_id
 
 $host = "localhost";
 $user = "root";
@@ -12,10 +13,16 @@ if ($conn->connect_error) {
     exit;
 }
 
+// Check if vendor is logged in
+if (!isset($_SESSION['vendor_id'])) {
+    echo json_encode(["success" => false, "message" => "Vendor not logged in"]);
+    exit;
+}
+
+$vendor_id = $_SESSION['vendor_id']; // Use logged-in vendor ID
 $name = $_POST['name'] ?? '';
 $description = $_POST['description'] ?? '';
 $price = $_POST['price'] ?? '';
-$vendor_id = 1;
 
 $imageName = "";
 if (isset($_FILES['product_image']) && $_FILES['product_image']['name'] != "") {
@@ -28,6 +35,7 @@ if (isset($_FILES['product_image']) && $_FILES['product_image']['name'] != "") {
     move_uploaded_file($tmpName, $uploadDir . "/" . $imageName);
 }
 
+// Insert product into database
 $stmt = $conn->prepare("
     INSERT INTO products (vendor_id, NAME, description, price, image)
     VALUES (?, ?, ?, ?, ?)
@@ -39,6 +47,7 @@ if ($stmt->execute()) {
         "success" => true,
         "product" => [
             "product_id" => $stmt->insert_id,
+            "vendor_id" => $vendor_id, // include vendor_id in response
             "NAME" => $name,
             "description" => $description,
             "price" => $price,
@@ -51,3 +60,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
+?>
