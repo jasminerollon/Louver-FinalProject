@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
             row.className = "product-row";
 
             const primarySrc = product.image
-                ? `../../assets/pictures/businessphotos/${product.image}`
-                : `../../assets/pictures/logo.png`;
+                ?  `../../assets/pictures/businessphotos/${product.image}`
+                : ``;
 
             row.innerHTML = `
                 <img src="${primarySrc}" class="prod-img">
