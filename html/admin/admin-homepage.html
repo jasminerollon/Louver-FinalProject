@@ -76,6 +76,102 @@
         </div>
     </div>
 
+
+    <!-- Application Detail Modal -->
+<div class="modal-overlay" id="applicationModal">
+  <div class="application-modal">
+
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-left">
+        <h1 id="modalBusinessName"></h1>
+        <span class="status-pill" id="modalStatus"></span>
+      </div>
+
+      <div class="header-right">
+        Submitted on:
+        <span id="modalDateSubmitted"></span>
+      </div>
+
+      <button class="modal-close" id="closeModal">&times;</button>
+    </div>
+
+    <!-- Body -->
+    <div class="app-body">
+
+      <!-- LEFT DETAILS -->
+      <div class="app-details">
+        <div class="detail-row">
+          <label>APPLICATION ID</label>
+          <span id="modalAppId"></span>
+        </div>
+
+        <div class="detail-row">
+          <label>BUSINESS REGISTRATION NUMBER</label>
+          <span id="modalRegNo"></span>
+        </div>
+
+        <div class="detail-row">
+          <label>LOCATION</label>
+          <span id="modalLocation"></span>
+        </div>
+
+        <div class="detail-row">
+          <label>OWNER NAME</label>
+          <span id="modalOwnerName"></span>
+        </div>
+
+        <div class="detail-row">
+          <label>CONTACT NUMBER</label>
+          <span id="modalContact"></span>
+        </div>
+
+        <div class="detail-row">
+          <label>EMAIL</label>
+          <span id="modalEmail"></span>
+        </div>
+      </div>
+
+      <!-- RIGHT PERMIT -->
+      <div class="permit-section">
+        <p class="permit-title">BUSINESS PERMIT</p>
+
+        <div class="permit-preview">
+          <iframe id="modalPermitLink" src="" frameborder="0"></iframe>
+        </div>
+
+        <a href="#" target="_blank" class="inspect-btn" id="inspectPermit">
+          <i class="fas fa-eye"></i> Inspect
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER ACTIONS -->
+    <div class="modal-actions-center">
+      <button class="approve-btn" id="btnApprove">APPROVE</button>
+      <button class="reject-btn" id="btnReject">REJECT</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- HIDDEN ELEMENTS REQUIRED BY JS (DO NOT REMOVE) -->
+<div style="display:none;">
+
+  <span id="modalAddress"></span>
+  <span id="modalDescription"></span>
+
+  <div id="modalActions"></div>
+
+  <div class="rejection-section" id="rejectionSection">
+    <textarea id="rejectionReason"></textarea>
+  </div>
+
+  <button id="btnCancel"></button>
+
+</div>
+
+
     <!-- Scripts -->
     <script src="../../js/admin/admin-homepage.js"></script>
     <script src="../../js/admin/admin-common.js"></script>
