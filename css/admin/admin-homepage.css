@@ -227,6 +227,14 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Center table headers and cells */
+.applications-table th,
+.applications-table td {
+    text-align: center;   /* horizontal center */
+    vertical-align: middle; /* vertical center */
+}
+
+
 .applications-table th:first-child {
     width: 50px;
 }
@@ -848,3 +856,15 @@ body {
         .error-message.show {
             display: block;
         }
+
+        /* Hide the checkboxes and the first column */
+.applications-table th:first-child,
+.applications-table td:first-child {
+    display: none;
+}
+
+/* Adjust the table so the first visible column doesn't shrink */
+.applications-table th:nth-child(2),
+.applications-table td:nth-child(2) {
+    width: auto; /* or set a fixed width if you want */
+}
