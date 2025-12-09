@@ -334,6 +334,7 @@ try {
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../js/business-owner/business-owner-myorders.js"></script>
+<script src="../../js/business-owner/business-owner-sort.js"></script>
 <script>
 // Store orders data for JavaScript
 const ordersData = <?php echo json_encode($orders); ?>;

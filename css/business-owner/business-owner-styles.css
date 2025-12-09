@@ -30,7 +30,7 @@ body {
 }
 
 .left-section {
-  background: #a40000 url("../../../../assets/pictures/logo.png") no-repeat center center;
+  background: #a40000 url("../../assets/pictures/logo.png") no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
