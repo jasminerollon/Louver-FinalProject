@@ -84,9 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = `customer-products.html?rid=${v.vendor_id}`;
             };
             
+            // Use banner_image for homepage cards, fallback to profile_image if no banner
+            const imageToUse = v.banner_image || v.profile_image || 'default.png';
+            
             card.innerHTML = `
                 <div class="card-image">
-                    <img src="../../assets/pictures/${v.profile_image}" alt="${v.business_name}">
+                    <img src="../../assets/pictures/${imageToUse}" alt="${v.business_name}" onerror="this.src='../../assets/pictures/default.png'">
                 </div>
                 <div class="card-info">
                     <h3>${v.business_name}</h3>
