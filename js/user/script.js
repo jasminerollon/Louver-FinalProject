@@ -468,11 +468,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show success modal
                     const successModal = document.getElementById('successModal');
                     if (successModal) {
-                        successModal.style.display = 'flex';
-                        // Redirect after 1.5 seconds
+                        // Small delay before showing modal to ensure it's rendered
+                        setTimeout(() => {
+                            successModal.style.display = 'flex';
+                        }, 100);
+                        // Redirect after 2 seconds
                         setTimeout(() => {
                             window.location.href = 'customer-homepage.html';
-                        }, 1500);
+                        }, 2000);
                     } else {
                         window.location.href = 'customer-homepage.html';
                     }
