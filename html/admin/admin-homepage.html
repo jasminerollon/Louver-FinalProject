@@ -209,6 +209,41 @@
         </div>
     </div>
 
+    <!-- Approval Confirmation Modal -->
+<div class="approval-modal-overlay" id="approvalModalOverlay">
+    <div class="approval-modal">
+        <h2>Approve Application?</h2>
+        <p>Are you sure you want to approve this application?</p>
+
+        <div class="approval-modal-actions">
+            <button class="approval-cancel-btn" id="approvalCancelBtn">Cancel</button>
+            <button class="approval-confirm-btn" id="approvalConfirmBtn">Confirm Approve</button>
+        </div>
+    </div>
+</div>
+
+<!-- Rejection Confirmation Modal -->
+<div class="rejection-confirmation-overlay" id="rejectionConfirmationOverlay">
+    <div class="rejection-confirmation-modal">
+        <h2>Reject Application?</h2>
+        <p>Are you sure you want to reject this application?</p>
+        <div class="rejection-confirmation-actions">
+            <button class="cancel-btn" id="rejectionConfirmCancelBtn">Cancel</button>
+            <button class="confirm-btn" id="rejectionConfirmConfirmBtn">Confirm Reject</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="success-modal-overlay" id="successModalOverlay">
+  <div class="success-modal">
+    <h2 id="successModalTitle">Success!</h2>
+    <p id="successModalMessage">The application has been processed successfully.</p>
+    <button id="successModalCloseBtn">OK</button>
+  </div>
+</div>
+
+
 <!-- HIDDEN ELEMENTS REQUIRED BY JS (DO NOT REMOVE) -->
 <div style="display:none;">
 

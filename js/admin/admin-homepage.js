@@ -380,10 +380,10 @@ function closeRejectionModal() {
 
 function confirmRejection() {
     if (!currentApplicationId) return;
-    
+
     const selectedReason = document.querySelector('input[name="rejectionReason"]:checked');
     const errorElement = document.getElementById('rejectionError');
-    
+
     if (!selectedReason) {
         errorElement.textContent = 'Please select a rejection reason';
         errorElement.classList.add('show');
@@ -392,7 +392,7 @@ function confirmRejection() {
 
     let rejectionReason = selectedReason.value;
     const otherReasonText = document.getElementById('otherReasonText').value.trim();
-    
+
     if (rejectionReason === 'others' && otherReasonText) {
         rejectionReason = otherReasonText;
     } else if (rejectionReason === 'others' && !otherReasonText) {
@@ -405,20 +405,33 @@ function confirmRejection() {
     if (additionalDetails) {
         rejectionReason += ' | Additional details: ' + additionalDetails;
     }
-    
-    if (!confirm('Are you sure you want to reject this application?')) {
-        return;
-    }
 
-    const confirmBtn = document.getElementById('rejectionConfirmBtn');
+    // Open the rejection confirmation modal instead of using confirm()
+    const overlay = document.getElementById('rejectionConfirmationOverlay');
+    overlay.classList.add('active');
+
+    const cancelBtn = document.getElementById('rejectionConfirmCancelBtn');
+    const confirmBtn = document.getElementById('rejectionConfirmConfirmBtn');
+
+    cancelBtn.onclick = () => {
+        overlay.classList.remove('active');
+    };
+
+    confirmBtn.onclick = () => {
+        overlay.classList.remove('active');
+        sendRejectionRequest(rejectionReason);
+    };
+}
+
+// Move the fetch call into a separate function
+function sendRejectionRequest(rejectionReason) {
+    const confirmBtn = document.getElementById('rejectionConfirmConfirmBtn');
     confirmBtn.disabled = true;
     confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Rejecting...';
-    
+
     fetch('../../database/admin/updateApplicationStatus.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             application_id: currentApplicationId,
             status: 'Rejected',
@@ -428,23 +441,24 @@ function confirmRejection() {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            alert('Application rejected successfully!');
             closeRejectionModal();
             closeModal();
             fetchApplications();
+            showSuccessModal('Application Rejected', 'The application has been rejected successfully!');
         } else {
-            alert('Error: ' + data.message);
+            showSuccessModal('Error', data.message);
             confirmBtn.disabled = false;
-            confirmBtn.innerHTML = 'Confirm Rejection';
+            confirmBtn.innerHTML = 'Confirm Reject';
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to reject application');
+        showSuccessModal('Error', 'Failed to reject application');
         confirmBtn.disabled = false;
-        confirmBtn.innerHTML = 'Confirm Rejection';
+        confirmBtn.innerHTML = 'Confirm Reject';
     });
 }
+
 
 function setupRejectionModalListeners() {
     const rejectionOverlay = document.getElementById('rejectionModalOverlay');
@@ -484,41 +498,71 @@ function setupRejectionModalListeners() {
 
 function approveApplication() {
     if (!currentApplicationId) return;
-    
-    if (!confirm('Are you sure you want to approve this application?')) {
-        return;
-    }
-    
-    const approveBtn = document.getElementById('btnApprove');
-    approveBtn.disabled = true;
-    approveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Approving...';
-    
-    fetch('../../database/admin/updateApplicationStatus.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            application_id: currentApplicationId,
-            status: 'Approved'
+
+    // Open approval modal
+    const approvalOverlay = document.getElementById('approvalModalOverlay');
+    approvalOverlay.classList.add('active');
+
+    const cancelBtn = document.getElementById('approvalCancelBtn');
+    const confirmBtn = document.getElementById('approvalConfirmBtn');
+
+    // Cancel button closes modal
+    cancelBtn.onclick = () => approvalOverlay.classList.remove('active');
+
+    // Confirm approval
+    confirmBtn.onclick = () => {
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Approving...';
+
+        fetch('../../database/admin/updateApplicationStatus.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                application_id: currentApplicationId,
+                status: 'Approved'
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert('Application approved successfully!');
-            closeModal();
-            fetchApplications(); // Refresh the table
-        } else {
-            alert('Error: ' + data.message);
-            approveBtn.disabled = false;
-            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to approve application');
-        approveBtn.disabled = false;
-        approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve';
-    });
+        .then(res => res.json())
+        .then(data => {
+    if (data.status === 'success') {
+        approvalOverlay.classList.remove('active');
+        closeModal();
+        fetchApplications();
+
+        // Show success modal instead of alert
+        showSuccessModal('Application Approved', 'The application has been approved successfully!');
+    } else {
+        showSuccessModal('Error', data.message);
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = 'Confirm Approve';
+    }
+})
+
+        .catch(err => {
+            console.error(err);
+            alert('Failed to approve application');
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = 'Confirm Approve';
+        });
+    };
 }
+
+function showSuccessModal(title, message) {
+    const overlay = document.getElementById('successModalOverlay');
+    const modalTitle = document.getElementById('successModalTitle');
+    const modalMessage = document.getElementById('successModalMessage');
+    const closeBtn = document.getElementById('successModalCloseBtn');
+
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+
+    overlay.classList.add('active');
+
+    closeBtn.onclick = () => {
+        overlay.classList.remove('active');
+    };
+
+    // Optional: auto-close after 3 seconds
+    // setTimeout(() => overlay.classList.remove('active'), 3000);
+}
+
