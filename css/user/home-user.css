@@ -120,10 +120,11 @@ body {
 }
 
 h1 {
-    color: #a51f1f;
-    font-size: 40px;
+    color: #b20808;
+    font-size: 46px;
     margin: 0;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
 }
 
 .buttons {

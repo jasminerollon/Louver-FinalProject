@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php 
+session_start();
+// No output before this point
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -32,8 +35,8 @@
 </div>
 
 <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 80px); padding: 40px 20px;">
-    <form action="../../database/user/updateCustomerPassword.php" method="POST" id="passwordForm" style="width: 100%; max-width: 450px; background: white; border-radius: 25px; padding: 40px 35px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);">
-        <h1 style="font-size: 32px; color: #B40000; font-weight: 700; text-align: center; margin: 0 0 8px 0; line-height: 1.2;">RESET YOUR<br>PASSWORD</h1>
+    <form id="passwordForm" style="width: 100%; max-width: 450px; background: white; border-radius: 25px; padding: 40px 35px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);">
+        <h1 style="font-size: 46px; color: #b20808; font-weight: 700; text-align: center; margin: 0 0 8px 0; line-height: 1.2; font-family: 'Inter', sans-serif;">RESET YOUR<br>PASSWORD</h1>
         
         <div class="divider" style="width: 100%; height: 3px; background: #c93131; margin: 25px 0;"></div>
         
@@ -92,37 +95,61 @@
         submitBtn.style.background = '#B40000';
     });
     
-    // Form validation
-    document.getElementById('passwordForm').addEventListener('submit', function(e) {
+    // Form validation and AJAX submission
+    document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
         const newPassword = document.getElementById('new-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
         
         if (newPassword.length < 6) {
-            e.preventDefault();
             showError('Password must be at least 6 characters long');
             return false;
         }
         
         if (newPassword !== confirmPassword) {
-            e.preventDefault();
             showError('Passwords do not match');
             return false;
         }
-    });
-    
-    // Check for success or error messages from PHP session
-    window.addEventListener('DOMContentLoaded', function() {
-        <?php
-        session_start();
-        if (isset($_SESSION['password_updated']) && $_SESSION['password_updated'] === true) {
-            echo "document.getElementById('successModal').style.display = 'flex';";
-            unset($_SESSION['password_updated']);
+        
+        // Submit via AJAX
+        const formData = new FormData();
+        formData.append('new_password', newPassword);
+        formData.append('confirm_password', confirmPassword);
+        
+        try {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Updating...';
+            
+            const response = await fetch('../../database/user/updateCustomerPassword.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error('Server error');
+            }
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                // Clear form
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                // Show success modal
+                document.getElementById('successModal').style.display = 'flex';
+            } else {
+                showError(data.message || 'An error occurred');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showError('Network error. Please try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Changes';
         }
-        if (isset($_SESSION['password_error'])) {
-            echo "showError('" . addslashes($_SESSION['password_error']) . "');";
-            unset($_SESSION['password_error']);
-        }
-        ?>
+        
+        return false;
     });
     
     function redirectToAccount() {

@@ -32,10 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_result($customer_id, $name, $password_hash);
         $stmt->fetch();
 
-        //verify hashed password
-        if ($password === $password_hash) {
-            
-            // store session
+        // Verify password - support both hashed and plain text (for migration)
+        $password_valid = false;
+        
+        // Check if password is hashed (bcrypt hashes start with $2y$)
+        if (substr($password_hash, 0, 4) === '$2y$') {
+            // Use password_verify for hashed passwords
+            $password_valid = password_verify($password, $password_hash);
+        } else {
+            // Plain text comparison for legacy accounts
+            $password_valid = ($password === $password_hash);
+        }
+        
+        if ($password_valid) {
+            // Store session
             $_SESSION['customer_id'] = $customer_id;
             $_SESSION['customer_name'] = $name;
             $_SESSION['customer_email'] = $email;

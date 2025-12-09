@@ -1,15 +1,21 @@
 <?php
 session_start();
 header('Content-Type: application/json');
+ob_clean(); // Clean any output buffer
 
 require '../connectDB.php';
 
-// use session customer_id (like your other functions)
+// Check if user is logged in
+if (!isset($_SESSION['customer_id'])) {
+    echo json_encode(['status' => 'error', 'message' => 'Not logged in']);
+    exit;
+}
+
 $customer_id = $_SESSION['customer_id'];
 $new_password = $_POST['new_password'] ?? '';
 $confirm_password = $_POST['confirm_password'] ?? '';
 
-// basic validation
+// Basic validation
 if (empty($new_password) || empty($confirm_password)) {
     echo json_encode(['status' => 'error', 'message' => 'All fields are required']);
     exit;
@@ -20,27 +26,33 @@ if ($new_password !== $confirm_password) {
     exit;
 }
 
-// hash the password (to implement soon)
-// $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+// Validate password length
+if (strlen($new_password) < 6) {
+    echo json_encode(['status' => 'error', 'message' => 'Password must be at least 6 characters long']);
+    exit;
+}
 
-// for now, store plain text
-$password_to_save = $new_password;
+// Hash the password for security
+$password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
-// update in database
+// Update in database
 $stmt = $conn->prepare("UPDATE customers SET password_hash = ? WHERE customer_id = ?");
-$stmt->bind_param("si", $password_to_save, $customer_id);
+$stmt->bind_param("si", $password_hash, $customer_id);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
-        header("Location: ../../../html/user/customer-homepage.html");
-        exit;
+        $response = ['status' => 'success', 'message' => 'Password updated successfully'];
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'No changes made. Please check your account.']);
+        $response = ['status' => 'error', 'message' => 'No changes made or password is the same'];
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Update failed: ' . $stmt->error]);
+    $response = ['status' => 'error', 'message' => 'Update failed: ' . $stmt->error];
 }
 
 $stmt->close();
 $conn->close();
+
+// Send clean JSON response
+echo json_encode($response);
+exit;
 ?>
