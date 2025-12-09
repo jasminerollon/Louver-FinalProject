@@ -31,87 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+    const activeContainer = document.querySelector('.orders.active-orders .orders-list');
+    const pastContainer = document.querySelector('.orders.past-orders .orders-list');
+    const reportedContainer = document.querySelector('.orders.reported-orders .orders-list');
+
+    let ordersState = [];
+    let currentOrder = null;
+
     //for edit customer info 
     const saveBtn = document.getElementById('save-changes');
     const signupForm = document.getElementById('signup-form');
     const signupBtn = document.getElementById('go-to-signup');
     const passwordForm = document.getElementById('passwordForm');
-    const activeContainer = document.querySelector('.orders.active-orders .orders-list');
-    const pastContainer = document.querySelector('.orders.past-orders .orders-list');
     const restoSearchInput = document.getElementById("restoSearchInput");
-
-
-    //customer past and active users fetch
-    fetch("../../database/user/getOrders.php")
-    .then(res => res.json())
-    .then(orders => {
-        console.log('Orders fetched:', orders);
-
-        if (activeContainer) activeContainer.innerHTML = '';
-        if (pastContainer) pastContainer.innerHTML = '';
-
-        orders.forEach(order => {
-            const card = document.createElement('article');
-            card.classList.add('order-card');
-            card.setAttribute('data-total', `₱ ${order.total_price}`);
-            card.setAttribute('data-order-id', order.order_id);
-
-            card.innerHTML = `
-                <div class="order-image">
-                    <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name}">
-                </div>
-                <div class="order-info">
-                    <h3>${order.vendor_name}</h3>
-                    <div class="order-meta">
-                        ${formatDate(order.created_at)}<br>
-                        <strong>Order # ${order.order_id}</strong>
-                    </div>
-                    <ul class="order-items"></ul>
-                </div>
-                <div class="order-actions">
-                    <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
-                </div>
-            `;
-
-            // Append to correct container
-            if (order.status === 'Delivered' || order.status === 'Rejected') {
-                if (pastContainer) pastContainer.appendChild(card);
-            } else {
-                if (activeContainer) activeContainer.appendChild(card);
-            }
-        });
-
-        document.body.addEventListener('click', e => {
-            if (e.target.matches('.btn-status')) {
-                const orderId = e.target.dataset.orderId;
-                openOrderModal(orderId, orders);
-            }
-        });
-    })
-    .catch(err => console.error(err));
-
-    function formatDate(timestamp) {
-        const date = new Date(timestamp);
-        return `Ordered on ${date.toDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-    }
-
-    function openOrderModal(orderId, orders) {
-        const order = orders.find(o => o.order_id == orderId);
-        if (!order) return;
-
-        const modal = document.getElementById('order-modal-overlay');
-        if (!modal) return;
-
-        modal.hidden = false;
-        document.getElementById('modal-restaurant').textContent = order.vendor_name;
-        document.getElementById('modal-total').textContent = `₱ ${order.total_price}`;
-        document.getElementById('status-text').textContent = `Status: ${order.status}`;
-        document.getElementById('modal-items').innerHTML = '';
-
-        window.currentOrderId = order.order_id;
-    }
-
-    
 
     let allVendors = [];
     // Function to render vendors
@@ -150,6 +82,252 @@ document.addEventListener('DOMContentLoaded', function() {
         renderVendors(vendors);
     })
     .catch(err => console.error(err));
+
+    // ----------------------------
+    // Orders + report flow
+    // ----------------------------
+    const orderModalOverlay = document.getElementById('order-modal-overlay');
+    const orderModalClose = orderModalOverlay?.querySelector('.order-modal-close');
+    const modalRestaurant = document.getElementById('modal-restaurant');
+    const modalMeta = document.getElementById('modal-meta');
+    const modalItems = document.getElementById('modal-items');
+    const modalTotal = document.getElementById('modal-total');
+    const statusText = document.getElementById('status-text');
+    const reportBtn = document.getElementById('reportBtn');
+    const itemTemplate = document.getElementById('order-item-template');
+
+    const reportModalOverlay = document.getElementById('report-modal-overlay');
+    const reportCategorySelect = document.getElementById('issue_category');
+    const reportDescription = document.getElementById('report_description');
+    const reportFileInput = reportModalOverlay?.querySelector('input[type="file"]');
+    const reportFileLabel = reportModalOverlay?.querySelector('.upload-proof span');
+    const reportOrderIdLabel = document.getElementById('report-order-id');
+    const reportVendorLabel = document.getElementById('report-vendor');
+    const cancelReportBtn = document.getElementById('cancelReport');
+    const confirmReportBtn = document.getElementById('confirmReport');
+
+    const categoriesLoaded = { done: false };
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return `Ordered on ${date.toDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    }
+
+    function toggleEmpty(container, hasData) {
+        if (!container) return;
+        const msg = container.querySelector('.no-orders-msg');
+        if (msg) msg.style.display = hasData ? 'none' : '';
+    }
+
+    function renderOrders(orders) {
+        if (activeContainer) activeContainer.innerHTML = '<p class="no-orders-msg">You have no active orders.</p>';
+        if (pastContainer) pastContainer.innerHTML = '<p class="no-orders-msg">You have no past orders.</p>';
+        if (reportedContainer) reportedContainer.innerHTML = '<p class="no-orders-msg">You have no reported orders.</p>';
+
+        orders.forEach(order => {
+            const card = document.createElement('article');
+            card.classList.add('order-card');
+            card.dataset.orderId = order.order_id;
+            card.dataset.vendorId = order.vendor_id;
+            card.dataset.vendorName = order.vendor_name;
+            card.dataset.total = `₱ ${order.total_price}`;
+
+            card.innerHTML = `
+                <div class="order-image">
+                    <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name} logo">
+                </div>
+                <div class="order-info">
+                    <h3>${order.vendor_name}</h3>
+                    <div class="order-meta">
+                        ${formatDate(order.created_at)}<br>
+                        <strong>Order # ${order.order_id}</strong>
+                    </div>
+                    <ul class="order-items"></ul>
+                </div>
+                <div class="order-actions">
+                    <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
+                </div>
+            `;
+
+            const target = (order.status === 'Delivered' || order.status === 'Rejected') ? pastContainer : activeContainer;
+            if (target) {
+                toggleEmpty(target, true);
+                target.appendChild(card);
+            }
+        });
+    }
+
+    function loadOrders() {
+        if (!(activeContainer || pastContainer)) return;
+        fetch('../../database/user/getOrders.php')
+            .then(res => res.json())
+            .then(orders => {
+                ordersState = Array.isArray(orders) ? orders : [];
+                renderOrders(ordersState);
+            })
+            .catch(err => console.error(err));
+    }
+
+    function clearNode(node) {
+        if (!node) return;
+        while (node.firstChild) node.removeChild(node.firstChild);
+    }
+
+    function openOrderModal(orderId) {
+        if (!orderModalOverlay) return;
+        const order = ordersState.find(o => String(o.order_id) === String(orderId));
+        const card = document.querySelector(`.order-card[data-order-id="${orderId}"]`);
+        if (!order || !card) return;
+        currentOrder = order;
+
+        if (modalRestaurant) modalRestaurant.textContent = order.vendor_name || 'Your Order';
+        if (modalMeta) modalMeta.innerHTML = `${formatDate(order.created_at)}<br><strong>Order # ${order.order_id}</strong>`;
+        if (modalTotal) modalTotal.textContent = `₱ ${order.total_price}`;
+        if (statusText) statusText.textContent = `Status: ${order.status}`;
+
+        clearNode(modalItems);
+        if (itemTemplate && card) {
+            const items = card.querySelectorAll('.order-items li');
+            if (items.length) {
+                items.forEach(li => {
+                    const clone = itemTemplate.content.cloneNode(true);
+                    const t = clone.querySelector('.modal-item-text');
+                    const p = clone.querySelector('.modal-item-price');
+                    if (t) t.textContent = li.textContent.trim();
+                    const price = li.dataset?.price ? Number(li.dataset.price) : null;
+                    if (p) p.textContent = price != null ? `₱ ${price.toFixed(2)}` : '';
+                    modalItems.appendChild(clone);
+                });
+            } else {
+                const fallback = document.createElement('div');
+                fallback.className = 'modal-item';
+                fallback.textContent = 'Items for this order are not available yet.';
+                modalItems.appendChild(fallback);
+            }
+        }
+
+        orderModalOverlay.hidden = false;
+        orderModalOverlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeOrderModal() {
+        if (!orderModalOverlay) return;
+        orderModalOverlay.hidden = true;
+        orderModalOverlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    orderModalClose?.addEventListener('click', closeOrderModal);
+    orderModalOverlay?.addEventListener('click', e => e.target === orderModalOverlay && closeOrderModal());
+    document.addEventListener('keydown', e => e.key === 'Escape' && !orderModalOverlay?.hidden && closeOrderModal());
+
+    document.addEventListener('click', e => {
+        const statusBtn = e.target.closest('.btn-status');
+        if (statusBtn) {
+            const orderId = statusBtn.dataset.orderId;
+            openOrderModal(orderId);
+        }
+    });
+
+    function populateReportCategories() {
+        if (!reportCategorySelect || categoriesLoaded.done) return;
+        fetch('../../database/user/getOrderCategories.php')
+            .then(res => res.json())
+            .then(categories => {
+                reportCategorySelect.innerHTML = '';
+                (categories || []).forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat;
+                    opt.textContent = cat;
+                    reportCategorySelect.appendChild(opt);
+                });
+                categoriesLoaded.done = true;
+            })
+            .catch(err => console.error('Failed to fetch categories:', err));
+    }
+
+    function resetReportForm() {
+        if (reportDescription) reportDescription.value = '';
+        if (reportFileInput) reportFileInput.value = '';
+        if (reportFileLabel) reportFileLabel.textContent = 'Upload screenshots, photos, or videos';
+    }
+
+    function openReportModal() {
+        if (!reportModalOverlay) return;
+        if (!currentOrder) {
+            alert('Open an order first to report it.');
+            return;
+        }
+        populateReportCategories();
+        if (reportOrderIdLabel) reportOrderIdLabel.textContent = `Order # ${currentOrder.order_id}`;
+        if (reportVendorLabel) reportVendorLabel.textContent = `Vendor: ${currentOrder.vendor_name || ''}`;
+
+        resetReportForm();
+        reportModalOverlay.hidden = false;
+        reportModalOverlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeReportModal() {
+        if (!reportModalOverlay) return;
+        reportModalOverlay.hidden = true;
+        reportModalOverlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    function submitReport() {
+        if (!currentOrder) {
+            alert('Cannot submit report: missing order info.');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('order_id', currentOrder.order_id);
+        formData.append('vendor_id', currentOrder.vendor_id);
+        formData.append('issue_category', reportCategorySelect?.value || '');
+        formData.append('description', reportDescription?.value?.trim() || '');
+        if (reportFileInput && reportFileInput.files.length > 0) {
+            formData.append('customer_proof', reportFileInput.files[0]);
+        }
+
+        fetch('../../database/user/submitReport.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data?.success) {
+                alert(data.message || 'Report submitted successfully!');
+                closeReportModal();
+                resetReportForm();
+                loadOrders();
+            } else {
+                alert(data?.message || 'Failed to submit report.');
+            }
+        })
+        .catch(err => {
+            console.error('Submit report failed:', err);
+            alert('Failed to submit report. Please try again.');
+        });
+    }
+
+    reportBtn?.addEventListener('click', openReportModal);
+    cancelReportBtn?.addEventListener('click', closeReportModal);
+    reportModalOverlay?.addEventListener('click', e => e.target === reportModalOverlay && closeReportModal());
+    document.addEventListener('keydown', e => e.key === 'Escape' && !reportModalOverlay?.hidden && closeReportModal());
+    reportFileInput?.addEventListener('change', () => {
+        if (!reportFileLabel) return;
+        if (reportFileInput.files.length === 0) {
+            reportFileLabel.textContent = 'Upload screenshots, photos, or videos';
+        } else if (reportFileInput.files.length === 1) {
+            reportFileLabel.textContent = reportFileInput.files[0].name;
+        } else {
+            reportFileLabel.textContent = `${reportFileInput.files.length} files selected`;
+        }
+    });
+    confirmReportBtn?.addEventListener('click', submitReport);
+
+    loadOrders();
 
     //live search for resto 
     if (restoSearchInput) {
@@ -282,151 +460,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-
- /* ----------------------------
-   MY ORDERS: modal setup (updated)
-   - Opens order modal
-   - Opens report modal inside order modal
-   ---------------------------- */
-(function setupOrderModalIfPresent() {
-    const overlay = document.getElementById('order-modal-overlay');
-    const itemTemplate = document.getElementById('order-item-template');
-
-    const reportOverlay = document.getElementById('report-modal-overlay');
-    const openReportBtn = document.getElementById('reportBtn');
-    const cancelBtn = document.getElementById('cancelReport');
-    const confirmBtn = document.getElementById('confirmReport');
-
-    // If the page doesn't include the order modal overlay OR template, stop
-    if (!overlay || !itemTemplate) return;
-
-    const modalRestaurant = overlay.querySelector('#modal-restaurant');
-    const modalMeta = overlay.querySelector('#modal-meta');
-    const modalItemsContainer = overlay.querySelector('#modal-items');
-    const modalTotal = overlay.querySelector('#modal-total');
-    const modalCloseBtn = overlay.querySelector('.order-modal-close');
-
-    /* ----------------------------
-       OPEN ORDER MODAL
-       ---------------------------- */
-    function openOrderModalFromCard(card) {
-        if (!card) return;
-
-        const titleEl = card.querySelector('h3');
-        modalRestaurant.textContent = titleEl ? titleEl.textContent.trim() : 'Your Order';
-
-        const orderMetaEl = card.querySelector('.order-meta');
-        if (orderMetaEl) {
-            modalMeta.innerHTML = orderMetaEl.innerHTML;
-        } else {
-            modalMeta.textContent = '';
-        }
-
-        // Clear old items
-        while (modalItemsContainer.firstChild)
-            modalItemsContainer.removeChild(modalItemsContainer.firstChild);
-
-        const itemEls = Array.from(card.querySelectorAll('.order-items li'));
-        itemEls.forEach(li => {
-            const clone = itemTemplate.content.cloneNode(true);
-            const textNode = clone.querySelector('.modal-item-text');
-            const priceNode = clone.querySelector('.modal-item-price');
-
-            if (textNode) textNode.textContent = li.textContent.trim();
-
-            const price =
-                li.dataset && li.dataset.price
-                    ? Number(li.dataset.price)
-                    : null;
-
-            if (priceNode)
-                priceNode.textContent = price != null ? '₱ ' + price.toFixed(2) : '';
-
-            modalItemsContainer.appendChild(clone);
-        });
-
-        // Total
-        if (card.dataset && card.dataset.total) {
-            modalTotal.textContent = card.dataset.total;
-        } else {
-            let sum = 0;
-            itemEls.forEach(li => {
-                const p = li.dataset && li.dataset.price
-                    ? parseFloat(li.dataset.price)
-                    : 0;
-                if (!isNaN(p)) sum += p;
-            });
-            modalTotal.textContent = sum ? '₱ ' + sum.toFixed(2) : '—';
-        }
-
-        overlay.hidden = false;
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('modal-open');
-
-        if (modalCloseBtn) modalCloseBtn.focus();
-    }
-
-    function closeOrderModal() {
-        overlay.hidden = true;
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-    }
-
-    if (modalCloseBtn) {
-        modalCloseBtn.addEventListener('click', closeOrderModal);
-    }
-
-    overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) closeOrderModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !overlay.hidden) closeOrderModal();
-    });
-
-    const statusButtons = document.querySelectorAll('.btn-status');
-    statusButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const card = this.closest('.order-card');
-            openOrderModalFromCard(card);
-        });
-    });
-
-    /* ----------------------------
-       REPORT MODAL (INSIDE ORDER MODAL)
-       ---------------------------- */
-    if (reportOverlay && openReportBtn) {
-        function openReportModal() {
-            reportOverlay.hidden = false;
-            reportOverlay.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('modal-open');
-        }
-
-        function closeReportModal() {
-            reportOverlay.hidden = true;
-            reportOverlay.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('modal-open');
-        }
-
-        openReportBtn.addEventListener('click', openReportModal);
-
-        cancelBtn && cancelBtn.addEventListener('click', closeReportModal);
-
-        confirmBtn && confirmBtn.addEventListener('click', function () {
-            alert("Report submitted!");
-            closeReportModal();
-        });
-
-        reportOverlay.addEventListener('click', function (e) {
-            if (e.target === reportOverlay) closeReportModal();
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && !reportOverlay.hidden) closeReportModal();
-        });
-    }
-
-})();
 
     // Navigation between pages
     const loginButtons2 = document.querySelectorAll('.login-btn');
@@ -688,73 +721,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Something went wrong. Please try again.');
         }
         });
-    }
-
-    //customer orders fetch
-    if (activeContainer || pastContainer) { 
-        fetch('../../database/user/getOrders.php')
-            .then(res => res.json())
-            .then(orders => {
-                if (activeContainer) activeContainer.innerHTML = '';
-                if (pastContainer) pastContainer.innerHTML = '';
-
-                orders.forEach(order => {
-                    const card = document.createElement('article');
-                    card.classList.add('order-card');
-                    card.setAttribute('data-total', `₱ ${order.total_price}`);
-                    card.setAttribute('data-order-id', order.order_id);
-
-                    card.innerHTML = `
-                        <div class="order-image">
-                            <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name} logo">
-                        </div>
-                        <div class="order-info">
-                            <h3>${order.vendor_name}</h3>
-                            <div class="order-meta">
-                                ${formatDate(order.created_at)}<br>
-                                <strong>Order # ${order.order_id}</strong>
-                            </div>
-                            <ul class="order-items"></ul>
-                        </div>
-                        <div class="order-actions">
-                            <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
-                        </div>
-                    `;
-
-                    if (order.status === 'Delivered' || order.status === 'Rejected') {
-                        if (pastContainer) pastContainer.appendChild(card);
-                    } else {
-                        if (activeContainer) activeContainer.appendChild(card);
-                    }
-                });
-
-                document.body.addEventListener('click', e => {
-                    if (e.target.matches('.btn-status')) {
-                        const orderId = e.target.dataset.orderId;
-                        openOrderModal(orderId, orders);
-                    }
-                });
-            })
-            .catch(err => console.error(err));
-    }
-
-    function formatDate(timestamp) {
-        const date = new Date(timestamp);
-        return `Ordered on ${date.toDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-    }
-
-    function openOrderModal(orderId, orders) {
-        const order = orders.find(o => o.order_id == orderId);
-        if (!order) return;
-
-        const modal = document.getElementById('order-modal-overlay');
-        if (!modal) return;
-
-        modal.hidden = false;
-        document.getElementById('modal-restaurant').textContent = order.vendor_name;
-        document.getElementById('modal-total').textContent = `₱ ${order.total_price}`;
-        document.getElementById('status-text').textContent = `Status: ${order.status}`;
-        document.getElementById('modal-items').innerHTML = '';
     }
 
     // Enhanced button navigation for all pages (only for navigation buttons, not form submission)

@@ -5,7 +5,7 @@ require_once '../connectDB.php';
 session_start();
 $customer_id = isset($_SESSION['customer_id']) ? $_SESSION['customer_id'] : 101;
 
-$sql = "SELECT o.*, v.business_name, v.profile_image
+$sql = "SELECT o.*, v.business_name, v.profile_image, v.vendor_id
         FROM orders o
         JOIN vendors v ON o.vendor_id = v.vendor_id
         WHERE o.customer_id = ?
@@ -20,6 +20,7 @@ $orders = [];
 while ($row = $result->fetch_assoc()) {
     $orders[] = [
         'order_id' => $row['order_id'],
+        'vendor_id' => $row['vendor_id'],
         'vendor_name' => $row['business_name'],
         'vendor_image' => $row['profile_image'] ? $row['profile_image'] : 'default.png',
         'total_price' => number_format($row['total_price'], 2),

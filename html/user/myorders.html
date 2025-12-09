@@ -119,21 +119,24 @@
     <div class="report-modal">
       <h2>Report Order</h2>
 
-      <label>Category</label>
-      <select>
-        <option>Did not receive products</option>
-        <option>Wrong item delivered</option>
-        <option>Damaged product</option>
-      </select>
+      <div class="report-meta">
+        <p id="report-order-id" class="report-meta-row"></p>
+        <p id="report-vendor" class="report-meta-row"></p>
+      </div>
 
+      <label for="issue_category">Category</label>
+      <select id="issue_category" name="issue_category">
+        <!-- Options will be populated dynamically via JS -->
+      </select>
+      
       <label>Proof</label>
       <div class="upload-proof" onclick="this.querySelector('input').click()">
         <span>Upload screenshots, photos, or videos</span>
-        <input type="file" multiple hidden>
+        <input type="file" name="customer_proof" accept="image/*" multiple hidden>
       </div>
 
       <label>Additional Information</label>
-      <textarea placeholder="Type here"></textarea>
+      <textarea name="description" id="report_description" placeholder="Type here"></textarea>
 
       <div class="modal-actions">
         <button id="confirmReport">CONFIRM</button>

@@ -205,24 +205,51 @@ INSERT INTO `orders` (`order_id`, `customer_id`, `vendor_id`, `total_price`, `pa
 (7, 1, 1, 328.00, 'COD', 'Preparing', NULL, '2025-12-08 19:06:26');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `order_issues`
---
+-- TABLE: order_issues
+-- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `order_issues`;
 CREATE TABLE IF NOT EXISTS `order_issues` (
   `issue_id` int NOT NULL AUTO_INCREMENT,
   `order_id` int NOT NULL,
   `vendor_id` int NOT NULL,
-  `issue_reason` varchar(255) NOT NULL,
+  `customer_proof` text DEFAULT NULL,
+  `vendor_decision` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `vendor_feedback` text DEFAULT NULL,
+  `vendor_proof` text DEFAULT NULL,
+  `issue_reason` enum(
+    'Did not receive products',
+    'Wrong item delivered',
+    'Damaged product',
+    'Late delivery',
+    'Incomplete order',
+    'Rejected order appeal',
+    'Payment issue',
+    'Other'
+  ) NOT NULL,
   `description` text,
-  `STATUS` enum('Pending','Reviewed','Resolved') DEFAULT 'Pending',
+  `status` enum('Pending','Reviewed','Resolved') DEFAULT 'Pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`issue_id`),
   KEY `order_id` (`order_id`),
   KEY `vendor_id` (`vendor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+-- DUMMY DATA for order_issues
+-- --------------------------------------------------------
+
+INSERT INTO `order_issues`
+(`issue_id`, `order_id`, `vendor_id`, `customer_proof`, `vendor_decision`, `vendor_feedback`, `vendor_proof`, `issue_reason`, `description`, `status`, `created_at`)
+VALUES
+(1, 1, 1, 'broken_item.jpg', 'Approved', 'We acknowledge the issue and will refund.', 'refund_receipt.jpg', 'Damaged product', 'Customer reported item arrived broken.', 'Resolved', '2025-10-16 12:00:00'),
+
+(2, 3, 3, 'no_delivery.png', 'Pending', NULL, NULL, 'Did not receive products', 'Customer claims delivery is taking too long.', 'Pending', '2025-11-18 13:20:00'),
+
+(3, 5, 5, 'wrong_docs.png', 'Rejected', 'Documents were incomplete and not valid.', NULL, 'Rejected order appeal', 'Customer appealing rejection of order.', 'Reviewed', '2025-11-26 16:00:00'),
+
+(4, 7, 1, 'wrong_order_img.jpg', 'Pending', NULL, NULL, 'Wrong item delivered', 'Customer received incorrect product.', 'Pending', '2025-12-08 20:00:00');
+
 
 -- --------------------------------------------------------
 
