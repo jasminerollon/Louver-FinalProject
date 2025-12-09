@@ -59,12 +59,12 @@ if (!$vendor) {
     exit;
 }
 
-// Compare password (placeholder; switch to password_verify if hashes used)
-if ($password === $vendor['password_hash']) {
+// Compare password using hash
+if (password_verify($password, $vendor['password_hash'])) {
     $_SESSION['vendor_id'] = $vendor['vendor_id'];
     $_SESSION['vendor_name'] = $vendor['business_name'];
 
-    // Mark vendor as Online for session tracking
+    // Mark vendor as Online
     $upd = $conn->prepare("UPDATE vendors SET session_status='Online' WHERE vendor_id = ?");
     if ($upd) {
         $upd->bind_param("i", $vendor['vendor_id']);
@@ -72,7 +72,7 @@ if ($password === $vendor['password_hash']) {
         $upd->close();
     }
 
-    // Check latest application status and route accordingly
+    // Route based on application status
     $status = 'Approved';
     $app = $conn->prepare("SELECT status FROM applications WHERE vendor_id = ? ORDER BY reviewed_at DESC, submitted_at DESC LIMIT 1");
     if ($app) {
