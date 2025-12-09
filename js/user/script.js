@@ -19,6 +19,30 @@ async function updateCartCount() {
     }
 }
 
+// Modal functions for reset password page
+window.showResetErrorModal = function(message) {
+    const modal = document.getElementById('errorModalOverlay');
+    const messageEl = document.getElementById('errorMessage');
+    if (modal && messageEl) {
+        messageEl.textContent = message;
+        modal.style.display = 'flex';
+    }
+}
+
+window.closeResetErrorModal = function() {
+    const modal = document.getElementById('errorModalOverlay');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+window.showResetSuccessModal = function(message) {
+    const modal = document.getElementById('successModalOverlay');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Update cart count on page load
     updateCartCount();
@@ -572,18 +596,61 @@ document.addEventListener('DOMContentLoaded', function() {
                 const confirmPassword = resetForm.querySelector('input[placeholder*="Confirm"]').value.trim();
                 
                 if (!email || !newPassword || !confirmPassword) {
-                    alert('Please fill all fields');
+                    showResetErrorModal('Please fill all fields');
                     return;
                 }
                 
                 if (newPassword !== confirmPassword) {
-                    alert('Passwords do not match!');
+                    showResetErrorModal('Passwords do not match!');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    showResetErrorModal('Password must be at least 6 characters');
                     return;
                 }
                 
-                // Here you would send the reset request to your PHP backend
-                alert('Password reset functionality would be implemented here');
-                window.location.href = 'login.html';
+                // Send to backend
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('new_password', newPassword);
+                formData.append('confirm_password', confirmPassword);
+
+                fetch('../../database/user/resetPassword.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Server error');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Show success modal
+                        const modal = document.getElementById('successModalOverlay');
+                        console.log('Success! Showing modal:', modal);
+                        if (modal) {
+                            modal.style.display = 'flex';
+                            modal.style.alignItems = 'center';
+                            modal.style.justifyContent = 'center';
+                            console.log('Modal display set to:', modal.style.display);
+                        } else {
+                            console.error('Modal element not found!');
+                        }
+                        // Redirect after 2.5 seconds
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2500);
+                    } else {
+                        showResetErrorModal(data.message || 'Failed to reset password');
+                    }
+                })
+                .catch(err => {
+                    console.error('Reset error:', err);
+                    showResetErrorModal('Network error. Please try again.');
+                });
             });
         }
     }
@@ -861,28 +928,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle LOG IN navigation buttons (not form submission)
         if (e.target.classList.contains('login-btn') && (e.target.textContent.includes('LOG IN') || e.target.textContent.includes('BACK TO LOGIN')) && !e.target.closest('form')) {
             e.preventDefault();
-            window.location.href = 'login.html';
-        }
-        
-        // Handle reset password page buttons
-        if (e.target.classList.contains('signup-btn') && e.target.textContent.includes('RESET PASSWORD') && !e.target.closest('form')) {
-            e.preventDefault();
-            
-            const email = document.querySelector('input[type="email"]')?.value.trim();
-            const newPassword = document.querySelector('input[placeholder*="New Password"]')?.value.trim();
-            const confirmPassword = document.querySelector('input[placeholder*="Confirm"]')?.value.trim();
-            
-            if (!email || !newPassword || !confirmPassword) {
-                alert('Please fill all fields');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            alert('Password reset successful! Redirecting to login...');
             window.location.href = 'login.html';
         }
     });
