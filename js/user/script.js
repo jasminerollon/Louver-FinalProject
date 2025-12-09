@@ -145,6 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (order.vendor_feedback) card.dataset.vendorFeedback = order.vendor_feedback;
             if (order.issue_reason) card.dataset.issueReason = order.issue_reason;
 
+            const isReported = order.status === 'Reported' || order.issue_status;
+            const actionsHtml = isReported
+                ? `<button class="btn btn-view-report" data-order-id="${order.order_id}">VIEW REPORT</button>`
+                : `<button class="btn btn-status" data-order-id="${order.order_id}">${(order.status || '').toUpperCase()}</button>`;
+
             card.innerHTML = `
                 <div class="order-image">
                     <img src="../../assets/pictures/${order.vendor_image}" alt="${order.vendor_name} logo">
@@ -158,13 +163,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="order-items"></ul>
                 </div>
                 <div class="order-actions">
-                    <button class="btn btn-status" data-order-id="${order.order_id}">${(order.status || '').toUpperCase()}</button>
-                    ${order.status === 'Reported' || order.issue_status ? `<button class="btn btn-view-report" data-order-id="${order.order_id}">VIEW REPORT</button>` : ''}
+                    ${actionsHtml}
                 </div>
             `;
 
             const isPast = order.status === 'Delivered' || order.status === 'Rejected';
-            const isReported = order.status === 'Reported' || order.issue_status;
             const target = isReported ? reportedContainer : (isPast ? pastContainer : activeContainer);
             if (target) {
                 toggleEmpty(target, true);
@@ -202,24 +205,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (statusText) statusText.textContent = `Status: ${order.status}`;
 
         clearNode(modalItems);
-        if (itemTemplate && card) {
-            const items = card.querySelectorAll('.order-items li');
-            if (items.length) {
-                items.forEach(li => {
-                    const clone = itemTemplate.content.cloneNode(true);
-                    const t = clone.querySelector('.modal-item-text');
-                    const p = clone.querySelector('.modal-item-price');
-                    if (t) t.textContent = li.textContent.trim();
-                    const price = li.dataset?.price ? Number(li.dataset.price) : null;
-                    if (p) p.textContent = price != null ? `₱ ${price.toFixed(2)}` : '';
-                    modalItems.appendChild(clone);
-                });
-            } else {
-                const fallback = document.createElement('div');
-                fallback.className = 'modal-item';
-                fallback.textContent = 'Items for this order are not available yet.';
-                modalItems.appendChild(fallback);
-            }
+        const items = Array.isArray(order.order_items) ? order.order_items : [];
+        if (items.length && itemTemplate) {
+            items.forEach(it => {
+                const row = itemTemplate.content.cloneNode(true);
+                const t = row.querySelector('.modal-item-text');
+                const p = row.querySelector('.modal-item-price');
+                if (t) t.textContent = `${it.quantity} x ${it.product_name}`;
+                if (p) p.textContent = `₱ ${(Number(it.price_at_time) * Number(it.quantity)).toFixed(2)}`;
+                modalItems.appendChild(row);
+            });
+        } else {
+            const fallback = document.createElement('div');
+            fallback.className = 'modal-item';
+            fallback.textContent = 'Items for this order are not available yet.';
+            modalItems.appendChild(fallback);
         }
 
         orderModalOverlay.hidden = false;

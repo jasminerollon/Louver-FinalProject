@@ -111,6 +111,23 @@
     </div>
   </div>
 
+  <!-- Single-vendor cart warning modal -->
+  <div id="vendor-conflict-modal" class="modal" style="display:none;">
+    <div class="modal-content" style="max-width:420px; padding: 1.25rem;">
+      <div class="modal-header">
+        <h2>Switch Restaurant?</h2>
+        <button class="close-button" onclick="hideVendorConflict()">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin: 0.5rem 0 1rem; color:#444;">Your cart has items from another restaurant. Clear cart to add this item?</p>
+      </div>
+      <div class="modal-actions" style="display:flex; gap:12px; justify-content:flex-end;">
+        <button class="add-to-cart-btn" style="background:#8B0000;" id="confirmClearCart">Clear cart & add</button>
+        <button class="add-to-cart-btn" style="background:#999;" onclick="hideVendorConflict()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <script src="../../js/user/customer-products.js"></script>
 </body>
 </html>

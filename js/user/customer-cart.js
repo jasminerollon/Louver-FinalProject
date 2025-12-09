@@ -74,26 +74,31 @@ document.addEventListener('DOMContentLoaded', () => {
     totalPriceEl.textContent = `₱ ${grandTotal.toFixed(2)}`;
   }
 
-  async function saveMetaAndNotify() {
+  async function checkout() {
     const address = addressInput?.value.trim() || '';
+    if (!address) {
+      alert('Please enter a delivery address.');
+      return;
+    }
     const note = noteInput?.value.trim() || '';
     try {
       const formData = new FormData();
       formData.append('delivery_address', address);
       formData.append('note', note);
-      const res = await fetch('../../database/user/saveCartMeta.php', {
+      const res = await fetch('../../database/user/checkout.php', {
         method: 'POST',
         body: formData
       });
       const data = await res.json();
       if (data?.success) {
-        alert('Delivery info saved. Proceeding to checkout.');
+        alert('Order placed! Order ID: ' + data.order_id);
+        window.location.href = 'myorders.html';
       } else {
-        alert(data?.message || 'Failed to save delivery info');
+        alert(data?.message || 'Failed to place order');
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to save delivery info');
+      alert('Failed to place order');
     }
   }
 
@@ -133,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setQuantity(productId, delta);
   });
 
-  checkoutBtn?.addEventListener('click', saveMetaAndNotify);
+  checkoutBtn?.addEventListener('click', checkout);
 
   fetchCart();
 });
