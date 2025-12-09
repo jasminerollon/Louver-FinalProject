@@ -51,13 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Handle image upload
 if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-    $imageName = time() . "_" . basename($_FILES['image']['name']);
-    $targetPath = __DIR__ . "/../../businessphotos/" . $imageName; // absolute path
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-        $image_path = "businessphotos/".$imageName; // path for database
-    } else {
-        // handle error
-        $image_path = null;
+    $original = basename($_FILES['image']['name']);
+    $safeBase = preg_replace('/[^A-Za-z0-9._-]/', '_', $original);
+    $imageName = time() . '_' . $safeBase;
+    
+    // Use same directory structure as add product
+    $projectRoot = realpath(__DIR__ . '/../../');
+    $uploadDir = $projectRoot . "/assets/pictures/businessphotos/" . $vendor_id;
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+    
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . "/" . $imageName)) {
+        $image_path = $vendor_id . "/" . $imageName; // Store as vendor_id/filename
     }
 }
 
@@ -78,13 +82,11 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
 
     
 }
-// Make the image path web-accessible
-$image_path = $image ? "/Louver-Finalproject/" . $image : ""; 
-
+// Return image path relative to businessphotos folder
 echo json_encode([
     'name' => $name,
     'description' => $description,
     'price' => $price,
-    'image' => $image_path
+    'image' => $image // Already stored as vendor_id/filename
 ]);
 ?>

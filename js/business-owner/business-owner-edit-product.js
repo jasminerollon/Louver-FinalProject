@@ -22,8 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             if (!data.error) {
-                // THIS LINE sets the product image
-                productImage.src = data.image || "";
+                // Set the product image with correct path
+                if (data.image) {
+                    productImage.src = `../../assets/pictures/businessphotos/${data.image}`;
+                } else {
+                    productImage.src = "../../assets/pictures/default-food.png";
+                }
+                productImage.onerror = function() {
+                    this.src = "../../assets/pictures/default-food.png";
+                };
 
                 // Fill in the form fields
                 nameInput.value = data.name;
@@ -89,9 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedFile) {
             formData.append("image", selectedFile);
         } else {
-            // Strip the leading "/Louver-Finalproject/" before sending to PHP
-            const relativePath = existingImagePath.replace('/Louver-Finalproject/', '');
-            formData.append("existing_image", relativePath);
+            // Keep existing image path
+            formData.append("existing_image", existingImagePath);
         }
 
         fetch(`../../database/business-owner/businessEditProduct.php?id=${productId}`, {

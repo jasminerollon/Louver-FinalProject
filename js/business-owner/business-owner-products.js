@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const primarySrc = product.image
                 ?  `../../assets/pictures/businessphotos/${product.image}`
-                : ``;
+                : `../../assets/pictures/default-food.png`;
 
             row.innerHTML = `
-                <img src="${primarySrc}" class="prod-img">
+                <img src="${primarySrc}" class="prod-img" onerror="this.src='../../assets/pictures/default-food.png'">
 
                 <div class="prod-name">${product.NAME}</div>
 
