@@ -216,3 +216,22 @@
     from { opacity: 0; transform: scale(.95); }
     to   { opacity: 1; transform: scale(1); }
 }
+
+
+/* Issues button styling */
+.issues-btn {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 12px;
+    padding: 4px 8px;
+    background: #ffc107;
+    color: #856404;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.issues-btn:hover {
+    background: #e0a800;
+    color: #856404;
+}
