@@ -83,6 +83,55 @@ document.addEventListener('DOMContentLoaded', () => {
     totalPriceEl.textContent = `₱ ${grandTotal.toFixed(2)}`;
   }
 
+  function showConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  }
+
+  window.closeConfirmModal = function() {
+    const modal = document.getElementById('confirmModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  function showSuccessModal(message) {
+    const modal = document.getElementById('successModal');
+    const messageEl = document.getElementById('successMessage');
+    if (modal && messageEl) {
+      messageEl.textContent = message;
+      modal.style.display = 'block';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 2500);
+    }
+  }
+
+  window.confirmClearCart = async function() {
+    closeConfirmModal();
+    try {
+      const res = await fetch('../../database/user/clearCart.php', {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (data?.success) {
+        fetchCart();
+        showSuccessModal('Cart cleared successfully!');
+      } else {
+        showSuccessModal(data?.message || 'Failed to clear cart');
+      }
+    } catch (err) {
+      console.error(err);
+      showSuccessModal('Failed to clear cart');
+    }
+  }
+
+  async function clearCart() {
+    showConfirmModal();
+  }
+
   async function checkout() {
     const address = addressInput?.value.trim() || '';
     if (!address) {
@@ -100,14 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json();
       if (data?.success) {
-        alert('Order placed! Order ID: ' + data.order_id);
-        window.location.href = 'myorders.html';
+        showSuccessModal('Order placed! Order ID: ' + data.order_id);
+        setTimeout(() => {
+          window.location.href = 'myorders.html';
+        }, 2000);
       } else {
-        alert(data?.message || 'Failed to place order');
+        showSuccessModal(data?.message || 'Failed to place order');
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to place order');
+      showSuccessModal('Failed to place order');
     }
   }
 
@@ -148,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   checkoutBtn?.addEventListener('click', checkout);
+  
+  const clearCartBtn = document.getElementById('clearCartBtn');
+  clearCartBtn?.addEventListener('click', clearCart);
 
   fetchCart();
 });
