@@ -39,6 +39,29 @@ $result = $stmt->get_result();
 
 $orders = [];
 while ($row = $result->fetch_assoc()) {
+    $order_id = $row['order_id'];
+    
+    // Fetch order items for this order
+    $items_sql = "SELECT oi.*, p.NAME as product_name 
+                  FROM order_items oi 
+                  LEFT JOIN products p ON oi.product_id = p.product_id 
+                  WHERE oi.order_id = ?";
+    $items_stmt = $conn->prepare($items_sql);
+    $items_stmt->bind_param("i", $order_id);
+    $items_stmt->execute();
+    $items_result = $items_stmt->get_result();
+    
+    $order_items = [];
+    while ($item = $items_result->fetch_assoc()) {
+        $order_items[] = [
+            'product_id' => $item['product_id'],
+            'product_name' => $item['product_name'],
+            'quantity' => $item['quantity'],
+            'price_at_time' => $item['price_at_time']
+        ];
+    }
+    $items_stmt->close();
+    
     $orders[] = [
         'order_id' => $row['order_id'],
         'vendor_id' => $row['vendor_id'],
@@ -51,7 +74,8 @@ while ($row = $result->fetch_assoc()) {
         'issue_status' => $row['issue_status'] ?? null,
         'vendor_decision' => $row['vendor_decision'] ?? null,
         'vendor_feedback' => $row['vendor_feedback'] ?? null,
-        'issue_reason' => $row['issue_reason'] ?? null
+        'issue_reason' => $row['issue_reason'] ?? null,
+        'order_items' => $order_items
     ];
 }
 
