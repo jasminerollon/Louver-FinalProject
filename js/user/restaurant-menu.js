@@ -282,6 +282,12 @@ function updateCartCount() {
     const cartCountElement = document.querySelector('.cart-count');
     if (cartCountElement) {
         cartCountElement.textContent = totalItems;
+        // Show badge only if count > 0
+        if (totalItems > 0) {
+            cartCountElement.style.display = 'block';
+        } else {
+            cartCountElement.style.display = 'none';
+        }
     }
 }
 

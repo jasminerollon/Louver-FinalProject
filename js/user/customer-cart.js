@@ -25,7 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await fetch('../../database/user/getCartCount.php');
       const data = await res.json();
-      if (cartBadge) cartBadge.textContent = data?.count ?? 0;
+      const count = data?.count ?? 0;
+      if (cartBadge) {
+        cartBadge.textContent = count;
+        // Show badge only if count > 0
+        if (count > 0) {
+          cartBadge.style.display = 'block';
+        } else {
+          cartBadge.style.display = 'none';
+        }
+      }
     } catch (_) {
       // ignore
     }

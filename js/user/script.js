@@ -1,4 +1,28 @@
+// Function to update cart count badge
+async function updateCartCount() {
+    try {
+        const res = await fetch('../../database/user/getCartCount.php');
+        const data = await res.json();
+        const count = data?.count ?? 0;
+        const cartBadge = document.querySelector('.cart-count');
+        if (cartBadge) {
+            cartBadge.textContent = count;
+            // Show badge only if count > 0
+            if (count > 0) {
+                cartBadge.style.display = 'block';
+            } else {
+                cartBadge.style.display = 'none';
+            }
+        }
+    } catch (err) {
+        console.error('Failed to update cart count:', err);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Update cart count on page load
+    updateCartCount();
+
     // Cart click handler - redirect to customer-cart.html
     const cartElement = document.querySelector('.cart');
     if (cartElement) {
@@ -873,13 +897,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Sort vendors based on selection
                     let sortedVendors = [...allVendors];
-                    if (selectedValue === 'distance') {
-                        // Sort alphabetically by business name
+                    if (selectedValue === 'alphabetical') {
+                        // Sort alphabetically by business name A-Z
                         sortedVendors.sort((a, b) => a.business_name.localeCompare(b.business_name));
-                        console.log('Sorting vendors alphabetically');
+                        console.log('Sorting vendors alphabetically A-Z');
                     } else if (selectedValue === 'relevance') {
-                        // Keep original order for relevance
-                        console.log('Using original vendor order');
+                        // Sort by vendor_id (first accepted businesses have lower IDs)
+                        sortedVendors.sort((a, b) => parseInt(a.vendor_id) - parseInt(b.vendor_id));
+                        console.log('Sorting vendors by relevance (vendor_id order)');
                     }
                     
                     // Render sorted vendors

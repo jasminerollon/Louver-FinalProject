@@ -51,7 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('../../database/user/getCartCount.php');
       const data = await res.json();
       const count = data?.count ?? 0;
-      if (cartBadge) cartBadge.textContent = count;
+      if (cartBadge) {
+        cartBadge.textContent = count;
+        // Show badge only if count > 0
+        if (count > 0) {
+          cartBadge.style.display = 'block';
+        } else {
+          cartBadge.style.display = 'none';
+        }
+      }
     } catch (_) {
       /* noop */
     }
@@ -144,8 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'menu-item';
         card.onclick = () => openProductModal(p);
+        const imgPath = p.image ? `../../assets/pictures/businessphotos/${p.image}` : '../../assets/pictures/default-food.png';
         card.innerHTML = `
-          <img src="../../assets/pictures/businessphotos/${p.image || 'default-food.png'}" alt="${p.NAME}" class="menu-item-image" onerror="this.src='../../assets/pictures/default-food.png'">
+          <img src="${imgPath}" alt="${p.NAME}" class="menu-item-image" onerror="this.src='../../assets/pictures/default-food.png'">
           <div class="menu-item-info">
             <h3>${p.NAME}</h3>
             <p class="menu-item-price">₱ ${Number(p.price).toFixed(2)}</p>
@@ -175,7 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
     modalName.textContent = p.NAME;
     modalDesc.textContent = p.description || 'No description available.';
     modalPrice.textContent = `₱ ${Number(p.price).toFixed(2)}`;
-    modalImg.src = `../../assets/pictures/businessphotos/${p.image || 'default-food.png'}`;
+    const imgPath = p.image ? `../../assets/pictures/businessphotos/${p.image}` : '../../assets/pictures/default-food.png';
+    modalImg.src = imgPath;
     modalImg.onerror = () => modalImg.src = '../../assets/pictures/default-food.png';
     modal.style.display = 'flex';
   }
@@ -206,7 +216,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const data = await res.json().catch(() => ({}));
       if (data?.success) {
-        if (typeof data.cart_count !== 'undefined' && cartBadge) cartBadge.textContent = data.cart_count;
+        if (typeof data.cart_count !== 'undefined' && cartBadge) {
+          cartBadge.textContent = data.cart_count;
+          // Show badge if count > 0
+          if (data.cart_count > 0) {
+            cartBadge.style.display = 'block';
+          } else {
+            cartBadge.style.display = 'none';
+          }
+        }
         else updateCartCount();
         if (showAlerts) alert('Added to cart');
         closeProductModal();

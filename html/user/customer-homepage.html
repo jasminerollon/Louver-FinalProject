@@ -28,7 +28,7 @@
 
       <div class="cart" title="Cart" role="button" aria-label="View cart">
         <img src="../../assets/pictures/cart.png" alt="Cart" class="cart-icon">
-        <span class="cart-count" aria-live="polite">2</span>
+        <span class="cart-count" aria-live="polite" style="display: none;">0</span>
       </div>
     </div>
   </header>
@@ -37,7 +37,7 @@
     <div class="top-row">
       <div class="search-and-filters">
         <div class="search-wrapper">
-          <input class="search-input" id="restoSearchInput" type="search" placeholder="Search restaurants, cuisines, and dishes" aria-label="Search">
+          <input class="search-input" id="restoSearchInput" type="search" placeholder="Search restaurants" aria-label="Search">
         </div>
 
         <aside class="sidebar" aria-label="Filters">
@@ -49,7 +49,7 @@
               </button>
               <div class="dropdown-menu" id="sortMenu">
                 <div class="dropdown-item" data-value="relevance">Relevance</div>
-                <div class="dropdown-item" data-value="distance">Distance</div>
+                <div class="dropdown-item" data-value="alphabetical">A-Z</div>
               </div>
             </div>
           </div>
