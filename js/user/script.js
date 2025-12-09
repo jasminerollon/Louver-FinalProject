@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             card.className = 'card';
             card.style.cursor = 'pointer';
             card.onclick = () => {
-                window.location.href = `restaurant-menu.html?vendor_id=${v.vendor_id}`;
+                window.location.href = `customer-products.html?rid=${v.vendor_id}`;
             };
             
             card.innerHTML = `

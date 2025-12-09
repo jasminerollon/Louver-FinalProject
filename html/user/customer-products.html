@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restaurant Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/user/restaurant-menu.css" />
+</head>
+<body>
+  <header class="navbar" role="banner">
+    <div class="logo">
+      <img src="../../assets/pictures/logo.png" alt="Louver logo" class="logo-img">
+      <span>LOUVER</span>
+    </div>
+
+    <div class="navbar-right">
+      <nav aria-label="Main navigation">
+        <a href="customer-homepage.html">BROWSE</a>
+        <a href="myorders.html">MY ORDERS</a>
+        <a href="account.html">PROFILE</a>
+      </nav>
+
+      <div class="cart" title="Cart" role="button" aria-label="View cart">
+        <img src="../../assets/pictures/cart.png" alt="Cart" class="cart-icon">
+        <span class="cart-count" aria-live="polite">0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <div class="restaurant-header">
+      <button class="back-button" onclick="window.history.back()">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="28" cy="28" r="28" fill="#8B0000"/>
+          <path d="M32 18L20 28L32 38" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="restaurant-logo">
+        <img id="restaurantImage" src="" alt="Restaurant">
+      </div>
+
+      <div class="restaurant-info">
+        <h1 id="restaurantName">Loading...</h1>
+        <p id="restaurantDescription" class="restaurant-description"></p>
+        <div class="restaurant-meta">
+          <div class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7" stroke="#8B0000" stroke-width="1.5" fill="none"/>
+              <path d="M8 4v4l3 2" stroke="#8B0000" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span id="estimatedTime">10 mins</span>
+          </div>
+          <div class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 1C5.24 1 3 3.24 3 6c0 3.5 5 9 5 9s5-5.5 5-9c0-2.76-2.24-5-5-5zm0 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="#8B0000"/>
+            </svg>
+            <span id="locationDetail">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-controls">
+      <div class="search-wrapper">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="#666" stroke-width="2"/>
+          <path d="M12 12L16 16" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input class="search-input" id="menuSearchInput" type="search" placeholder="Search in menu" aria-label="Search menu">
+      </div>
+
+      <div class="category-tabs" id="categoryTabs"></div>
+    </div>
+
+    <div class="menu-content" id="menuContent"></div>
+  </main>
+
+  <div id="productModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalRestaurantName">Restaurant</h2>
+        <button class="close-button" onclick="closeProductModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-product-image">
+          <img id="modalProductImage" src="" alt="Product">
+        </div>
+
+        <div class="modal-product-info">
+          <div class="modal-product-header">
+            <h3 id="modalProductName">Product Name</h3>
+            <p class="modal-product-price" id="modalProductPrice">₱ 0</p>
+          </div>
+          <p class="modal-product-description" id="modalProductDescription">Product description goes here</p>
+
+          <div class="modal-quantity">
+            <label>QUANTITY</label>
+            <div class="quantity-controls">
+              <button class="quantity-btn" id="qtyMinus">◄</button>
+              <span id="quantityValue">1</span>
+              <button class="quantity-btn" id="qtyPlus">►</button>
+            </div>
+          </div>
+
+          <button class="add-to-cart-btn" id="addToCartBtn">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/user/customer-products.js"></script>
+</body>
+</html>
+
