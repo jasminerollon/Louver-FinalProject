@@ -105,7 +105,7 @@
             </div>
           </div>
 
-          <button class="add-to-cart-btn" id="addToCartBtn">ADD TO CART</button>
+          <button class="add-to-cart-btn" id="addToCartBtn" onclick="setTimeout(function(){ if(window.showSuccessModal) window.showSuccessModal(); }, 500);">ADD TO CART</button>
         </div>
       </div>
     </div>
@@ -128,6 +128,37 @@
     </div>
   </div>
 
+  <!-- Success Toast Notification -->
+  <div id="successToast" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 245, 245, 0.98); padding: 30px 40px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 999999; text-align: center; min-width: 320px; border: 2px solid rgba(139, 0, 0, 0.1);">
+    <div style="width: 60px; height: 60px; background: #4CAF50; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <path d="M5 13L9 17L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div style="color: #8B0000; font-size: 20px; font-weight: 700; font-family: 'Inter', sans-serif;">Added to cart successfully</div>
+  </div>
+
+  <script>
+    // Suppress browser alerts
+    window.alert = function() {};
+    
+    window.showSuccessModal = function() {
+      console.log('=== showSuccessModal CALLED ===');
+      const toast = document.getElementById('successToast');
+      
+      if (toast) {
+        toast.style.display = 'block';
+        console.log('✓ Toast is now visible');
+        
+        setTimeout(function() {
+          toast.style.display = 'none';
+          console.log('✓ Toast hidden');
+        }, 3000);
+      } else {
+        alert('ERROR: Toast element not found in DOM!');
+      }
+    }
+  </script>
   <script src="../../js/user/customer-products.js"></script>
 </body>
 </html>

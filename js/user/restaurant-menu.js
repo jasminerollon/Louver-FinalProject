@@ -233,6 +233,23 @@ function decreaseQuantity() {
     }
 }
 
+// Show success toast notification
+function showSuccessToast(message) {
+    const toast = document.getElementById('successToast');
+    if (!toast) {
+        console.error('Toast element not found!');
+        return;
+    }
+    
+    // Show the toast
+    toast.style.display = 'block';
+    
+    // Auto-hide after 3 seconds
+    setTimeout(function() {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
 // Add to cart
 function addToCart() {
     if (!currentProduct) return;
@@ -268,8 +285,8 @@ function addToCart() {
     // Update cart count
     updateCartCount();
     
-    // Show feedback
-    alert(`Added ${currentQuantity} × ${currentProduct.NAME} to cart!`);
+    // Show success toast
+    showSuccessToast('Added to cart successfully');
     
     // Close modal
     closeProductModal();

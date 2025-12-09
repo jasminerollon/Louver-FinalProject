@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addToCartBtn = document.getElementById('addToCartBtn');
   const vendorConflictModal = document.getElementById('vendor-conflict-modal');
   const confirmClearCartBtn = document.getElementById('confirmClearCart');
+  const addToCartSuccessModal = document.getElementById('addToCartSuccessModal');
   const bodyEl = document.body;
 
   const cartEl = document.querySelector('.cart');
@@ -215,6 +216,9 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('Network error');
       }
       const data = await res.json().catch(() => ({}));
+      console.log('Add to cart response:', data);
+      console.log('data.success:', data?.success);
+      
       if (data?.success) {
         if (typeof data.cart_count !== 'undefined' && cartBadge) {
           cartBadge.textContent = data.cart_count;
@@ -226,8 +230,22 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
         else updateCartCount();
-        if (showAlerts) alert('Added to cart');
+        
+        // Close product modal first
         closeProductModal();
+        
+        // Show success modal - ALWAYS
+        console.log('SUCCESS! About to call showSuccessModal');
+        console.log('showSuccessModal function exists:', typeof window.showSuccessModal);
+        
+        // Call it directly without setTimeout
+        if (typeof window.showSuccessModal === 'function') {
+          window.showSuccessModal();
+          console.log('showSuccessModal called!');
+        } else {
+          console.error('showSuccessModal function not found');
+          alert('Toast function not found - but item was added to cart!');
+        }
       } else if (data?.code === 'different_vendor' || (data?.message || '').toLowerCase().includes('another restaurant')) {
         retryAfterClear = true;
         showVendorConflict();
