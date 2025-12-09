@@ -566,7 +566,12 @@ function showSuccessModal(title, message) {
         overlay.classList.remove('active');
     };
 
-    // Optional: auto-close after 3 seconds
-    // setTimeout(() => overlay.classList.remove('active'), 3000);
+    // Keep modal open until user clicks OK; also allow Enter key
+    const keyHandler = (e) => {
+        if (e.key === 'Enter') {
+            closeBtn.click();
+        }
+    };
+    document.addEventListener('keydown', keyHandler, { once: true });
 }
 

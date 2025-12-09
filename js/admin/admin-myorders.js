@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${escapeHtml(o.business)}</td>
           <td>${totalFmt}</td>
           <td><span class="status ${statusClass}">${o.status}</span></td>
-          <td><button class="view-btn" data-order-id="${o.order_id}"><i class="fa fa-eye"></i> View</button></td>
+          <td><button class="view-btn" data-order-id="${o.order_id}">View</button></td>
         </tr>`;
     }).join('');
 

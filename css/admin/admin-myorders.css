@@ -103,6 +103,8 @@ body.modal-open {
 .icon-money { background-image: url('../../assets/pictures/paymenticon.png'); }
 .icon-phone { background-image: url('../../assets/pictures/redphoneicon.png'); }
 .icon-envelope { background-image: url('../../assets/pictures/redemailicon.png'); }
+.icon-return { background-image: url('../../assets/pictures/refund.png'); }
+.icon-tools { background-image: url('../../assets/pictures/resolution.png'); }
 
 /* Use white icon variants on dark delivery section */
 .delivery-section .icon-truck { background-image: url('../../assets/pictures/deliveryicon.png'); }
@@ -193,6 +195,32 @@ body.modal-open {
 .delivery-section .section-title i { color: #fff; }
 .delivery-line { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
 .delivery-line i { color: #fff; }
+
+/* Resolution section refined layout */
+.resolution-section { padding: 16px; }
+.resolution-grid { display: grid; grid-template-columns: 1fr 220px; gap: 16px; align-items: start; }
+.resolution-left .resolution-notes {
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  color: #2b2b2b;
+}
+.resolution-right { display: flex; flex-direction: column; gap: 10px; }
+.action-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.btn-view { background: #7c0f0f; color: #fff; }
+.btn-under-review { background: #e3b963; color: #7a4d00; }
+.btn-resolved { background: #1b7d36; color: #fff; }
+.btn-confirm { background: #0f9d58; color: #fff; width: 100%; margin-top: 12px; }
 
 /* Top controls alignment and sort dropdown */
 .orders-top {
@@ -308,6 +336,7 @@ body.modal-open {
 .section { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); margin-top: 10px; }
 .item-row, .summary-row { display: flex; justify-content: space-between; padding: 6px 0; }
 .delivery-section { background: #8B0000; color: #fff; }
+.section-divider { border: none; border-top: 1px solid #d9d9d9; margin: 10px 0; }
 /* Container */
 .orders-container {
   padding: 30px 40px;
@@ -412,6 +441,18 @@ body.modal-open {
   display: inline-flex; align-items: center; gap: 8px;
 }
 .view-btn i { margin: 0; }
+
+.view-btn::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  background-image: url('../../assets/pictures/eyeicon.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
 
 @media (max-width: 768px) {
   .orders-top { flex-direction: column; gap: 12px; align-items: flex-start; }

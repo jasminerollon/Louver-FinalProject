@@ -59,8 +59,14 @@ if (!$vendor) {
     exit;
 }
 
-// Compare password using hash
-if (password_verify($password, $vendor['password_hash'])) {
+// Compare password using hash; allow legacy plain and temp fallback
+$valid = false;
+if (!empty($vendor['password_hash'])) {
+    if (password_verify($password, $vendor['password_hash'])) { $valid = true; }
+    else if (hash_equals($vendor['password_hash'], $password)) { $valid = true; }
+}
+
+if ($valid) {
     $_SESSION['vendor_id'] = $vendor['vendor_id'];
     $_SESSION['vendor_name'] = $vendor['business_name'];
 
@@ -93,6 +99,31 @@ if (password_verify($password, $vendor['password_hash'])) {
     }
     exit;
 } else {
+    // Fallback: approved application with matching temp_password
+    $fa = $conn->prepare("SELECT vendor_id FROM applications WHERE email = ? AND status='Approved' AND temp_password = ? ORDER BY reviewed_at DESC LIMIT 1");
+    if ($fa) {
+        $fa->bind_param("ss", $email, $password);
+        $fa->execute();
+        $far = $fa->get_result();
+        if ($far && $far->num_rows === 1) {
+            $_SESSION['vendor_id'] = $vendor ? $vendor['vendor_id'] : (int)$far->fetch_assoc()['vendor_id'];
+            // Fetch vendor name for session
+            if (!$vendor) {
+                $vid = $_SESSION['vendor_id'];
+                $b = $conn->prepare("SELECT business_name FROM vendors WHERE vendor_id = ? LIMIT 1");
+                if ($b) { $b->bind_param("i", $vid); $b->execute(); $br = $b->get_result(); if ($br && $br->num_rows === 1) { $_SESSION['vendor_name'] = $br->fetch_assoc()['business_name']; } $b->close(); }
+            } else {
+                $_SESSION['vendor_name'] = $vendor['business_name'];
+            }
+
+            $upd = $conn->prepare("UPDATE vendors SET session_status='Online' WHERE vendor_id = ?");
+            if ($upd) { $upd->bind_param("i", $_SESSION['vendor_id']); $upd->execute(); $upd->close(); }
+            header("Location: ../../html/business-owner/business-owner-products.html");
+            exit;
+        }
+        $fa->close();
+    }
+
     header("Location: ../../html/business-owner/business-owner-login.html?error=1");
     exit;
 }

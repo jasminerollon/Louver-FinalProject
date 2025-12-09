@@ -217,7 +217,7 @@
 
         <div class="approval-modal-actions">
             <button class="approval-cancel-btn" id="approvalCancelBtn">Cancel</button>
-            <button class="approval-confirm-btn" id="approvalConfirmBtn">Confirm Approve</button>
+                <button class="approval-confirm-btn" id="approvalConfirmBtn">Confirm Approve</button>
         </div>
     </div>
 </div>
@@ -264,5 +264,34 @@
     <!-- Scripts -->
     <script src="../../js/admin/admin-homepage.js"></script>
     <script src="../../js/admin/admin-common.js"></script>
+        <script>
+            // Hook up approval flow to endpoint and success modal
+            (function(){
+                const approveBtn = document.getElementById('approvalConfirmBtn');
+                if (!approveBtn) return;
+                approveBtn.addEventListener('click', async () => {
+                    try {
+                        const appIdEl = document.getElementById('modalAppId');
+                        const application_id = appIdEl ? appIdEl.textContent.trim() : '';
+                        if (!application_id) throw new Error('Missing application ID');
+                        const form = new FormData();
+                        form.append('application_id', application_id);
+                        const res = await fetch('../../database/admin/approveApplication.php', { method: 'POST', body: form });
+                        const json = await res.json();
+                        if (!res.ok || json.status !== 'success') throw new Error(json.message || 'Approve failed');
+                        // Show success modal and close application modal
+                        document.getElementById('successModalTitle').textContent = 'Application Approved';
+                        document.getElementById('successModalMessage').textContent = 'Vendor has been created successfully.';
+                        document.getElementById('successModalOverlay').style.display = 'flex';
+                        const close = document.getElementById('successModalCloseBtn');
+                        if (close) close.onclick = () => { location.reload(); };
+                        const overlay = document.getElementById('applicationModal');
+                        if (overlay) overlay.style.display = 'none';
+                    } catch (e) {
+                        alert(e.message);
+                    }
+                });
+            })();
+        </script>
 </body>
 </html>

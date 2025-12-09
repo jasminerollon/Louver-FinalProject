@@ -2,13 +2,6 @@
 session_start();
 header('Content-Type: application/json');
 
-// Check if admin is logged in - comment out for development
-// if (!isset($_SESSION['admin_id'])) {
-//     http_response_code(401);
-//     echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
-//     exit;
-// }
-
 // Include database connection
 require_once '../../database/connectDB.php';
 
@@ -32,7 +25,7 @@ try {
                 contact_number,
                 address,
                 email,
-                location_detail,
+                temp_password,
                 business_permit,
                 description,
                 status,
@@ -71,7 +64,8 @@ try {
             'contact_number' => $application['contact_number'],
             'address' => $application['address'],
             'email' => $application['email'],
-            'location_detail' => $application['location_detail'],
+            'address' => $application['address'],
+            'temp_password' => $application['temp_password'],
             'business_permit' => $application['business_permit'],
             'description' => $application['description'],
             'status' => $application['status'],

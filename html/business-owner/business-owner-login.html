@@ -37,11 +37,156 @@
                 <h1 class="louver">LOUVER</h1>
                 <p>Crave it. Click it. Get it.</p>
                 <a href="business-owner-registration.html" class="register-btn">REGISTER BUSINESS</a>
+                <button id="checkStatusRightBtn" class="register-btn" style="margin-top:10px;">CHECK APPLICATION STATUS</button>
             </div>
         </div>
     </div>
 
     <!-- Separate JS file -->
     <script src="../../js/business-owner/business-owner-login.js"></script>
+        <script>
+            (function(){
+                // Simple modal prompt for email + temp password
+                function openStatusPrompt() {
+                    const overlay = document.createElement('div');
+                    overlay.style.position = 'fixed';
+                    overlay.style.inset = '0';
+                    overlay.style.background = 'rgba(0,0,0,0.5)';
+                    overlay.style.display = 'flex';
+                    overlay.style.alignItems = 'center';
+                    overlay.style.justifyContent = 'center';
+                    overlay.style.zIndex = '9999';
+
+                    const box = document.createElement('div');
+                    box.style.background = '#1e1e1e';
+                    box.style.color = '#fff';
+                    box.style.border = '2px solid #8b1a1a';
+                    box.style.borderRadius = '10px';
+                    box.style.padding = '20px';
+                    box.style.minWidth = '320px';
+                    box.style.boxShadow = '0 6px 0 #3a0a0a';
+
+                    const title = document.createElement('div');
+                    title.textContent = 'ENTER CREDENTIALS';
+                    title.style.fontFamily = 'Inter, system-ui';
+                    title.style.fontWeight = '800';
+                    title.style.marginBottom = '8px';
+
+                    const label = document.createElement('div');
+                    label.textContent = 'Enter your application email:';
+                    label.style.margin = '6px 0 8px';
+                    label.style.fontFamily = 'Inter, system-ui';
+
+                    const emailInput = document.createElement('input');
+                    emailInput.type = 'email';
+                    emailInput.placeholder = 'Email';
+                    emailInput.style.width = '100%';
+                    emailInput.style.padding = '10px 12px';
+                    emailInput.style.borderRadius = '8px';
+                    emailInput.style.border = '1px solid #8b1a1a';
+                    emailInput.style.background = '#111';
+                    emailInput.style.color = '#fff';
+                    emailInput.style.fontFamily = 'Inter, system-ui';
+
+                    const label2 = document.createElement('div');
+                    label2.textContent = 'Enter your temporary password:';
+                    label2.style.margin = '12px 0 8px';
+
+                    const tempInput = document.createElement('input');
+                    tempInput.type = 'password';
+                    tempInput.placeholder = 'Temporary Password';
+                    tempInput.style.width = '100%';
+                    tempInput.style.padding = '10px 12px';
+                    tempInput.style.borderRadius = '8px';
+                    tempInput.style.border = '1px solid #8b1a1a';
+                    tempInput.style.background = '#111';
+                    tempInput.style.color = '#fff';
+                    tempInput.style.fontFamily = 'Inter, system-ui';
+
+                    const actions = document.createElement('div');
+                    actions.style.display = 'flex';
+                    actions.style.gap = '10px';
+                    actions.style.justifyContent = 'flex-end';
+                    actions.style.marginTop = '16px';
+
+                    const okBtn = document.createElement('button');
+                    okBtn.textContent = 'OK';
+                    okBtn.style.background = '#8b1a1a';
+                    okBtn.style.color = '#fff';
+                    okBtn.style.border = 'none';
+                    okBtn.style.padding = '8px 14px';
+                    okBtn.style.borderRadius = '8px';
+                    okBtn.style.cursor = 'pointer';
+
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.textContent = 'Cancel';
+                    cancelBtn.style.background = '#555';
+                    cancelBtn.style.color = '#ddd';
+                    cancelBtn.style.border = 'none';
+                    cancelBtn.style.padding = '8px 14px';
+                    cancelBtn.style.borderRadius = '8px';
+                    cancelBtn.style.cursor = 'pointer';
+
+                    const submitFlow = () => {
+                        const email = (emailInput.value || '').trim();
+                        const temp = (tempInput.value || '').trim();
+                        if (!email || !temp) return;
+                        const form = new FormData();
+                        form.append('email', email);
+                        form.append('temp_password', temp);
+                        fetch('../../database/business-owner/checkApplicationStatus.php', { method:'POST', body: form })
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data && data.status === 'success') {
+                                    const s = data.data.status;
+                                    if (s === 'Approved') {
+                                        const lf = new FormData();
+                                        lf.append('email', email);
+                                        lf.append('password', temp);
+                                        fetch('../../database/business-owner/business-owner-newLogin.php', { method:'POST', body: lf })
+                                            .then(res => res.json())
+                                            .then(ld => {
+                                                if (ld && ld.success) {
+                                                    window.location.href = 'business-owner-products.html';
+                                                } else {
+                                                    const params = new URLSearchParams({ email, temp });
+                                                    window.location.href = 'application-status.html?' + params.toString();
+                                                }
+                                            });
+                                    } else {
+                                        const params = new URLSearchParams({ email, temp });
+                                        window.location.href = 'application-status.html?' + params.toString();
+                                    }
+                                } else {
+                                    alert((data && data.message) || 'Application not found');
+                                }
+                            })
+                            .catch(() => alert('Error checking status'))
+                            .finally(() => document.body.removeChild(overlay));
+                    };
+
+                    okBtn.onclick = submitFlow;
+                    cancelBtn.onclick = () => document.body.removeChild(overlay);
+
+                    overlay.addEventListener('click', (e) => { if (e.target === overlay) document.body.removeChild(overlay); });
+                    tempInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitFlow(); });
+
+                    actions.appendChild(okBtn);
+                    actions.appendChild(cancelBtn);
+                    box.appendChild(title);
+                    box.appendChild(label);
+                    box.appendChild(emailInput);
+                    box.appendChild(label2);
+                    box.appendChild(tempInput);
+                    box.appendChild(actions);
+                    overlay.appendChild(box);
+                    document.body.appendChild(overlay);
+                    emailInput.focus();
+                }
+
+                const right = document.getElementById('checkStatusRightBtn');
+                if (right) right.addEventListener('click', openStatusPrompt);
+            })();
+        </script>
 </body>
 </html>

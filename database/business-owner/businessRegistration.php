@@ -59,7 +59,7 @@ $application_id = "A" . str_pad($next_number, 3, "0", STR_PAD_LEFT);
 // Handle business permit file upload
 $permit_name = $_FILES['business_permit']['name'];
 $permit_temp = $_FILES['business_permit']['tmp_name'];
-$upload_dir = "../../uploads/permits/";
+$upload_dir = "../../assets/files/";
 
 if (!is_dir($upload_dir)) {
     mkdir($upload_dir, 0777, true);
@@ -68,11 +68,14 @@ if (!is_dir($upload_dir)) {
 $permit_path = $upload_dir . $permit_name;
 move_uploaded_file($permit_temp, $permit_path);
 
+// Generate a simple temporary password (6-digit code)
+$temp_password = strval(random_int(100000, 999999));
+
 // Insert a new application (Pending) with auto-generated application_id
 $sql = "INSERT INTO applications (
             application_id, registration_no, vendor_id, business_name, owner_name, contact_number,
-            address, email, location_detail, business_permit, description, status, rejection_reason, submitted_at
-        ) VALUES (?, ?, NULL, ?, ?, ?, ?, ?, NULL, ?, NULL, 'Pending', NULL, CURRENT_TIMESTAMP)";
+            address, email, temp_password, business_permit, description, status, rejection_reason, submitted_at
+        ) VALUES (?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, NULL, 'Pending', NULL, CURRENT_TIMESTAMP)";
 
 $stmt = $conn->prepare($sql);
 
@@ -82,7 +85,7 @@ if (!$stmt) {
     exit();
 }
 
-$stmt->bind_param("ssssssss",
+$stmt->bind_param("sssssssss",
     $application_id,
     $business_number,
     $business_name,
@@ -90,14 +93,16 @@ $stmt->bind_param("ssssssss",
     $contact_number,
     $location,
     $email,
+    $temp_password,
     $permit_name
 );
 
 
 if ($stmt->execute()) {
+    // Redirect back to registration page with query params to show temporary credentials modal
     echo "<script>
-        alert('Application submitted successfully!\\nYour Application ID: " . $application_id . "');
-        window.location.href='../../html/business-owner/business-owner-login.html';
+        const params = new URLSearchParams({ email: '" . addslashes($email) . "', temp: '" . addslashes($temp_password) . "', showTemp: '1' });
+        window.location.href='../../html/business-owner/business-owner-registration.html?' + params.toString();
     </script>";
 } else {
     echo "<script>alert('Error registering business: " . $stmt->error . "'); window.history.back();</script>";

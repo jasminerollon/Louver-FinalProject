@@ -15,13 +15,13 @@ try {
                                 v.contact_number,
                                 v.address,
                                 v.estimated_time,
-                                COALESCE(a.location_detail, '') AS location_detail,
+                                '' AS location_detail,
                                 v.profile_image,
                                 v.session_status,
                                 v.created_at
                             FROM vendors v
                             INNER JOIN (
-                                SELECT a1.vendor_id, a1.location_detail, a1.reviewed_at
+                                SELECT a1.vendor_id, a1.reviewed_at
                                 FROM applications a1
                                 WHERE a1.status = 'Approved' AND a1.vendor_id IS NOT NULL
                             ) a ON a.vendor_id = v.vendor_id
