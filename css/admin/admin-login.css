@@ -121,6 +121,25 @@ body {
     text-decoration: underline;
 }
 
+/* Forgot Password page helpers */
+.help-text {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    color: #0066cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-link:hover { text-decoration: underline; }
+
 .error-message {
     background: #f8d7da;
     color: #c61515;
@@ -134,7 +153,7 @@ body {
 /* RIGHT SECTION - BRANDING */
 .right-section {
     width: 50%;
-    background: linear-gradient(135deg, #c61515 0%, #a51313 100%);
+    background: #faece8; /* light side like business-owner login */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,7 +162,7 @@ body {
 
 .partner-box {
     text-align: center;
-    color: #fff;
+    color: #8B0909; /* dark red text on light bg */
 }
 
 .partner-box h3 {
@@ -160,7 +179,7 @@ body {
     margin: 0;
     line-height: 1;
     font-style: italic;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #8B0909; /* match business-owner branding */
 }
 
 .partner-box p {
@@ -169,6 +188,7 @@ body {
     margin-top: 15px;
     opacity: 0.95;
     letter-spacing: 0.5px;
+    color: #8B0909;
 }
 
 /* RESPONSIVENESS */

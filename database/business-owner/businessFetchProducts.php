@@ -1,45 +1,45 @@
 <?php
 header('Content-Type: application/json');
+session_start();
 
-// Database connection
+// DB connection
 $host = "localhost";
 $user = "root";
 $pass = "";
 $dbname = "louver";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
+
 if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'orders' => [], 'refunds' => []]);
+    echo json_encode(["success" => false, "message" => "DB connection failed", "products" => []]);
     exit;
 }
 
-// Replace with the logged-in vendor ID
-$vendor_id = 1;
-
-// Fetch orders (non-refund)
-$sqlOrders = "SELECT * FROM orders WHERE vendor_id = '$vendor_id' AND is_refund = 0 ORDER BY order_id DESC";
-$resultOrders = $conn->query($sqlOrders);
-
-$orders = [];
-if ($resultOrders->num_rows > 0) {
-    while ($row = $resultOrders->fetch_assoc()) {
-        $orders[] = $row;
-    }
+// Require logged-in vendor
+if (!isset($_SESSION['vendor_id'])) {
+    echo json_encode(["success" => false, "message" => "Vendor not logged in", "products" => []]);
+    $conn->close();
+    exit;
 }
 
-// Fetch refunds
-$sqlRefunds = "SELECT * FROM orders WHERE vendor_id = '$vendor_id' AND is_refund = 1 ORDER BY order_id DESC";
-$resultRefunds = $conn->query($sqlRefunds);
+$vendor_id = (int) $_SESSION['vendor_id'];
 
-$refunds = [];
-if ($resultRefunds->num_rows > 0) {
-    while ($row = $resultRefunds->fetch_assoc()) {
-        $refunds[] = $row;
-    }
+// Fetch products for this vendor
+$stmt = $conn->prepare("SELECT product_id, vendor_id, NAME, image, description, price FROM products WHERE vendor_id = ? ORDER BY product_id DESC");
+$stmt->bind_param("i", $vendor_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$products = [];
+while ($row = $result->fetch_assoc()) {
+    $products[] = $row;
 }
 
-// Return data
-echo json_encode(['success' => true, 'orders' => $orders, 'refunds' => $refunds]);
+echo json_encode([
+    "success" => true,
+    "products" => $products
+]);
 
+$stmt->close();
 $conn->close();
 ?>

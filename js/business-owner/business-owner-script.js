@@ -40,12 +40,6 @@ function renderTable(tab) {
             <td><button class="view-btn"><i class="fa fa-eye"></i> View</button></td>
         `;
         tableBody.appendChild(row);
-
-        // Attach view button
-        row.querySelector(".view-btn").addEventListener("click", () => {
-            if (tab === "refunds") openModal("refundModal");
-            else openModal("orderModal");
-        });
     });
 }
 
@@ -74,41 +68,25 @@ tabs.forEach(tab => {
     });
 });
 
-/* ============================================================
-   MODAL HANDLER
-============================================================ */
-function openModal(id) {
-    document.getElementById(id).style.display = "flex";
-}
+const modal = document.getElementById("refundModal");
+    const closeBtn = document.getElementById("closeRefundModal");
+    const viewButtons = document.querySelectorAll(".view-btn");
 
-function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-}
-
-function attachModalEvents(modalId, closeBtnId) {
-    const modal = document.getElementById(modalId);
-    const closeBtn = document.getElementById(closeBtnId);
-    if (!modal) return;
-
-    closeBtn?.addEventListener("click", () => closeModal(modalId));
-    modal.addEventListener("click", e => {
-        if (e.target.id === modalId) closeModal(modalId);
+    // Show modal when any view button is clicked
+    viewButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            modal.style.display = "flex";
+        });
     });
-}
 
-// Attach modals
-attachModalEvents("orderModal", "closeModalBtn");
-attachModalEvents("refundModal", "closeRefundModal");
-attachModalEvents("cancelOrderModal", "closeCancelModal");
-attachModalEvents("reportModal", "closeReportModal");
-
-// Cancel & Report buttons inside modal
-document.querySelectorAll(".cancel-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        closeModal("orderModal");
-        openModal("cancelOrderModal");
+    // Close modal when X is clicked
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
     });
-});
-document.querySelectorAll(".report-btn").forEach(btn => {
-    btn.addEventListener("click", () => openModal("reportModal"));
-});
+
+    // Close modal if clicking outside modal box
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });

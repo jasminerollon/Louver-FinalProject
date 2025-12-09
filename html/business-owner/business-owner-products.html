@@ -40,14 +40,11 @@
             <a href="business-owner-add-product.html" class="add-btn">Add Product</a>
         </div>
 
-        <!-- TABS -->
-        <div class="tabs">
-            <button class="tab active">Table</button>
-            <button class="tab">Gallery</button>
-        </div>
-
-        <!-- PRODUCT TABLE CARD -->
+        <!-- Tabs removed; products render as a single table view -->
+         <!-- PRODUCT TABLE CARD -->
         <div class="table-card">
+
+            <!-- HEADER ROW -->
             <div class="header-row">
                 <div class="col image-col">IMAGE</div>
                 <div class="col name-col">PRODUCT NAME</div>
@@ -55,10 +52,12 @@
                 <div class="col price-col">UNIT PRICE</div>
                 <div class="col modify-col">MODIFY</div>
             </div>
-            <!-- Products dynamically loaded here -->
-        </div>
-    </div>
 
+            <!-- Dynamic product rows will be injected by JS -->
+
+        </div>
+
+    </div>
     <script src="../../js/business-owner/business-owner-products.js"></script>
 </body>
 </html>

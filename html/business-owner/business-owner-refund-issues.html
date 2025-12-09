@@ -49,11 +49,14 @@
             <p class="date-label">December 25, 2025 | 12:42 PM</p>
 
             <!-- Sort Dropdown -->
-            <div class="sort-dropdown">
-                <button class="sort-btn">
-                    Sort by: <span id="sort-value">Relevance</span>
-                    <i class="fa fa-chevron-down"></i>
-                </button>
+              <button class="sort-btn" id="sortBtn">Sort by: <span id="sort-value"></span> 
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <ul class="sort-options" id="sortOptions" style="display:none;">
+        <li data-sort="relevance">Relevance</li>
+        <li data-sort="id">Order ID</li>
+        <li data-sort="status">Status</li>
+    </ul>
 
                 <div class="sort-menu">
                     <p data-sort="Relevance">Relevance</p>
@@ -199,10 +202,13 @@
                         The order was on-time and complete upon double-checking.
                     </p>
 
-                    <div class="upload-area">
-                        <p><i class="fa fa-upload"></i> Upload screenshots, photos, or videos</p>
-                    </div>
 
+                    <div class="upload-area" id="uploadArea">
+                    <p><i class="fa fa-upload"></i> Upload screenshots, photos, or videos</p>
+                    <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
+                    <div class="upload-preview" id="uploadPreview"></div>
+                    </div>
+                    
                     <button class="confirm-decision-btn">CONFIRM DECISION</button>
 
                 </div>
@@ -213,5 +219,6 @@
 
 <!-- JS -->
 <script src="../../js/business-owner/business-owner-script.js"></script>
+<script src="../../js/business-owner/business-owner-sort.js"></script>
 </body>
 </html>

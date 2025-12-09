@@ -30,87 +30,39 @@
   <div class="businesses-container">
     <!-- Top controls row -->
     <div class="businesses-top">
-      <div class="search-wrapper">
+      <div class="controls-left">
+        <div class="search-wrapper">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search business name or owner name" />
-      </div>
-
-      <div class="top-right">
+        <input type="text" id="businessSearchInput" placeholder="Search business name or owner name" />
+        </div>
         <div class="sort-dropdown">
           <button class="sort-btn">
             Sort by: <span class="sort-label">Relevance</span>
             <i class="fas fa-caret-down"></i>
           </button>
+          <div class="sort-menu" id="sortMenu">
+            <p data-sort="relevance">Relevance</p>
+            <p data-sort="status-online-first">Online</p>
+            <p data-sort="status-offline-first">Offline</p>
+            <p data-sort="name-asc">Name A → Z</p>
+            <p data-sort="name-desc">Name Z → A</p>
+          </div>
         </div>
+      </div>
+
+      <div class="top-right">
+        
         <div class="date-time">
-          <span>December 25, 2025 | 12:42 PM</span>
+          <span id="currentDate">Dec 25, 2025 | 12:42 PM</span>
         </div>
       </div>
     </div>
 
     <!-- Cards grid -->
-    <div class="cards-grid">
-      <div class="business-card">
-        <div class="card-left">
-          <div class="avatar">
-            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
-          </div>
-        </div>
-        <div class="card-middle">
-          <h2 class="business-name">Lomimama</h2>
-          <p class="owner-name">Denise Julia</p>
-        </div>
-        <div class="card-right">
-          <span class="status active">Active</span>
-        </div>
-      </div>
-
-      <div class="business-card">
-        <div class="card-left">
-          <div class="avatar">
-            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
-          </div>
-        </div>
-        <div class="card-middle">
-          <h2 class="business-name">Wingyard</h2>
-          <p class="owner-name">Kendrick Lamar</p>
-        </div>
-        <div class="card-right">
-          <span class="status active">Active</span>
-        </div>
-      </div>
-
-      <div class="business-card">
-        <div class="card-left">
-          <div class="avatar">
-            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
-          </div>
-        </div>
-        <div class="card-middle">
-          <h2 class="business-name">The Drumset</h2>
-          <p class="owner-name">Gericko Abad</p>
-        </div>
-        <div class="card-right">
-          <span class="status active">Active</span>
-        </div>
-      </div>
-
-      <div class="business-card">
-        <div class="card-left">
-          <div class="avatar">
-            <img src="../../assets/pictures/logo.png" alt="Business Logo" />
-          </div>
-        </div>
-        <div class="card-middle">
-          <h2 class="business-name">Mang Larry</h2>
-          <p class="owner-name">Larry Martin</p>
-        </div>
-        <div class="card-right">
-          <span class="status active">Active</span>
-        </div>
-      </div>
-    </div>
+    <div class="cards-grid" id="businessCardsGrid"></div>
   </div>
 
+  <script src="../../js/admin/admin-businesses.js"></script>
+  <script src="../../js/admin/admin-common.js"></script>
 </body>
 </html>
