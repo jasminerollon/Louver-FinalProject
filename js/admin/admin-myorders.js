@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortDropdown = document.querySelector('.sort-dropdown');
     const sortMenu = document.querySelector('#sortMenu');
     const sortValueEl = document.querySelector('#sort-value');
+    const tabs = Array.from(document.querySelectorAll('.orders-tabs .tab'));
     let allOrders = [];
-    let currentSort = 'relevance';
+    window.adminView = 'orders';
+    window.adminSort = 'relevance';
 
   // Update date label similar to applications page
   const now = new Date();
@@ -15,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const formatted = `${now.toLocaleDateString(undefined, opts)} | ${now.toLocaleTimeString(undefined, timeOpts)}`;
   if (dateLabel) dateLabel.textContent = formatted;
 
-  // Fetch orders
+  // Initial fetch orders
   fetch('../../database/admin/getOrders.php')
     .then(res => res.json())
     .then(json => {
@@ -30,29 +32,40 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+  // Issues logic moved to js/admin/admin-issues.js
+
     // Search
     if (searchInput) {
       searchInput.addEventListener('input', () => {
-        renderOrders(filterAndSort(allOrders));
+        if (currentView === 'orders') {
+          renderOrders(filterAndSort(allOrders));
+        }
       });
     }
 
     // Sort dropdown interactions
-    if (sortDropdown && sortMenu) {
-      const button = sortDropdown.querySelector('.sort-btn');
-      button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        sortMenu.classList.toggle('active');
-      });
-      sortMenu.addEventListener('click', (e) => {
-        const item = e.target.closest('p[data-sort]');
-        if (!item) return;
-        currentSort = item.getAttribute('data-sort');
-        if (sortValueEl) sortValueEl.textContent = item.textContent;
-        sortMenu.classList.remove('active');
+    // Shared sort handled by admin-shared-sort.js; respond to event
+    document.addEventListener('admin-sort-changed', () => {
+      if (window.adminView === 'orders') {
         renderOrders(filterAndSort(allOrders));
+      }
+    });
+
+    // Tabs: switch between Orders and Issues
+    if (tabs.length) {
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const isIssues = tab.textContent.trim().toLowerCase() === 'issues';
+          window.adminView = isIssues ? 'issues' : 'orders';
+          // keep current sort selection across tabs
+          if (searchInput) searchInput.value = '';
+          if (!isIssues) {
+            renderOrders(filterAndSort(allOrders));
+          }
+        });
       });
-      document.addEventListener('click', () => sortMenu.classList.remove('active'));
     }
 
   function renderOrders(orders) {
@@ -89,18 +102,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-    function filterAndSort(orders) {
+    function filterAndSort(rows) {
       const term = (searchInput?.value || '').toLowerCase().trim();
-      let filtered = orders;
+      let filtered = rows;
       if (term) {
-        filtered = orders.filter(o =>
+        filtered = rows.filter(o =>
           String(o.order_id).includes(term) ||
           (o.customer || '').toLowerCase().includes(term) ||
           (o.business || '').toLowerCase().includes(term)
         );
       }
       const sorted = [...filtered];
-      switch (currentSort) {
+      switch (window.adminSort) {
         case 'time':
           sorted.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           break;
@@ -252,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Left: Buyer
     const left = document.createElement('div');
     left.className = 'order-left';
-    left.appendChild(buildProfileCard('BUYER', customer.name, customer.contact, customer.email, customer.image, true));
+    left.appendChild(buildProfileCard('BUYER', customer.name, customer.contact, customer.email, customer.image, true, order.customer_note));
 
     // Middle: Owner
     const middle = document.createElement('div');
@@ -285,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  function buildProfileCard(label, name, contact, email, image, isBuyer) {
+  function buildProfileCard(label, name, contact, email, image, isBuyer, orderNote) {
     const card = document.createElement('div');
     card.className = `profile-card ${isBuyer ? 'buyer-card' : 'owner-card'}`;
     card.style.background = '#fff';
@@ -310,6 +323,23 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="contact-line"><span class="icon icon-phone"></span> ${escapeHtml(contact || '')}</p>
       <p class="contact-line"><span class="icon icon-envelope"></span> ${escapeHtml(email || '')}</p>`;
     card.appendChild(info);
+
+    // Order note shown under buyer info
+    if (isBuyer) {
+      const noteWrap = document.createElement('div');
+      noteWrap.className = 'order-note';
+      noteWrap.style.marginTop = '8px';
+      const noteTitle = document.createElement('p');
+      noteTitle.style.fontWeight = '600';
+      noteTitle.textContent = 'Order Note';
+      const noteText = document.createElement('p');
+      noteText.style.marginTop = '4px';
+      noteText.textContent = orderNote ? String(orderNote) : '—';
+      noteWrap.appendChild(noteTitle);
+      noteWrap.appendChild(noteText);
+      card.appendChild(noteWrap);
+    }
+
     const btn = document.createElement('button');
     btn.className = 'contact-btn';
     btn.textContent = isBuyer ? 'CONTACT USER' : 'CONTACT OWNER';
