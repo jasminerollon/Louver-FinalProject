@@ -1,3 +1,313 @@
+/* Modal overlay and container */
+.order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none; /* default hidden */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.order-modal-overlay.active {
+  display: flex; /* show when active */
+}
+
+body.modal-open {
+  overflow: hidden; /* lock scroll when modal open */
+}
+
+.order-modal {
+  background: #F8EDEB; /* modal body color */
+  border-radius: 16px;
+  width: 1040px; /* widened modal */
+  max-width: calc(100% - 48px);
+  height: 640px; /* fixed height for consistent layout */
+  max-height: calc(100% - 48px);
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* Use Inter font throughout modal */
+.order-modal, .order-modal * {
+  font-family: 'Inter', sans-serif;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+.order-header h1 { font-size: 32px; font-weight: 800; margin: 0; }
+.ordered-date { color: #7a5252; font-weight: 600; }
+
+.order-header .close-btn {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.order-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr; /* buyer | owner | info */
+  gap: 16px;
+  margin-top: 12px;
+  height: calc(100% - 64px); /* account for header + spacing */
+  align-items: stretch; /* make columns match modal height */
+}
+.order-left {
+  overflow: visible; /* prevent clipping */
+  height: 100%;
+}
+
+.order-middle {
+  overflow: visible; /* prevent clipping */
+  height: 100%;
+}
+
+.order-right {
+  overflow-y: auto; /* only right side scrolls */
+  padding-right: 8px; /* space for scrollbar */
+  height: 100%;
+}
+
+/* Optional: nicer scrollbar for right pane */
+.order-right::-webkit-scrollbar {
+  width: 8px;
+}
+.order-right::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+.order-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-card,
+.items-section,
+.summary-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+.profile-card { padding: 16px; }
+.section-title { font-size: 16px; font-weight: 800; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+/* Custom icon hooks */
+.icon { display: inline-block; width: 18px; height: 18px; background-repeat: no-repeat; background-position: center; background-size: contain; }
+.icon-list { background-image: url('../../assets/pictures/itemsicon.png'); }
+.icon-money { background-image: url('../../assets/pictures/paymenticon.png'); }
+.icon-phone { background-image: url('../../assets/pictures/redphoneicon.png'); }
+.icon-envelope { background-image: url('../../assets/pictures/redemailicon.png'); }
+
+/* Use white icon variants on dark delivery section */
+.delivery-section .icon-truck { background-image: url('../../assets/pictures/deliveryicon.png'); }
+.profile-name { font-weight: 700; margin: 8px 0 10px; word-break: break-word; }
+.contact-info { margin-top: 8px; }
+.contact-title { margin: 6px 0; color: #6b6b6b; }
+.contact-line { margin: 4px 0; display: flex; align-items: center; gap: 8px; word-break: break-word; }
+.contact-line i { color: #b20808; }
+
+/* Buyer vs Owner card tint */
+.buyer-card { background: #ffffff; }
+.owner-card { background: rgba(178, 8, 8, 0.12); }
+.owner-card .avatar-img { border: 3px solid rgba(178, 8, 8, 0.35); }
+
+.contact-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #bdbdbd;
+  background: #fff;
+  color: #333;
+  font-weight: 600;
+}
+.contact-btn:hover { background: #f5f5f5; }
+
+.items-section,
+.summary-section {
+  margin-top: 10px;
+}
+.summary-section hr { border: none; border-top: 1px solid #d9d9d9; margin: 8px 0; }
+.summary-row .amount { font-weight: 700; }
+
+.avatar-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.items-section .item-row,
+.summary-section .summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+/* Items area per design */
+.items-section { background: #EBEBEB; }
+.items-section .item-row {
+  background: #EBEBEB;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 8px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.items-section .item-row strong { font-weight: 800; }
+
+/* Ensure buyer/owner cards fill column height */
+.order-left .profile-card,
+.order-middle .profile-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stronger owner container tint */
+.order-middle .profile-card {
+  background: rgba(178, 8, 8, 0.12) !important; /* B20808 low opacity */
+}
+
+/* Override any later duplicate modal styles to keep body color */
+.order-modal {
+  background: #F8EDEB !important;
+}
+
+.summary-section .total {
+  font-weight: 700;
+}
+
+.delivery-section {
+  background: #8B0000;
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-top: 10px;
+}
+.delivery-section .section-title i { color: #fff; }
+.delivery-line { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+.delivery-line i { color: #fff; }
+
+/* Top controls alignment and sort dropdown */
+.orders-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap; /* prevent wrapping */
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.sort-dropdown {
+  position: relative;
+}
+
+#sortMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+}
+
+#sortMenu.active {
+  display: block !important;
+}
+
+#sortMenu p {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#sortMenu p:hover {
+  background: #f5f5f5;
+}
+/* Top bar alignment */
+.orders-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sort-dropdown { position: relative; }
+.sort-btn { cursor: pointer; }
+.sort-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 8px 0;
+  display: none;
+  z-index: 1000;
+}
+.orders-top .controls-left .sort-dropdown .sort-menu.active { display: block !important; }
+.sort-menu p {
+  margin: 0;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.sort-menu p:hover { background: #f5f5f5; }
+
+/* Modal basic styles for dynamic content */
+.order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.order-modal-overlay.active { display: flex; }
+.order-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 960px;
+  max-width: calc(100% - 48px);
+  padding: 20px;
+}
+.order-header { display: flex; align-items: center; gap: 12px; position: relative; }
+.order-header .close-btn { position: absolute; right: 8px; top: 8px; background: transparent; border: none; font-size: 24px; cursor: pointer; }
+.order-content { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-top: 12px; }
+.profile-card { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+.avatar-img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.section { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); margin-top: 10px; }
+.item-row, .summary-row { display: flex; justify-content: space-between; padding: 6px 0; }
+.delivery-section { background: #8B0000; color: #fff; }
 /* Container */
 .orders-container {
   padding: 30px 40px;
@@ -59,6 +369,7 @@
 
 /* Table */
 .orders-table-wrapper { overflow-x: auto; }
+.orders-table-wrapper { position: relative; z-index: 0; }
 .orders-table {
   width: 100%;
   background: #ffffff;
@@ -107,110 +418,8 @@
   .date-sort { width: 100%; justify-content: space-between; }
 }
 
-
-
-/* CANCEL ORDER MODAL */
-.cancel-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.40);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 3000;
-}
-
-.cancel-modal-overlay.active {
-    display: flex;
-}
-
-.cancel-modal {
-    width: 350px;
-    background: #faeeee;
-    padding: 28px 25px;
-    border-radius: 22px;
-    text-align: center;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-    animation: fadeIn .2s ease-in-out;
-}
-
-.cancel-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #a41515;
-    margin-bottom: 8px;
-}
-
-.cancel-subtitle {
-    color: #8a2424;
-    font-size: 15px;
-    margin-bottom: 20px;
-}
-
-.cancel-label {
-    font-weight: 700;
-    color: #a41515;
-    display: block;
-    text-align: left;
-    margin: 0 0 8px 2px;
-}
-
-.cancel-textarea-wrapper {
-    position: relative;
-}
-
-.cancel-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 3px solid white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
-
-.cancel-textarea {
-    width: 100%;
-    height: 130px;
-    background: #f3e9e9;
-    border: 1px solid #d4cccc;
-    border-radius: 14px;
-    padding: 20px 14px;
-    font-size: 14px;
-    resize: none;
-    outline: none;
-}
-
-.cancel-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    margin-top: 25px;
-}
-
-.cancel-confirm-btn,
-.cancel-cancel-btn {
-    padding: 10px 22px;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    width: 120px;
-}
-
-.cancel-confirm-btn {
-    background: #0c7a11;
-}
-
-.cancel-cancel-btn {
-    background: #b20808;
-}
-
-.cancel-confirm-btn:hover { background: #07680c; }
-.cancel-cancel-btn:hover { background: #970707; }
+/* Prevent background scroll when modal is open */
+body.modal-open { overflow: hidden; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(.95); }
