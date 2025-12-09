@@ -24,7 +24,7 @@
 
     <div class="form-box">
       <h3>LOG IN</h3>
-      <form id="login-form" method="POST" action="../../database/user/login.php">
+      <form id="login-form">
         <input type="email" name="email" id="email" placeholder="Email" required>
         <input type="password" name="password" id="password" placeholder="Password" required>
         <button type="submit" class="signup-btn" id="login-btn">LOG IN</button>
@@ -36,6 +36,42 @@
     </div>
   </div>
 
+  <!-- Success Modal -->
+  <div id="successModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; border-radius: 20px; padding: 40px 50px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 400px; margin: 20px;">
+      <div style="width: 80px; height: 80px; background: #28a745; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 style="color: #333; margin: 0 0 10px 0; font-size: 24px; font-family: 'Poppins', sans-serif;">Login Successful!</h2>
+      <p style="color: #666; margin: 0 0 25px 0; font-size: 16px; font-family: 'Poppins', sans-serif;">Redirecting you to homepage...</p>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div id="errorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; border-radius: 20px; padding: 40px 50px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 400px; margin: 20px;">
+      <div style="width: 80px; height: 80px; background: #dc3545; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <h2 style="color: #333; margin: 0 0 10px 0; font-size: 24px; font-family: 'Poppins', sans-serif;">Login Failed</h2>
+      <p id="errorMessage" style="color: #666; margin: 0 0 25px 0; font-size: 16px; font-family: 'Poppins', sans-serif;"></p>
+      <button onclick="closeErrorModal()" style="background: #B40000; color: white; border: none; padding: 12px 40px; border-radius: 25px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; font-family: 'Poppins', sans-serif;">OK</button>
+    </div>
+  </div>
+
   <script src="../../js/user/script.js"></script>
+  <script>
+    // Suppress browser alerts
+    window.alert = function() {};
+    
+    function closeErrorModal() {
+      document.getElementById('errorModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>

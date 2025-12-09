@@ -86,6 +86,10 @@ session_start();
 
 <script src="../../js/user/script.js"></script>
 <script>
+    // Suppress all alerts temporarily
+    const originalAlert = window.alert;
+    window.alert = function() {};
+    
     // Add hover effect to button
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.addEventListener('mouseenter', () => {
@@ -123,11 +127,19 @@ session_start();
             
             const response = await fetch('../../database/user/updateCustomerPassword.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             });
             
             if (!response.ok) {
-                throw new Error('Server error');
+                showError('Server error. Please try again.');
+                return false;
+            }
+            
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                showError('Invalid response from server.');
+                return false;
             }
             
             const data = await response.json();
@@ -137,12 +149,13 @@ session_start();
                 document.getElementById('new-password').value = '';
                 document.getElementById('confirm-password').value = '';
                 // Show success modal
-                document.getElementById('successModal').style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('successModal').style.display = 'flex';
+                }, 100);
             } else {
                 showError(data.message || 'An error occurred');
             }
         } catch (error) {
-            console.error('Error:', error);
             showError('Network error. Please try again.');
         } finally {
             submitBtn.disabled = false;

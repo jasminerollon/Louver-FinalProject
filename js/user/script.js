@@ -443,33 +443,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const email = this.querySelector('#email').value.trim();
             const password = this.querySelector('#password').value.trim();
+            const loginBtn = this.querySelector('#login-btn');
 
             if (!email || !password) {
-                alert('Please fill all fields');
+                showLoginError('Please fill all fields');
                 return;
             }
 
             const formData = new FormData(this);
             
             try {
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Logging in...';
+                
                 const response = await fetch('../../database/user/login.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'same-origin'
                 });
 
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    alert(result.message);
-                    window.location.href = 'customer-homepage.html';
+                    // Show success modal
+                    const successModal = document.getElementById('successModal');
+                    if (successModal) {
+                        successModal.style.display = 'flex';
+                        // Redirect after 1.5 seconds
+                        setTimeout(() => {
+                            window.location.href = 'customer-homepage.html';
+                        }, 1500);
+                    } else {
+                        window.location.href = 'customer-homepage.html';
+                    }
                 } else {
-                    alert(result.message);
+                    showLoginError(result.message || 'Login failed');
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert('Login failed. Please try again.');
+                showLoginError('Login failed. Please try again.');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'LOG IN';
             }
         });
+    }
+    
+    function showLoginError(message) {
+        const errorModal = document.getElementById('errorModal');
+        const errorMessage = document.getElementById('errorMessage');
+        if (errorModal && errorMessage) {
+            errorMessage.textContent = message;
+            errorModal.style.display = 'flex';
+        }
+    }
+    
+    window.closeErrorModal = function() {
+        const errorModal = document.getElementById('errorModal');
+        if (errorModal) {
+            errorModal.style.display = 'none';
+        }
     }
 
     // Navigation between pages
