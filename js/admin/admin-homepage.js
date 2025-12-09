@@ -58,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Setup modal event listeners
     setupModalListeners();
+
+    // Setup rejection modal listeners
+    setupRejectionModalListeners(); // <-- Add this line
 });
 
 // Update date and time
@@ -203,15 +206,55 @@ function setupModalListeners() {
         }
     });
 
-    // Show rejection input when reject is clicked
+    // Open rejection modal when reject button is clicked
     rejectBtn.addEventListener('click', function() {
-        rejectionSection.classList.add('active');
-        rejectBtn.textContent = 'Confirm Rejection';
-        rejectBtn.onclick = confirmRejection;
+        openRejectionModal();
     });
 
     // Approve application
     approveBtn.addEventListener('click', approveApplication);
+}
+
+function setupRejectionModalListeners() {
+    const rejectionOverlay = document.getElementById('rejectionModalOverlay');
+    const cancelBtn = document.getElementById('rejectionCancelBtn');
+    const confirmBtn = document.getElementById('rejectionConfirmBtn');
+    const radioButtons = document.querySelectorAll('input[name="rejectionReason"]');
+    const otherReasonInput = document.getElementById('otherReasonInput');
+    const otherReasonText = document.getElementById('otherReasonText');
+
+    // Handle radio button changes
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Update UI for selected option
+            document.querySelectorAll('.rejection-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            this.closest('.rejection-option').classList.add('selected');
+
+            // Show/hide other reason input
+            if (this.value === 'others') {
+                otherReasonInput.classList.add('active');
+                otherReasonText.focus();
+            } else {
+                otherReasonInput.classList.remove('active');
+                otherReasonText.value = '';
+            }
+        });
+    });
+
+    // Cancel button
+    cancelBtn.addEventListener('click', closeRejectionModal);
+
+    // Close on overlay click
+    rejectionOverlay.addEventListener('click', function(e) {
+        if (e.target === rejectionOverlay) {
+            closeRejectionModal();
+        }
+    });
+
+    // Confirm button
+    confirmBtn.addEventListener('click', confirmRejection);
 }
 
 function openApplicationModal(applicationId) {
@@ -308,22 +351,135 @@ if (application.business_permit) {
 
 function closeModal() {
     const modal = document.getElementById('applicationModal');
-    const rejectionSection = document.getElementById('rejectionSection');
-    const rejectBtn = document.getElementById('btnReject');
-    
     modal.classList.remove('active');
-    rejectionSection.classList.remove('active');
-    document.getElementById('rejectionReason').value = '';
-    
-    // Reset reject button
-    rejectBtn.innerHTML = '<i class="fas fa-times"></i> Reject';
-    rejectBtn.onclick = function() {
-        rejectionSection.classList.add('active');
-        rejectBtn.textContent = 'Confirm Rejection';
-        rejectBtn.onclick = confirmRejection;
-    };
-    
     currentApplicationId = null;
+}
+
+function openRejectionModal() {
+    const rejectionOverlay = document.getElementById('rejectionModalOverlay');
+    rejectionOverlay.classList.add('active');
+    
+    // Reset form
+    document.querySelectorAll('input[name="rejectionReason"]').forEach(radio => {
+        radio.checked = false;
+    });
+    document.querySelectorAll('.rejection-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    document.getElementById('otherReasonInput').classList.remove('active');
+    document.getElementById('otherReasonText').value = '';
+    document.getElementById('rejectionDetails').value = '';
+    document.getElementById('rejectionError').classList.remove('show');
+}
+
+function closeRejectionModal() {
+    const rejectionOverlay = document.getElementById('rejectionModalOverlay');
+    rejectionOverlay.classList.remove('active');
+}
+
+
+function confirmRejection() {
+    if (!currentApplicationId) return;
+    
+    const selectedReason = document.querySelector('input[name="rejectionReason"]:checked');
+    const errorElement = document.getElementById('rejectionError');
+    
+    if (!selectedReason) {
+        errorElement.textContent = 'Please select a rejection reason';
+        errorElement.classList.add('show');
+        return;
+    }
+
+    let rejectionReason = selectedReason.value;
+    const otherReasonText = document.getElementById('otherReasonText').value.trim();
+    
+    if (rejectionReason === 'others' && otherReasonText) {
+        rejectionReason = otherReasonText;
+    } else if (rejectionReason === 'others' && !otherReasonText) {
+        errorElement.textContent = 'Please specify the reason for "Others"';
+        errorElement.classList.add('show');
+        return;
+    }
+
+    const additionalDetails = document.getElementById('rejectionDetails').value.trim();
+    if (additionalDetails) {
+        rejectionReason += ' | Additional details: ' + additionalDetails;
+    }
+    
+    if (!confirm('Are you sure you want to reject this application?')) {
+        return;
+    }
+
+    const confirmBtn = document.getElementById('rejectionConfirmBtn');
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Rejecting...';
+    
+    fetch('../../database/admin/updateApplicationStatus.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            application_id: currentApplicationId,
+            status: 'Rejected',
+            rejection_reason: rejectionReason
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Application rejected successfully!');
+            closeRejectionModal();
+            closeModal();
+            fetchApplications();
+        } else {
+            alert('Error: ' + data.message);
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = 'Confirm Rejection';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to reject application');
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = 'Confirm Rejection';
+    });
+}
+
+function setupRejectionModalListeners() {
+    const rejectionOverlay = document.getElementById('rejectionModalOverlay');
+    const cancelBtn = document.getElementById('rejectionCancelBtn');
+    const confirmBtn = document.getElementById('rejectionConfirmBtn');
+    const radioButtons = document.querySelectorAll('input[name="rejectionReason"]');
+    const otherReasonInput = document.getElementById('otherReasonInput');
+    const otherReasonText = document.getElementById('otherReasonText');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.rejection-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            this.closest('.rejection-option').classList.add('selected');
+
+            if (this.value === 'others') {
+                otherReasonInput.classList.add('active');
+                otherReasonText.focus();
+            } else {
+                otherReasonInput.classList.remove('active');
+                otherReasonText.value = '';
+            }
+        });
+    });
+
+    cancelBtn.addEventListener('click', closeRejectionModal);
+
+    rejectionOverlay.addEventListener('click', function(e) {
+        if (e.target === rejectionOverlay) {
+            closeRejectionModal();
+        }
+    });
+
+    confirmBtn.addEventListener('click', confirmRejection);
 }
 
 function approveApplication() {
@@ -364,54 +520,5 @@ function approveApplication() {
         alert('Failed to approve application');
         approveBtn.disabled = false;
         approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve';
-    });
-}
-
-function confirmRejection() {
-    if (!currentApplicationId) return;
-    
-    const rejectionReason = document.getElementById('rejectionReason').value.trim();
-    
-    if (!rejectionReason) {
-        alert('Please provide a reason for rejection');
-        return;
-    }
-    
-    if (!confirm('Are you sure you want to reject this application?')) {
-        return;
-    }
-    
-    const rejectBtn = document.getElementById('btnReject');
-    rejectBtn.disabled = true;
-    rejectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Rejecting...';
-    
-    fetch('../../database/admin/updateApplicationStatus.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            application_id: currentApplicationId,
-            status: 'Rejected',
-            rejection_reason: rejectionReason
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert('Application rejected successfully!');
-            closeModal();
-            fetchApplications(); // Refresh the table
-        } else {
-            alert('Error: ' + data.message);
-            rejectBtn.disabled = false;
-            rejectBtn.innerHTML = 'Confirm Rejection';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to reject application');
-        rejectBtn.disabled = false;
-        rejectBtn.innerHTML = 'Confirm Rejection';
     });
 }

@@ -158,6 +158,57 @@
   </div>
 </div>
 
+
+<!-- Rejection Reason Modal -->
+    <div class="rejection-modal-overlay" id="rejectionModalOverlay">
+        <div class="rejection-modal">
+            <h2>Select Rejection Reason</h2>
+
+            <div class="rejection-options">
+                <label class="rejection-option">
+                    <input type="radio" name="rejectionReason" value="Incomplete documents / details">
+                    <span class="rejection-option-label">Incomplete documents / details</span>
+                </label>
+
+                <label class="rejection-option">
+                    <input type="radio" name="rejectionReason" value="Invalid permit">
+                    <span class="rejection-option-label">Invalid permit</span>
+                </label>
+
+                <label class="rejection-option">
+                    <input type="radio" name="rejectionReason" value="Duplicate application">
+                    <span class="rejection-option-label">Duplicate application</span>
+                </label>
+
+                <label class="rejection-option">
+                    <input type="radio" name="rejectionReason" value="Not compliant with requirements">
+                    <span class="rejection-option-label">Not compliant with requirements</span>
+                </label>
+
+                <label class="rejection-option">
+                    <input type="radio" name="rejectionReason" value="others">
+                    <span class="rejection-option-label">Others</span>
+                </label>
+
+                <div class="other-reason-input" id="otherReasonInput">
+                    <input type="text" id="otherReasonText" placeholder="Please specify the reason...">
+                </div>
+            </div>
+
+            <div class="additional-details">
+                <label for="rejectionDetails">Enter Additional Details</label>
+                <textarea id="rejectionDetails" placeholder="Optional: Provide more details about the rejection..."></textarea>
+            </div>
+
+            <div class="error-message" id="rejectionError"></div>
+
+            <div class="rejection-modal-actions">
+                <button class="rejection-cancel-btn" id="rejectionCancelBtn">Cancel</button>
+                <button class="rejection-confirm-btn" id="rejectionConfirmBtn">Confirm Rejection</button>
+            </div>
+        </div>
+    </div>
+
 <!-- HIDDEN ELEMENTS REQUIRED BY JS (DO NOT REMOVE) -->
 <div style="display:none;">
 

@@ -666,3 +666,185 @@ body {
   opacity: 0.7;
 }
 
+/* Rejection Modal Styles */
+        .rejection-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rejection-modal-overlay.active {
+            display: flex;
+        }
+
+        .rejection-modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .rejection-modal h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .rejection-options {
+            margin-bottom: 25px;
+        }
+
+        .rejection-option {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rejection-option:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .rejection-option input[type="radio"] {
+            margin-top: 3px;
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .rejection-option-label {
+            flex: 1;
+            cursor: pointer;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .rejection-option input[type="radio"]:checked + .rejection-option-label {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .rejection-option.selected {
+            background: #f0f7ff;
+            border-color: #0066cc;
+        }
+
+        .other-reason-input {
+            display: none;
+            margin: 15px 0 15px 30px;
+            width: calc(100% - 30px);
+        }
+
+        .other-reason-input.active {
+            display: block;
+        }
+
+        .other-reason-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .additional-details {
+            margin-bottom: 20px;
+        }
+
+        .additional-details label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .additional-details textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            box-sizing: border-box;
+        }
+
+        .rejection-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .rejection-modal-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rejection-cancel-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .rejection-cancel-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .rejection-confirm-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .rejection-confirm-btn:hover {
+            background: #c82333;
+        }
+
+        .rejection-confirm-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
