@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const qtyPlus = document.getElementById('qtyPlus');
   const qtyValue = document.getElementById('quantityValue');
   const addToCartBtn = document.getElementById('addToCartBtn');
+  const vendorConflictModal = document.getElementById('vendor-conflict-modal');
+  const confirmClearCartBtn = document.getElementById('confirmClearCart');
+  const bodyEl = document.body;
 
   const cartEl = document.querySelector('.cart');
   const cartBadge = document.querySelector('.cart-count');
@@ -34,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let menuByCategory = {};
   let currentProduct = null;
   let currentQty = 1;
+  let retryAfterClear = false;
+  let addBusy = false;
 
   // Nav cart click
   if (cartEl) {
@@ -186,37 +191,90 @@ document.addEventListener('DOMContentLoaded', () => {
     qtyValue.textContent = currentQty;
   }
 
-  async function addToCart() {
+  async function addToCart(showAlerts = true) {
+    if (addBusy) return;
     if (!currentProduct) return;
     try {
+      addBusy = true;
+      addToCartBtn && (addToCartBtn.disabled = true);
       const formData = new FormData();
       formData.append('product_id', currentProduct.product_id);
       formData.append('quantity', currentQty);
       const res = await fetch('../../database/user/addToCart.php', { method: 'POST', body: formData });
-      const data = await res.json();
+      if (!res.ok) {
+        throw new Error('Network error');
+      }
+      const data = await res.json().catch(() => ({}));
       if (data?.success) {
         if (typeof data.cart_count !== 'undefined' && cartBadge) cartBadge.textContent = data.cart_count;
         else updateCartCount();
-        alert('Added to cart');
+        if (showAlerts) alert('Added to cart');
         closeProductModal();
+      } else if (data?.code === 'different_vendor' || (data?.message || '').toLowerCase().includes('another restaurant')) {
+        retryAfterClear = true;
+        showVendorConflict();
       } else {
-        alert(data?.message || 'Failed to add to cart');
+        // Suppress noisy alerts; log for debugging
+        console.warn('Add to cart response', data);
       }
     } catch (e) {
       console.error(e);
-      alert('Failed to add to cart');
+      // suppress alert noise; rely on UI badge/cart to reflect state
+    } finally {
+      addBusy = false;
+      addToCartBtn && (addToCartBtn.disabled = false);
     }
+  } 
+
+  function showVendorConflict() {
+    if (!vendorConflictModal) {
+      // Hard fallback if modal markup is missing
+      const confirmClear = confirm('Your cart has items from another restaurant. Clear cart to add this item?');
+      if (confirmClear) confirmClearCartBtn?.click();
+      return;
+    }
+    vendorConflictModal.style.display = 'flex';
+    vendorConflictModal.style.alignItems = 'center';
+    vendorConflictModal.style.justifyContent = 'center';
+    vendorConflictModal.setAttribute('aria-hidden', 'false');
+    bodyEl.classList.add('modal-open');
   }
+
+  function hideVendorConflict() {
+    if (!vendorConflictModal) return;
+    vendorConflictModal.style.display = 'none';
+    vendorConflictModal.setAttribute('aria-hidden', 'true');
+    bodyEl.classList.remove('modal-open');
+    retryAfterClear = false;
+  }
+  window.hideVendorConflict = hideVendorConflict;
 
   qtyMinus?.addEventListener('click', () => changeQty(-1));
   qtyPlus?.addEventListener('click', () => changeQty(1));
   addToCartBtn?.addEventListener('click', addToCart);
+  confirmClearCartBtn?.addEventListener('click', async () => {
+    try {
+      const clr = await fetch('../../database/user/clearCart.php', { method: 'POST' });
+      const clrData = await clr.json();
+      if (clrData?.success && retryAfterClear) {
+        hideVendorConflict();
+        addToCart(false); // retry once without alert spam
+      } else {
+        hideVendorConflict();
+      }
+    } catch (e) {
+      console.error(e);
+      hideVendorConflict();
+    }
+  });
 
   document.addEventListener('click', e => {
     if (e.target === modal) closeProductModal();
+    if (e.target === vendorConflictModal) hideVendorConflict();
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.style.display === 'flex') closeProductModal();
+    if (e.key === 'Escape' && vendorConflictModal?.style.display === 'flex') hideVendorConflict();
   });
 
   searchInput?.addEventListener('input', (e) => {
