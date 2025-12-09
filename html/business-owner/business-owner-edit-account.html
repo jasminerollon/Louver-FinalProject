@@ -22,7 +22,7 @@
     <nav>
         <a href="business-owner-products.html">PRODUCTS</a>
         <a href="business-owner-myorders.php">ORDERS</a>
-        <a href="business-owner-account.html"  class="active">PROFILE</a>
+        <a href="business-owner-account.html" class="active">PROFILE</a>
     </nav>
 </div>
 
@@ -44,7 +44,7 @@
         <div class="profile-images">
             <div class="profile-img-wrapper">
                 <div class="profile-img-left">
-                    <img src="../../assets/pictures/default-profile.png" alt="Profile Picture" id="profile-img-preview">
+                    <img src="../../assets/pictures/default.png" alt="Profile Picture" id="profile-img-preview">
                     <input type="file" id="profile-img" accept="image/*" style="display:none;">
                 </div>
                 <button type="button" id="change-profile-btn">Change Profile</button>
@@ -52,13 +52,12 @@
 
             <div class="profile-img-wrapper">
                 <div class="profile-img-right">
-                    <img src="../../assets/pictures/default-banner.png" alt="Banner Picture" id="banner-img-preview">
+                    <img src="../../assets/pictures/banner_default.jpg" alt="Banner Picture" id="banner-img-preview">
                     <input type="file" id="banner-img" accept="image/*" style="display:none;">
                 </div>
                 <button type="button" id="change-banner-btn">Change Banner</button>
             </div>
         </div>
-
 
         <div class="info">
             <div class="info-group">
@@ -81,14 +80,16 @@
                 <input type="text" id="contact_number">
             </div>
 
+            <!-- ADD THIS BUSINESS PERMIT FIELD -->
             <div class="info-group">
-                <label>BUSINESS REGISTRATION NUMBER</label>
-                <input type="text" id="business_number">
+                <label>BUSINESS PERMIT</label>
+                <input type="file" id="business_permit" accept=".pdf,.jpg,.jpeg,.png">
+                <small style="font-size: 12px; color: #666;">Upload PDF, JPG, or PNG files</small>
             </div>
 
             <div class="info-group">
-                <label>LOCATION</label>
-                <input type="text" id="location">
+                <label>ADDRESS</label>
+                <input type="text" id="address">
             </div>
         </div>
 
@@ -104,9 +105,9 @@
         </div>
     </div>
 
-
 </div>
 
+<!-- REMOVE INLINE JAVASCRIPT AND USE EXTERNAL FILE ONLY -->
 <script src="../../js/business-owner/business-owner-edit-account.js"></script>
 </body>
 </html>
