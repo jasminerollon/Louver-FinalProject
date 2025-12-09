@@ -270,15 +270,24 @@ function populateModal(application) {
     // Description
     document.getElementById('modalDescription').textContent = application.description || '-';
     
-    // Business permit link
-    const permitLink = document.getElementById('modalPermitLink');
-    if (application.business_permit) {
-        // Adjust this path based on where your permits are stored
-        permitLink.href = `../../uploads/permits/${application.business_permit}`;
-        permitLink.style.display = 'inline-flex';
-    } else {
-        permitLink.style.display = 'none';
-    }
+    // Business permit
+const permitIframe = document.getElementById('modalPermitLink');
+const inspectBtn = document.getElementById('inspectPermit');
+
+if (application.business_permit) {
+    // Construct full path to file
+    const permitPath = `../../assets/files/${application.business_permit}`;
+
+    permitIframe.src = permitPath + "#toolbar=0&navpanes=0&scrollbar=0";
+
+    // Show the Inspect button and set its href
+    inspectBtn.href = permitPath;
+    inspectBtn.style.display = 'inline-flex';
+} else {
+    permitIframe.src = '';
+    inspectBtn.style.display = 'none';
+}
+
     
     // Show/hide action buttons based on status
     const modalActions = document.getElementById('modalActions');
