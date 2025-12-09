@@ -54,6 +54,13 @@ $stmt = $conn->prepare("
 $stmt->bind_param("iisss", $order_id, $vendor_id, $customer_proof_path, $issue_reason, $description);
 
 if ($stmt->execute()) {
+    // Optionally mark the order as reported so it can surface in the UI
+    $updateOrder = $conn->prepare("UPDATE orders SET order_status = 'Reported' WHERE order_id = ?");
+    if ($updateOrder) {
+        $updateOrder->bind_param("i", $order_id);
+        $updateOrder->execute();
+        $updateOrder->close();
+    }
     echo json_encode(['success'=>true,'message'=>'Report submitted successfully']);
 } else {
     echo json_encode(['success'=>false,'message'=>'Database error: '.$conn->error]);

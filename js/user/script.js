@@ -106,6 +106,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelReportBtn = document.getElementById('cancelReport');
     const confirmReportBtn = document.getElementById('confirmReport');
 
+    const viewReportOverlay = document.getElementById('view-report-overlay');
+    const closeViewReportBtn = document.getElementById('closeViewReport');
+    const viewReportOrder = document.getElementById('view-report-order');
+    const viewReportVendor = document.getElementById('view-report-vendor');
+    const viewReportIssue = document.getElementById('view-report-issue');
+    const viewReportStatus = document.getElementById('view-report-status');
+    const viewReportDecision = document.getElementById('view-report-decision');
+    const viewReportFeedback = document.getElementById('view-report-feedback');
+
     const categoriesLoaded = { done: false };
 
     function formatDate(timestamp) {
@@ -131,6 +140,10 @@ document.addEventListener('DOMContentLoaded', function() {
             card.dataset.vendorId = order.vendor_id;
             card.dataset.vendorName = order.vendor_name;
             card.dataset.total = `₱ ${order.total_price}`;
+            if (order.issue_status) card.dataset.issueStatus = order.issue_status;
+            if (order.vendor_decision) card.dataset.vendorDecision = order.vendor_decision;
+            if (order.vendor_feedback) card.dataset.vendorFeedback = order.vendor_feedback;
+            if (order.issue_reason) card.dataset.issueReason = order.issue_reason;
 
             card.innerHTML = `
                 <div class="order-image">
@@ -145,11 +158,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="order-items"></ul>
                 </div>
                 <div class="order-actions">
-                    <button class="btn btn-status" data-order-id="${order.order_id}">${order.status.toUpperCase()}</button>
+                    <button class="btn btn-status" data-order-id="${order.order_id}">${(order.status || '').toUpperCase()}</button>
+                    ${order.status === 'Reported' || order.issue_status ? `<button class="btn btn-view-report" data-order-id="${order.order_id}">VIEW REPORT</button>` : ''}
                 </div>
             `;
 
-            const target = (order.status === 'Delivered' || order.status === 'Rejected') ? pastContainer : activeContainer;
+            const isPast = order.status === 'Delivered' || order.status === 'Rejected';
+            const isReported = order.status === 'Reported' || order.issue_status;
+            const target = isReported ? reportedContainer : (isPast ? pastContainer : activeContainer);
             if (target) {
                 toggleEmpty(target, true);
                 target.appendChild(card);
@@ -227,6 +243,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (statusBtn) {
             const orderId = statusBtn.dataset.orderId;
             openOrderModal(orderId);
+            return;
+        }
+
+        const viewReportBtn = e.target.closest('.btn-view-report');
+        if (viewReportBtn) {
+            const orderId = viewReportBtn.dataset.orderId;
+            openViewReportModal(orderId);
         }
     });
 
@@ -259,6 +282,11 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Open an order first to report it.');
             return;
         }
+        // Block double reports
+        if (currentOrder.status === 'Reported' || currentOrder.issue_status) {
+            alert('This order has already been reported. You can view the report status instead.');
+            return;
+        }
         populateReportCategories();
         if (reportOrderIdLabel) reportOrderIdLabel.textContent = `Order # ${currentOrder.order_id}`;
         if (reportVendorLabel) reportVendorLabel.textContent = `Vendor: ${currentOrder.vendor_name || ''}`;
@@ -281,6 +309,10 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Cannot submit report: missing order info.');
             return;
         }
+        if (currentOrder.status === 'Reported' || currentOrder.issue_status) {
+            alert('This order has already been reported.');
+            return;
+        }
         const formData = new FormData();
         formData.append('order_id', currentOrder.order_id);
         formData.append('vendor_id', currentOrder.vendor_id);
@@ -300,6 +332,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert(data.message || 'Report submitted successfully!');
                 closeReportModal();
                 resetReportForm();
+                // Update local state so the UI immediately reflects the reported status
+                if (currentOrder) {
+                    currentOrder.status = 'Reported';
+                    currentOrder.issue_status = currentOrder.issue_status || 'Pending';
+                }
                 loadOrders();
             } else {
                 alert(data?.message || 'Failed to submit report.');
@@ -326,6 +363,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     confirmReportBtn?.addEventListener('click', submitReport);
+
+    function openViewReportModal(orderId) {
+        if (!viewReportOverlay) return;
+        const order = ordersState.find(o => String(o.order_id) === String(orderId));
+        if (!order) return;
+        if (viewReportOrder) viewReportOrder.textContent = `Order # ${order.order_id}`;
+        if (viewReportVendor) viewReportVendor.textContent = `Vendor: ${order.vendor_name || ''}`;
+        if (viewReportIssue) viewReportIssue.textContent = order.issue_reason || 'N/A';
+        if (viewReportStatus) viewReportStatus.textContent = order.issue_status || 'Pending';
+        if (viewReportDecision) viewReportDecision.textContent = order.vendor_decision || 'Pending';
+        if (viewReportFeedback) viewReportFeedback.textContent = order.vendor_feedback || 'No feedback yet';
+
+        viewReportOverlay.hidden = false;
+        viewReportOverlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeViewReportModal() {
+        if (!viewReportOverlay) return;
+        viewReportOverlay.hidden = true;
+        viewReportOverlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    closeViewReportBtn?.addEventListener('click', closeViewReportModal);
+    viewReportOverlay?.addEventListener('click', e => e.target === viewReportOverlay && closeViewReportModal());
+    document.addEventListener('keydown', e => e.key === 'Escape' && !viewReportOverlay?.hidden && closeViewReportModal());
 
     loadOrders();
 

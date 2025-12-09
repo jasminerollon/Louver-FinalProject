@@ -145,6 +145,26 @@
     </div>
   </div>
 
+  <!-- View Report modal -->
+  <div id="view-report-overlay" class="report-modal-overlay" hidden role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="report-modal">
+      <h2>Report Details</h2>
+      <div class="report-meta">
+        <p id="view-report-order" class="report-meta-row"></p>
+        <p id="view-report-vendor" class="report-meta-row"></p>
+      </div>
+      <div class="report-details">
+        <p><strong>Issue:</strong> <span id="view-report-issue">—</span></p>
+        <p><strong>Status:</strong> <span id="view-report-status">—</span></p>
+        <p><strong>Vendor decision:</strong> <span id="view-report-decision">—</span></p>
+        <p><strong>Vendor feedback:</strong> <span id="view-report-feedback">—</span></p>
+      </div>
+      <div class="modal-actions">
+        <button id="closeViewReport">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Template for an item row -->
   <template id="order-item-template">
     <div class="modal-item">
