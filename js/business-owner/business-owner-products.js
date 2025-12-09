@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // If we are NOT on products page, exit.
     if (!tableCard) return;
 
+    // GLOBAL PRODUCT LIST (for search)
+    let allProducts = [];
+
     // Remove static hard-coded products
     tableCard.querySelectorAll(".product-row, .divider").forEach(e => e.remove());
 
@@ -63,8 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // RENDER PRODUCTS
     function renderProducts(products) {
 
-        // Clear old rows (again, in case)
+        // Clear old rows
         tableCard.querySelectorAll(".product-row, .divider").forEach(e => e.remove());
+
+        if (products.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "product-row";
+            empty.style.justifyContent = "center";
+            empty.style.textAlign = "center";
+            empty.innerHTML = `<div style="flex:1; padding:16px; font-weight:500;">No matching products found.</div>`;
+            tableCard.appendChild(empty);
+            return;
+        }
 
         products.forEach((product, index) => {
             const row = document.createElement("div");
@@ -90,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const divider = document.createElement("div");
             divider.className = "divider";
-            try { console.debug('Product image src:', primarySrc); } catch(e) {}
 
             tableCard.appendChild(row);
             tableCard.appendChild(divider);
@@ -102,13 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // FETCH PRODUCTS FROM PHP
     function fetchProducts() {
-        // Call the correct PHP endpoint that uses session vendor_id
         fetch("../../database/business-owner/businessFetchProducts.php")
             .then(res => res.json())
             .then(data => {
                 if (data.success && Array.isArray(data.products)) {
-                    if (data.products.length === 0) {
-                        // Render empty state
+
+                    // Save products for search filtering
+                    allProducts = data.products;
+
+                    if (allProducts.length === 0) {
                         tableCard.querySelectorAll(".product-row, .divider").forEach(e => e.remove());
                         const empty = document.createElement("div");
                         empty.className = "product-row";
@@ -117,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         empty.innerHTML = `<div style="flex:1; padding:16px; font-weight:500;">No products yet. Click \"Add Product\" to create your first item.</div>`;
                         tableCard.appendChild(empty);
                     } else {
-                        renderProducts(data.products);
+                        renderProducts(allProducts);
                     }
                 } else {
                     console.error("Fetch failed", data);
@@ -146,6 +160,24 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchProducts();
     } else {
         fetchProducts();
+    }
+
+    // -----------------------------------------
+    // PART 3 — SEARCH FUNCTIONALITY
+    // -----------------------------------------
+    const searchInput = document.getElementById("searchInput");
+
+    if (searchInput) {
+        searchInput.addEventListener("input", () => {
+
+            const keyword = searchInput.value.toLowerCase().trim();
+
+            const filtered = allProducts.filter(product =>
+                product.NAME.toLowerCase().includes(keyword)
+            );
+
+            renderProducts(filtered);
+        });
     }
 
 });
