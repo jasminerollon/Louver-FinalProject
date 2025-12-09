@@ -4,7 +4,7 @@ require_once __DIR__ . "/../connectDB.php";
 
 try {
     $query = "SELECT vendor_id, business_name, address, profile_image, 
-                     description, estimated_time, location_detail, contact_number 
+                     description, estimated_time, contact_number 
             FROM vendors 
             ORDER BY business_name ASC";
 

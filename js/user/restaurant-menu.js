@@ -62,7 +62,7 @@ function displayVendorInfo(vendor) {
         this.src = '../../assets/pictures/default.png';
     };
     document.getElementById('estimatedTime').textContent = vendor.estimated_time || '10 mins';
-    document.getElementById('locationDetail').textContent = vendor.location_detail || vendor.address;
+    document.getElementById('locationDetail').textContent = vendor.address;
     
     if (vendor.description) {
         document.getElementById('restaurantDescription').textContent = vendor.description;

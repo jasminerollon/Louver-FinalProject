@@ -12,7 +12,7 @@ try {
 
     // Get vendor details
     $vendorQuery = "SELECT vendor_id, business_name, owner_name, contact_number, 
-                    address, email, description, estimated_time, location_detail, 
+                    address, email, description, estimated_time, 
                     profile_image 
                     FROM vendors 
                     WHERE vendor_id = ?";

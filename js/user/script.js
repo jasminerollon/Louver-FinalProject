@@ -107,7 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modal-total').textContent = `₱ ${order.total_price}`;
         document.getElementById('status-text').textContent = `Status: ${order.status}`;
         document.getElementById('modal-items').innerHTML = '';
+
+        window.currentOrderId = order.order_id;
     }
+
+    
 
     let allVendors = [];
     // Function to render vendors
@@ -279,93 +283,150 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+ /* ----------------------------
+   MY ORDERS: modal setup (updated)
+   - Opens order modal
+   - Opens report modal inside order modal
+   ---------------------------- */
+(function setupOrderModalIfPresent() {
+    const overlay = document.getElementById('order-modal-overlay');
+    const itemTemplate = document.getElementById('order-item-template');
+
+    const reportOverlay = document.getElementById('report-modal-overlay');
+    const openReportBtn = document.getElementById('reportBtn');
+    const cancelBtn = document.getElementById('cancelReport');
+    const confirmBtn = document.getElementById('confirmReport');
+
+    // If the page doesn't include the order modal overlay OR template, stop
+    if (!overlay || !itemTemplate) return;
+
+    const modalRestaurant = overlay.querySelector('#modal-restaurant');
+    const modalMeta = overlay.querySelector('#modal-meta');
+    const modalItemsContainer = overlay.querySelector('#modal-items');
+    const modalTotal = overlay.querySelector('#modal-total');
+    const modalCloseBtn = overlay.querySelector('.order-modal-close');
+
     /* ----------------------------
-       MY ORDERS: modal setup (added)
-       - This block only attaches handlers if the modal overlay/template exist in the DOM
-       - It uses DOM cloning (template) and textContent/dataset to populate content
+       OPEN ORDER MODAL
        ---------------------------- */
-    (function setupOrderModalIfPresent() {
-        const overlay = document.getElementById('order-modal-overlay');
-        const itemTemplate = document.getElementById('order-item-template');
-        // If the page doesn't include the modal overlay + template, do nothing.
-        if (!overlay || !itemTemplate) return;
+    function openOrderModalFromCard(card) {
+        if (!card) return;
 
-        const modalRestaurant = overlay.querySelector('#modal-restaurant');
-        const modalMeta = overlay.querySelector('#modal-meta');
-        const modalItemsContainer = overlay.querySelector('#modal-items');
-        const modalTotal = overlay.querySelector('#modal-total');
-        const modalCloseBtn = overlay.querySelector('.order-modal-close');
+        const titleEl = card.querySelector('h3');
+        modalRestaurant.textContent = titleEl ? titleEl.textContent.trim() : 'Your Order';
 
-        function openOrderModalFromCard(card) {
-            if (!card) return;
-
-            const titleEl = card.querySelector('h3');
-            modalRestaurant.textContent = titleEl ? titleEl.textContent.trim() : 'Your Order';
-
-            const orderMetaEl = card.querySelector('.order-meta');
-            if (orderMetaEl) {
-                modalMeta.innerHTML = orderMetaEl.innerHTML;
-            } else {
-                modalMeta.textContent = '';
-            }
-
-            // clear items
-            while (modalItemsContainer.firstChild) modalItemsContainer.removeChild(modalItemsContainer.firstChild);
-
-            const itemEls = Array.from(card.querySelectorAll('.order-items li'));
-            itemEls.forEach(li => {
-                const clone = itemTemplate.content.cloneNode(true);
-                const textNode = clone.querySelector('.modal-item-text');
-                const priceNode = clone.querySelector('.modal-item-price');
-                if (textNode) textNode.textContent = li.textContent.trim();
-                const price = li.dataset && li.dataset.price ? Number(li.dataset.price) : null;
-                if (priceNode) priceNode.textContent = (price != null) ? '₱ ' + price.toFixed(2) : '';
-                modalItemsContainer.appendChild(clone);
-            });
-
-            // total calculation
-            if (card.dataset && card.dataset.total) {
-                modalTotal.textContent = card.dataset.total;
-            } else {
-                let sum = 0;
-                itemEls.forEach(li => {
-                    const p = li.dataset && li.dataset.price ? parseFloat(li.dataset.price) : 0;
-                    if (!isNaN(p)) sum += p;
-                });
-                modalTotal.textContent = sum ? '₱ ' + sum.toFixed(2) : '—';
-            }
-
-            overlay.hidden = false;
-            overlay.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('modal-open');
-
-            if (modalCloseBtn) modalCloseBtn.focus();
+        const orderMetaEl = card.querySelector('.order-meta');
+        if (orderMetaEl) {
+            modalMeta.innerHTML = orderMetaEl.innerHTML;
+        } else {
+            modalMeta.textContent = '';
         }
 
-        function closeModal() {
-            overlay.hidden = true;
-            overlay.setAttribute('aria-hidden', 'true');
+        // Clear old items
+        while (modalItemsContainer.firstChild)
+            modalItemsContainer.removeChild(modalItemsContainer.firstChild);
+
+        const itemEls = Array.from(card.querySelectorAll('.order-items li'));
+        itemEls.forEach(li => {
+            const clone = itemTemplate.content.cloneNode(true);
+            const textNode = clone.querySelector('.modal-item-text');
+            const priceNode = clone.querySelector('.modal-item-price');
+
+            if (textNode) textNode.textContent = li.textContent.trim();
+
+            const price =
+                li.dataset && li.dataset.price
+                    ? Number(li.dataset.price)
+                    : null;
+
+            if (priceNode)
+                priceNode.textContent = price != null ? '₱ ' + price.toFixed(2) : '';
+
+            modalItemsContainer.appendChild(clone);
+        });
+
+        // Total
+        if (card.dataset && card.dataset.total) {
+            modalTotal.textContent = card.dataset.total;
+        } else {
+            let sum = 0;
+            itemEls.forEach(li => {
+                const p = li.dataset && li.dataset.price
+                    ? parseFloat(li.dataset.price)
+                    : 0;
+                if (!isNaN(p)) sum += p;
+            });
+            modalTotal.textContent = sum ? '₱ ' + sum.toFixed(2) : '—';
+        }
+
+        overlay.hidden = false;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+
+        if (modalCloseBtn) modalCloseBtn.focus();
+    }
+
+    function closeOrderModal() {
+        overlay.hidden = true;
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeOrderModal);
+    }
+
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeOrderModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !overlay.hidden) closeOrderModal();
+    });
+
+    const statusButtons = document.querySelectorAll('.btn-status');
+    statusButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const card = this.closest('.order-card');
+            openOrderModalFromCard(card);
+        });
+    });
+
+    /* ----------------------------
+       REPORT MODAL (INSIDE ORDER MODAL)
+       ---------------------------- */
+    if (reportOverlay && openReportBtn) {
+        function openReportModal() {
+            reportOverlay.hidden = false;
+            reportOverlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeReportModal() {
+            reportOverlay.hidden = true;
+            reportOverlay.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('modal-open');
         }
 
-        if (modalCloseBtn) {
-            modalCloseBtn.addEventListener('click', closeModal);
-        }
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) closeModal();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !overlay.hidden) closeModal();
+        openReportBtn.addEventListener('click', openReportModal);
+
+        cancelBtn && cancelBtn.addEventListener('click', closeReportModal);
+
+        confirmBtn && confirmBtn.addEventListener('click', function () {
+            alert("Report submitted!");
+            closeReportModal();
         });
 
-        const statusButtons = document.querySelectorAll('.btn-status');
-        statusButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.order-card');
-                openOrderModalFromCard(card);
-            });
+        reportOverlay.addEventListener('click', function (e) {
+            if (e.target === reportOverlay) closeReportModal();
         });
-    })();
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !reportOverlay.hidden) closeReportModal();
+        });
+    }
+
+})();
 
     // Navigation between pages
     const loginButtons2 = document.querySelectorAll('.login-btn');
@@ -806,5 +867,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error('Dropdown elements not found');
         }
-    }, 100);
+    });
+
+
 });
