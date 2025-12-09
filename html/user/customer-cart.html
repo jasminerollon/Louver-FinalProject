@@ -106,6 +106,20 @@
 
   </main>
 
+  <!-- Warning Modal -->
+  <div id="warningModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999999; text-align: center; min-width: 380px;">
+    <div style="width: 70px; height: 70px; background: #ff9800; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+    <h2 style="color: #333; margin: 0 0 12px 0; font-size: 22px; font-family: 'Inter', sans-serif; font-weight: 700;">Warning</h2>
+    <p id="warningMessage" style="color: #666; margin: 0 0 25px 0; font-size: 16px; font-family: 'Inter', sans-serif; line-height: 1.5;">Please enter a delivery address.</p>
+    <button onclick="closeWarningModal()" style="background: #ff9800; color: white; border: none; padding: 12px 40px; border-radius: 25px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; font-family: 'Inter', sans-serif;" onmouseover="this.style.background='#f57c00'" onmouseout="this.style.background='#ff9800'">OK</button>
+  </div>
+
   <!-- Clear Cart Confirmation Modal -->
   <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999999; justify-content: center; align-items: center;">
     <div style="background: white; border-radius: 20px; padding: 40px 50px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); max-width: 450px; margin: 20px;">
@@ -126,13 +140,13 @@
   </div>
 
   <!-- Success Modal -->
-  <div id="successModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 245, 245, 0.98); padding: 35px 45px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 999999; text-align: center; min-width: 350px; border: 2px solid rgba(139, 0, 0, 0.1);">
+  <div id="successModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 245, 245, 0.98); padding: 40px 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 999999; text-align: center; min-width: 380px; border: 2px solid rgba(139, 0, 0, 0.1);">
     <div style="width: 70px; height: 70px; background: #4CAF50; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
         <path d="M5 13L9 17L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <div id="successMessage" style="color: #8B0000; font-size: 20px; font-weight: 700; font-family: 'Inter', sans-serif;">Cart cleared successfully!</div>
+    <div id="successMessage" style="color: #8B0000; font-size: 19px; font-weight: 700; font-family: 'Inter', sans-serif; line-height: 1.4;">Order placed!<br/>Order ID: 11</div>
   </div>
 
   <!-- Script -->

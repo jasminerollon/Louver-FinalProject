@@ -97,11 +97,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function showWarningModal(message) {
+    const modal = document.getElementById('warningModal');
+    const messageEl = document.getElementById('warningMessage');
+    if (modal && messageEl) {
+      messageEl.textContent = message;
+      modal.style.display = 'block';
+    }
+  }
+
+  window.closeWarningModal = function() {
+    const modal = document.getElementById('warningModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
   function showSuccessModal(message) {
     const modal = document.getElementById('successModal');
     const messageEl = document.getElementById('successMessage');
     if (modal && messageEl) {
-      messageEl.textContent = message;
+      // Check if message contains Order ID
+      if (message.includes('Order ID:')) {
+        const parts = message.split('Order ID:');
+        messageEl.innerHTML = parts[0].trim() + '<br/>Order ID: ' + parts[1].trim();
+      } else {
+        messageEl.textContent = message;
+      }
       modal.style.display = 'block';
       setTimeout(() => {
         modal.style.display = 'none';
@@ -135,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function checkout() {
     const address = addressInput?.value.trim() || '';
     if (!address) {
-      alert('Please enter a delivery address.');
+      showWarningModal('Please enter a delivery address.');
       return;
     }
     const note = noteInput?.value.trim() || '';
