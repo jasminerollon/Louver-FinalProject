@@ -1020,11 +1020,9 @@ foreach ($order_issues as $issue) {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<<<<<<< HEAD
-=======
+
 <script src="../../js/business-owner/business-owner-myorders.js"></script>
 <script src="../../js/business-owner/business-owner-sort.js"></script>
->>>>>>> e792255648f79b16f8d5d583362fea594efa964b
 <script>
 // Pass PHP data to JavaScript
 const ordersData = <?php echo json_encode($ordersDataForJS); ?>;
