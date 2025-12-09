@@ -466,6 +466,7 @@ body {
     letter-spacing: 1px;
     box-shadow: 0 8px 20px rgba(139, 0, 0, 0.35);
     text-transform: uppercase;
+    margin-bottom: -20px;
 }
 
 .checkout-btn:hover {
@@ -477,6 +478,35 @@ body {
 .checkout-btn:active {
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(139, 0, 0, 0.35);
+}
+
+.clear-cart-btn {
+    width: 100%;
+    background: #999;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 18px 24px;
+    border: none;
+    border-radius: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 20px rgba(153, 153, 153, 0.35);
+    text-transform: uppercase;
+    margin-top: 12px;
+}
+
+.clear-cart-btn:hover {
+    background: #888;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(153, 153, 153, 0.45);
+}
+
+.clear-cart-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(153, 153, 153, 0.35);
 }
 
 /* === Scrollbar styles (WebKit + Firefox) === */
